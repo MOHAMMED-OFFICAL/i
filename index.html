@@ -1,0 +1,4418 @@
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>i TOOLS by mohammed</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #05060d;
+            --bg2: #080a13;
+            --panel: #0a0d18;
+            --panel2: #0d1020;
+            --text: #eaf7ff;
+            --heading: #f4fbff;
+            --muted: #8692ad;
+            --muted-strong: #aab6c8;
+            --cyan: #00f6ff;
+            --cyan-soft: rgba(0, 246, 255, .10);
+            --pink: #ff28cf;
+            --pink-soft: rgba(255, 40, 207, .10);
+            --violet: #8d66ff;
+            --green: #28ff9a;
+            --orange: #ff9d43;
+            --line: rgba(0, 246, 255, .18);
+            --line-soft: rgba(0, 246, 255, .10);
+            --grid-line: rgba(0, 246, 255, .07);
+            --shadow: 0 0 40px rgba(0, 246, 255, .12), 0 0 90px rgba(255, 40, 207, .07);
+            --card-shadow: 0 18px 60px rgba(0, 0, 0, .28);
+            --nav-bg: rgba(7, 9, 17, .84);
+            --surface: #060912;
+            --surface-2: #08101a;
+            --scanline: rgba(255, 255, 255, .018);
+            --button-text: #ecfcff;
+            --clip: 10px;
+            --mono: 'Share Tech Mono', monospace;
+            --head: 'Orbitron', sans-serif;
+            --body: 'Rajdhani', sans-serif;
+        }
+
+        html[data-theme="light"] {
+            --bg: #edf3f8;
+            --bg2: #e4edf4;
+            --panel: #f8fbfd;
+            --panel2: #eef5f9;
+            --text: #182331;
+            --heading: #0c1623;
+            --muted: #55647a;
+            --muted-strong: #2f4054;
+            --cyan: #008c99;
+            --cyan-soft: rgba(0, 140, 153, .12);
+            --pink: #a80d83;
+            --pink-soft: rgba(168, 13, 131, .10);
+            --violet: #5a3ec8;
+            --green: #07834f;
+            --orange: #c66c12;
+            --line: rgba(0, 140, 153, .25);
+            --line-soft: rgba(0, 140, 153, .14);
+            --grid-line: rgba(0, 140, 153, .09);
+            --shadow: 0 18px 45px rgba(28, 58, 80, .12), 0 0 45px rgba(0, 140, 153, .06);
+            --card-shadow: 0 18px 50px rgba(28, 58, 80, .14);
+            --nav-bg: rgba(248, 251, 253, .92);
+            --surface: #f3f8fb;
+            --surface-2: #eaf2f7;
+            --scanline: rgba(20, 45, 65, .03);
+            --button-text: #0c1623;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--cyan) var(--bg);
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: var(--body);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.55;
+            background:
+                radial-gradient(circle at 20% 0%, var(--cyan-soft), transparent 30%),
+                radial-gradient(circle at 90% 15%, var(--pink-soft), transparent 28%),
+                linear-gradient(180deg, var(--bg2), var(--bg));
+            transition: background .35s, color .35s;
+        }
+
+        ::selection {
+            background: var(--cyan);
+            color: #fff;
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0 2px,
+                var(--scanline) 3px 4px
+            );
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: .32;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 42px 42px;
+        }
+
+        #boot {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg);
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            transition: opacity .8s, visibility .8s;
+        }
+
+        #boot.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .bootbox {
+            width: min(720px, 100%);
+            padding: clamp(20px, 5vw, 34px);
+        }
+
+        .bootlogo {
+            font: 900 clamp(2.2rem, 10vw, 5.4rem)/1 var(--head);
+            letter-spacing: .08em;
+            color: var(--cyan);
+            text-shadow: 0 0 20px var(--cyan), 0 0 70px var(--pink-soft);
+            text-align: center;
+        }
+
+        .bootsub {
+            text-align: center;
+            color: var(--pink);
+            font: 700 clamp(.62rem, 2vw, .9rem) var(--mono);
+            letter-spacing: .18em;
+            line-height: 1.7;
+            margin: 18px 0 32px;
+        }
+
+        .bootline {
+            height: 4px;
+            background: var(--surface-2);
+            border: 1px solid var(--line);
+            overflow: hidden;
+        }
+
+        .bootline span {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--cyan), var(--pink), var(--violet));
+            box-shadow: 0 0 26px var(--cyan);
+        }
+
+        .bootpct {
+            text-align: center;
+            color: var(--cyan);
+            font: 700 .8rem var(--mono);
+            margin-top: 12px;
+            letter-spacing: .16em;
+        }
+
+        .bootlog {
+            font: 700 .72rem var(--mono);
+            color: var(--muted);
+            min-height: 18px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #side {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 278px;
+            z-index: 20;
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid var(--line);
+            box-shadow: 15px 0 50px rgba(0, 0, 0, .12);
+            display: flex;
+            flex-direction: column;
+            transition: width .45s, transform .45s;
+        }
+
+        #side.collapsed {
+            width: 76px;
+        }
+
+        .side-head {
+            padding: 24px 18px 18px;
+            border-bottom: 1px solid var(--line);
+            position: relative;
+        }
+
+        .brand {
+            font: 900 1.15rem var(--head);
+            letter-spacing: .11em;
+            color: var(--cyan);
+            text-shadow: 0 0 15px var(--cyan);
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .brand em {
+            color: var(--pink);
+            font-style: normal;
+        }
+
+        .tagline {
+            font: 700 .66rem var(--mono);
+            color: var(--muted);
+            letter-spacing: .16em;
+            margin-top: 5px;
+            white-space: nowrap;
+        }
+
+        .side-toggle {
+            position: absolute;
+            right: -13px;
+            top: 28px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1px solid var(--cyan);
+            background: var(--surface);
+            color: var(--cyan);
+            cursor: pointer;
+            box-shadow: 0 0 18px var(--cyan-soft);
+            font-size: .8rem;
+            display: grid;
+            place-items: center;
+            transition: background .25s, color .25s, box-shadow .25s;
+            z-index: 2;
+        }
+
+        .side-toggle:hover {
+            background: var(--cyan);
+            color: #fff;
+            box-shadow: 0 0 25px var(--cyan-soft);
+        }
+
+        .side-nav {
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            overflow: auto;
+        }
+
+        .side-nav a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px;
+            border-radius: 10px;
+            color: var(--muted);
+            position: relative;
+            overflow: hidden;
+            transition: .3s;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .side-nav a:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--cyan);
+            box-shadow: 0 0 16px var(--cyan);
+            transform: scaleY(0);
+            transition: .3s;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            color: var(--cyan);
+            background: var(--cyan-soft);
+            text-shadow: 0 0 10px var(--cyan-soft);
+        }
+
+        .side-nav a:hover:before,
+        .side-nav a.active:before {
+            transform: scaleY(1);
+        }
+
+        .side-nav .ico {
+            width: 24px;
+            flex: 0 0 24px;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        .side-footer {
+            margin-top: auto;
+            padding: 16px;
+            border-top: 1px solid var(--line);
+            font: 700 .64rem var(--mono);
+            color: var(--muted);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        #side.collapsed .brand span,
+        #side.collapsed .tagline,
+        #side.collapsed .side-nav span,
+        #side.collapsed .side-footer span {
+            display: none;
+        }
+
+        #side.collapsed .side-nav a {
+            justify-content: center;
+        }
+
+        #side.collapsed .side-nav .ico {
+            width: auto;
+            flex-basis: auto;
+        }
+
+        #main {
+            margin-left: 278px;
+            position: relative;
+            z-index: 5;
+            transition: margin-left .45s;
+        }
+
+        #main.expanded {
+            margin-left: 76px;
+        }
+
+        .side-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 15;
+            opacity: 0;
+            visibility: hidden;
+            transition: .35s;
+            pointer-events: none;
+            backdrop-filter: blur(2px);
+        }
+
+        .side-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .mobile-btn {
+            display: none;
+            position: fixed;
+            left: 14px;
+            top: 14px;
+            z-index: 100;
+            width: 46px;
+            height: 46px;
+            border: 1px solid var(--cyan);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--cyan);
+            box-shadow: 0 0 24px var(--cyan-soft);
+            cursor: pointer;
+            font-size: 1.3rem;
+            place-items: center;
+            transition: background .25s, color .25s, box-shadow .25s;
+        }
+
+        .mobile-btn:hover {
+            background: var(--cyan);
+            color: #fff;
+            box-shadow: 0 0 30px var(--cyan-soft);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 120;
+            width: 52px;
+            height: 52px;
+            border: 1px solid var(--cyan);
+            border-radius: 50%;
+            background: var(--surface);
+            color: var(--cyan);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 0 18px var(--cyan-soft), inset 0 0 16px var(--cyan-soft);
+            transition: transform .25s, background .25s, color .25s, box-shadow .25s;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-3px);
+            background: var(--cyan);
+            color: #fff;
+            box-shadow: 0 0 30px var(--cyan-soft);
+        }
+
+        .lang-toggle {
+            position: fixed;
+            right: 82px;
+            bottom: 20px;
+            z-index: 120;
+            width: 52px;
+            height: 52px;
+            border: 1px solid var(--pink);
+            border-radius: 50%;
+            background: var(--surface);
+            color: var(--pink);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font: 800 .68rem var(--head);
+            letter-spacing: .08em;
+            box-shadow: 0 0 18px var(--pink-soft), inset 0 0 16px var(--pink-soft);
+            transition: transform .25s, background .25s, color .25s, box-shadow .25s;
+        }
+
+        .lang-toggle:hover {
+            transform: translateY(-3px);
+            background: var(--pink);
+            color: #fff;
+            box-shadow: 0 0 30px var(--pink-soft);
+        }
+
+        section {
+            min-height: 100svh;
+            padding: clamp(80px, 8vw, 110px) clamp(16px, 6vw, 6vw) clamp(65px, 7vw, 90px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-margin-top: 80px;
+        }
+
+        .container {
+            width: min(1180px, 100%);
+            margin: auto;
+        }
+
+        .section-kicker {
+            font: 700 .72rem var(--mono);
+            letter-spacing: .20em;
+            color: var(--green);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font: 900 clamp(1.8rem, 5vw, 3.6rem) var(--head);
+            letter-spacing: .04em;
+            line-height: 1.1;
+            background: linear-gradient(90deg, var(--cyan), var(--pink), var(--violet));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-sub {
+            font: 500 clamp(.95rem, 2vw, 1.05rem) var(--body);
+            color: var(--muted);
+            max-width: 760px;
+            margin-top: 14px;
+        }
+
+        .divider {
+            height: 1px;
+            margin: 28px 0 34px;
+            background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), transparent);
+            position: relative;
+        }
+
+        .divider:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 16px var(--cyan), 0 0 30px var(--pink);
+            transform: translate(-50%, -50%);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(44px);
+            transition: opacity .8s, transform .8s cubic-bezier(.2, .75, .25, 1);
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        .panel {
+            position: relative;
+            padding: clamp(18px, 3vw, 26px);
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, var(--panel2), var(--panel));
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            isolation: isolate;
+        }
+
+        .panel:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--line-soft);
+            box-shadow: inset 0 0 20px var(--cyan-soft);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .panel:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 10% 0%, var(--cyan-soft), transparent 26%),
+                radial-gradient(circle at 90% 100%, var(--pink-soft), transparent 30%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .panel > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 48px;
+            padding: 13px clamp(16px, 2vw, 24px);
+            border: 1px solid var(--cyan);
+            background: linear-gradient(180deg, var(--cyan-soft), transparent);
+            color: var(--button-text);
+            font: 700 clamp(.68rem, 1.3vw, .76rem) var(--head);
+            letter-spacing: .10em;
+            line-height: 1.35;
+            text-align: center;
+            text-transform: uppercase;
+            clip-path: polygon(
+                var(--clip) 0,
+                100% 0,
+                100% calc(100% - var(--clip)),
+                calc(100% - var(--clip)) 100%,
+                0 100%,
+                0 var(--clip)
+            );
+            box-shadow: 0 0 14px var(--cyan-soft), inset 0 0 14px var(--cyan-soft);
+            transition: transform .28s, box-shadow .28s, background .28s, color .28s;
+            overflow: hidden;
+            isolation: isolate;
+            cursor: pointer;
+        }
+
+        .btn:before {
+            content: "";
+            position: absolute;
+            inset: -20% -60%;
+            background: linear-gradient(
+                105deg,
+                transparent 38%,
+                rgba(255, 255, 255, .05) 43%,
+                rgba(255, 255, 255, .78) 50%,
+                rgba(255, 255, 255, .05) 57%,
+                transparent 62%
+            );
+            transform: translateX(-80%) skewX(-18deg);
+            transition: transform .7s cubic-bezier(.2, .7, .2, 1);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .btn:hover:before {
+            transform: translateX(80%) skewX(-18deg);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            color: #fff;
+            background: linear-gradient(
+                180deg,
+                var(--cyan),
+                color-mix(in srgb, var(--cyan) 82%, black 18%)
+            );
+            box-shadow: 0 0 18px var(--cyan), 0 0 42px var(--cyan-soft);
+        }
+
+        .btn.pink {
+            border-color: var(--pink);
+            background: linear-gradient(180deg, var(--pink-soft), transparent);
+            color: var(--button-text);
+            box-shadow: 0 0 14px var(--pink-soft);
+        }
+
+        .btn.pink:hover {
+            background: linear-gradient(
+                180deg,
+                var(--pink),
+                color-mix(in srgb, var(--pink) 82%, black 18%)
+            );
+            color: #fff;
+            box-shadow: 0 0 18px var(--pink), 0 0 42px var(--pink-soft);
+        }
+
+        .hero {
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 16px;
+            border: 1px solid var(--green);
+            border-radius: 999px;
+            color: var(--green);
+            font: 700 clamp(.58rem, 1.4vw, .7rem) var(--mono);
+            letter-spacing: .12em;
+            background: rgba(40, 255, 154, .04);
+        }
+
+        .status i {
+            width: 7px;
+            height: 7px;
+            flex: 0 0 7px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 12px var(--green);
+            animation: pulse 1.6s infinite;
+        }
+
+        .hero h1 {
+            font: 900 clamp(3rem, 10vw, 8rem)/.95 var(--head);
+            letter-spacing: .07em;
+            margin: 28px 0 16px;
+            background: linear-gradient(
+                135deg,
+                var(--cyan),
+                color-mix(in srgb, var(--cyan) 45%, white 55%) 28%,
+                var(--pink) 64%,
+                var(--violet)
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 28px var(--cyan-soft));
+        }
+
+        .hero .by {
+            font: 700 clamp(.8rem, 2vw, 1.15rem) var(--mono);
+            color: var(--pink);
+            letter-spacing: .25em;
+            text-transform: uppercase;
+        }
+
+        .hero .lead {
+            width: min(800px, 100%);
+            color: var(--muted-strong);
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            margin: 26px auto 18px;
+        }
+
+        .hero-explanation {
+            width: min(760px, 100%);
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-left: 2px solid var(--cyan);
+            background: linear-gradient(90deg, var(--cyan-soft), transparent);
+            text-align: left;
+        }
+
+        .hero-explanation .explain-tag {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--cyan);
+            font: 700 .62rem var(--mono);
+            letter-spacing: .18em;
+        }
+
+        .hero-explanation p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        .profile-section {
+            width: min(920px, 100%);
+            margin-top: 58px;
+        }
+
+        .profile-card {
+            display: grid;
+            grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr);
+            gap: 30px;
+            padding: clamp(20px, 4vw, 32px);
+        }
+
+        .profile-avatar {
+            min-height: 270px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle, var(--cyan-soft), transparent 60%);
+            border: 1px solid var(--line);
+            overflow: hidden;
+        }
+
+        .profile-avatar:before {
+            content: "";
+            position: absolute;
+            width: min(190px, 70%);
+            aspect-ratio: 1;
+            border: 1px dashed var(--line);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--cyan-soft);
+        }
+
+        .profile-avatar:after {
+            content: "";
+            position: absolute;
+            width: min(125px, 45%);
+            aspect-ratio: 1;
+            border: 1px solid var(--pink);
+            transform: rotate(45deg);
+            box-shadow: 0 0 25px var(--pink-soft);
+        }
+
+        .avatar-core {
+            position: relative;
+            z-index: 2;
+            width: clamp(75px, 10vw, 92px);
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            font: 900 clamp(1.1rem, 2vw, 1.4rem) var(--head);
+            background: var(--surface);
+            box-shadow: 0 0 30px var(--cyan-soft), inset 0 0 20px var(--cyan-soft);
+        }
+
+        .profile-copy {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .profile-label {
+            font: 700 .65rem var(--mono);
+            color: var(--green);
+            letter-spacing: .2em;
+            margin-bottom: 9px;
+        }
+
+        .profile-copy h2 {
+            font: 900 clamp(1.7rem, 4vw, 3rem) var(--head);
+            color: var(--heading);
+            margin-bottom: 10px;
+        }
+
+        .profile-copy h2 span {
+            color: var(--pink);
+        }
+
+        .profile-copy p {
+            color: var(--muted);
+            font-size: clamp(.92rem, 1.7vw, 1rem);
+            max-width: 650px;
+            white-space: pre-line;
+        }
+
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .profile-tag {
+            padding: 6px 10px;
+            border: 1px solid var(--line);
+            background: var(--cyan-soft);
+            color: var(--muted-strong);
+            font: 700 .61rem var(--mono);
+            letter-spacing: .1em;
+            border-radius: 4px;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .info-card {
+            padding: clamp(20px, 2.4vw, 28px) clamp(18px, 2vw, 22px);
+            min-height: 220px;
+            transition: transform .35s, box-shadow .35s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-7px);
+            box-shadow: var(--card-shadow), 0 0 30px var(--cyan-soft);
+        }
+
+        .card-icon {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            margin-bottom: 18px;
+            filter: drop-shadow(0 0 13px currentColor);
+        }
+
+        .info-card h3 {
+            font: 800 clamp(.9rem, 1.6vw, 1rem) var(--head);
+            letter-spacing: .06em;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        /* =========================================================
+           SHOWCASE / IMAGE FIX
+           Keep the carousel itself LTR in both languages.
+           This prevents RTL from breaking flex ordering,
+           transforms and image layout.
+        ========================================================= */
+
+        .showcase {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            direction: ltr;
+        }
+
+        .showcase-track {
+            display: flex;
+            width: 100%;
+            direction: ltr;
+            transition: transform .7s cubic-bezier(.2, .7, .2, 1);
+            will-change: transform;
+        }
+
+        .showcase-slide {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
+            gap: 28px;
+            align-items: center;
+            padding: clamp(18px, 3vw, 28px);
+            direction: ltr;
+        }
+
+        .showcase-image {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/10;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-in;
+            direction: ltr;
+            isolation: isolate;
+        }
+
+        .showcase-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            object-position: center;
+            background: var(--surface);
+            transition: transform .6s, opacity .35s;
+            opacity: 1;
+            visibility: visible;
+            direction: ltr;
+            unicode-bidi: isolate;
+            transform-origin: center;
+        }
+
+        .showcase-image img.loading {
+            opacity: .55;
+        }
+
+        .showcase-image:hover img {
+            transform: scale(1.018);
+        }
+
+        .showcase-image .zoom-hint {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            z-index: 4;
+            padding: 6px 10px;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--cyan);
+            font: 700 .58rem var(--mono);
+            letter-spacing: .12em;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+        }
+
+        .showcase-image:hover .zoom-hint {
+            opacity: 1;
+        }
+
+        .image-index {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 4;
+            padding: 6px 9px;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--cyan);
+            font: 700 .6rem var(--mono);
+            letter-spacing: .14em;
+        }
+
+        .showcase-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            direction: ltr;
+        }
+
+        html[dir="rtl"] .showcase-info {
+            direction: rtl;
+            text-align: right;
+        }
+
+        html[dir="ltr"] .showcase-info {
+            direction: ltr;
+            text-align: left;
+        }
+
+        .showcase-tag {
+            display: inline-block;
+            width: max-content;
+            padding: 6px 10px;
+            border: 1px solid var(--pink);
+            color: var(--pink);
+            font: 700 .62rem var(--mono);
+            letter-spacing: .12em;
+            margin-bottom: 14px;
+        }
+
+        .showcase-info h3 {
+            font: 900 clamp(1.4rem, 3vw, 2.5rem) var(--head);
+            color: var(--heading);
+            margin-bottom: 12px;
+        }
+
+        .showcase-info p {
+            color: var(--muted);
+            font-size: clamp(.92rem, 1.6vw, 1rem);
+            line-height: 1.75;
+        }
+
+        .showcase-list {
+            display: grid;
+            gap: 9px;
+            margin-top: 20px;
+        }
+
+        .showcase-list div {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font: 700 .72rem var(--mono);
+            color: var(--muted-strong);
+        }
+
+        html[dir="rtl"] .showcase-list div {
+            flex-direction: row;
+        }
+
+        .showcase-dot {
+            width: 6px;
+            height: 6px;
+            flex: 0 0 6px;
+            margin-top: 7px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        .showcase-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 0 clamp(18px, 3vw, 28px) clamp(18px, 3vw, 24px);
+            direction: ltr;
+        }
+
+        .showcase-btn {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            border: 1px solid var(--cyan);
+            background: var(--surface);
+            color: var(--cyan);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.35rem;
+            line-height: 1;
+            transition: background .25s, color .25s, box-shadow .25s, transform .25s;
+            display: grid;
+            place-items: center;
+        }
+
+        .showcase-btn:hover {
+            background: var(--cyan);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 28px var(--cyan-soft);
+        }
+
+        .showcase-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            direction: ltr;
+        }
+
+        .showcase-dots button {
+            width: 8px;
+            height: 8px;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: #657383;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .showcase-dots button.active {
+            width: 30px;
+            background: var(--pink);
+            box-shadow: 0 0 14px var(--pink-soft);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+            padding: 4px;
+        }
+
+        .about-item {
+            padding: 22px 20px;
+            border: 1px solid var(--line-soft);
+            background: var(--cyan-soft);
+            border-radius: 8px;
+            transition: transform .3s, box-shadow .3s;
+        }
+
+        .about-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px var(--cyan-soft);
+        }
+
+        .about-item .section-kicker {
+            margin-bottom: 12px;
+            font-size: .65rem;
+        }
+
+        .about-item p {
+            color: var(--muted);
+            font-size: .9rem;
+            line-height: 1.65;
+        }
+
+        footer {
+            padding: 60px clamp(18px, 6vw, 6vw) 24px;
+            border-top: 1px solid var(--line);
+            background: color-mix(in srgb, var(--bg) 92%, transparent);
+        }
+
+        .footer-grid {
+            width: min(1180px, 100%);
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 28px;
+        }
+
+        .footer-title {
+            font: 900 clamp(1rem, 2vw, 1.25rem) var(--head);
+            color: var(--cyan);
+            text-shadow: 0 0 14px var(--cyan);
+            margin-bottom: 12px;
+        }
+
+        .footer-grid h4 {
+            font: 800 .75rem var(--head);
+            letter-spacing: .15em;
+            color: var(--pink);
+            margin-bottom: 13px;
+        }
+
+        .footer-grid p,
+        .footer-grid a {
+            display: block;
+            color: var(--muted);
+            font-size: .85rem;
+            margin-bottom: 7px;
+        }
+
+        .footer-grid a:hover {
+            color: var(--cyan);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--line-soft);
+            margin-top: 35px;
+            padding-top: 20px;
+            color: var(--muted);
+            font: 700 .63rem var(--mono);
+            letter-spacing: .10em;
+            line-height: 1.8;
+        }
+
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .4s, visibility .4s;
+            pointer-events: none;
+        }
+
+        #lightbox.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .lightbox-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .88);
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-container {
+            position: relative;
+            z-index: 1;
+            width: min(92vw, 1100px);
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            direction: ltr;
+        }
+
+        .lightbox-img-wrap {
+            width: 100%;
+            max-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .lightbox-img-wrap img {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border: 1px solid var(--line);
+            box-shadow: 0 0 60px rgba(0, 0, 0, .5);
+            border-radius: 4px;
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-caption {
+            color: var(--text);
+            font: 700 .8rem var(--mono);
+            letter-spacing: .12em;
+            text-align: center;
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, .6);
+            border-radius: 4px;
+            border: 1px solid var(--line);
+            max-width: 90%;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--cyan);
+            border-radius: 50%;
+            background: var(--surface);
+            color: var(--cyan);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: background .25s, color .25s, box-shadow .25s;
+            z-index: 2;
+        }
+
+        .lightbox-close:hover {
+            background: var(--cyan);
+            color: #fff;
+            box-shadow: 0 0 28px var(--cyan-soft);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--cyan);
+            border-radius: 50%;
+            background: var(--surface);
+            color: var(--cyan);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: background .25s, color .25s, box-shadow .25s;
+            z-index: 2;
+        }
+
+        .lightbox-nav:hover {
+            background: var(--cyan);
+            color: #fff;
+            box-shadow: 0 0 28px var(--cyan-soft);
+        }
+
+        .lightbox-prev {
+            left: 12px;
+        }
+
+        .lightbox-next {
+            right: 12px;
+        }
+
+        .lightbox-counter {
+            color: var(--muted);
+            font: 700 .65rem var(--mono);
+            letter-spacing: .14em;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: .35;
+                transform: scale(.75);
+            }
+        }
+
+        /* =========================================================
+           RTL
+        ========================================================= */
+
+        html[dir="rtl"] body {
+            direction: rtl;
+        }
+
+        html[dir="rtl"] #side {
+            left: auto;
+            right: 0;
+            border-right: 0;
+            border-left: 1px solid var(--line);
+            box-shadow: -15px 0 50px rgba(0, 0, 0, .12);
+        }
+
+        html[dir="rtl"] #main {
+            margin-left: 0;
+            margin-right: 278px;
+        }
+
+        html[dir="rtl"] #main.expanded {
+            margin-left: 0;
+            margin-right: 76px;
+        }
+
+        html[dir="rtl"] .side-toggle {
+            right: auto;
+            left: -13px;
+        }
+
+        html[dir="rtl"] .side-nav a:before {
+            left: auto;
+            right: 0;
+        }
+
+        html[dir="rtl"] .hero-explanation {
+            border-left: 0;
+            border-right: 2px solid var(--cyan);
+            background: linear-gradient(270deg, var(--cyan-soft), transparent);
+            text-align: right;
+        }
+
+        html[dir="rtl"] .lightbox-prev {
+            left: auto;
+            right: 12px;
+        }
+
+        html[dir="rtl"] .lightbox-next {
+            right: auto;
+            left: 12px;
+        }
+
+        @media(max-width:1100px) {
+
+            #side {
+                width: 240px;
+            }
+
+            #main {
+                margin-left: 240px;
+            }
+
+            #main.expanded {
+                margin-left: 76px;
+            }
+
+            html[dir="rtl"] #main {
+                margin-left: 0;
+                margin-right: 240px;
+            }
+
+            html[dir="rtl"] #main.expanded {
+                margin-left: 0;
+                margin-right: 76px;
+            }
+
+            .profile-card {
+                grid-template-columns: minmax(180px, .75fr) minmax(0, 1.25fr);
+                gap: 22px;
+            }
+
+            .showcase-slide {
+                grid-template-columns: minmax(0, 1.08fr) minmax(250px, .92fr);
+                gap: 20px;
+            }
+
+            .grid-cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media(max-width:900px) {
+
+            #side {
+                transform: translateX(-102%);
+                width: 278px;
+            }
+
+            #side.open {
+                transform: translateX(0);
+                box-shadow: 20px 0 60px rgba(0, 0, 0, .3);
+            }
+
+            html[dir="rtl"] #side {
+                transform: translateX(102%);
+            }
+
+            html[dir="rtl"] #side.open {
+                transform: translateX(0);
+                box-shadow: -20px 0 60px rgba(0, 0, 0, .3);
+            }
+
+            .mobile-btn {
+                display: grid;
+            }
+
+            .side-backdrop {
+                display: block;
+            }
+
+            #main,
+            #main.expanded,
+            html[dir="rtl"] #main,
+            html[dir="rtl"] #main.expanded {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            section {
+                min-height: auto;
+            }
+
+            .profile-card {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-avatar {
+                min-height: 220px;
+            }
+
+            .grid-cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 14px;
+            }
+
+            .showcase-slide {
+                grid-template-columns: 1fr;
+                align-items: stretch;
+                gap: 18px;
+            }
+
+            .showcase-image {
+                aspect-ratio: 16/9;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 22px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+        }
+
+        @media(max-width:600px) {
+
+            section {
+                padding: 88px 14px 62px;
+                scroll-margin-top: 70px;
+            }
+
+            .mobile-btn {
+                left: 10px;
+                top: 10px;
+                width: 44px;
+                height: 44px;
+                border-radius: 9px;
+                font-size: 1.15rem;
+            }
+
+            .theme-toggle {
+                width: 46px;
+                height: 46px;
+                right: 12px;
+                bottom: 12px;
+                font-size: 1rem;
+            }
+
+            .lang-toggle {
+                right: 66px;
+                bottom: 12px;
+                width: 46px;
+                height: 46px;
+                font-size: .6rem;
+            }
+
+            .hero {
+                padding-top: 115px;
+            }
+
+            .status {
+                padding: 7px 11px;
+                letter-spacing: .08em;
+                line-height: 1.4;
+                font-size: .55rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 14vw, 4rem);
+                letter-spacing: .03em;
+                margin: 22px 0 12px;
+            }
+
+            .hero .by {
+                font-size: .78rem;
+                letter-spacing: .18em;
+            }
+
+            .hero .lead {
+                font-size: .98rem;
+                line-height: 1.65;
+            }
+
+            .hero-explanation {
+                padding: 13px 15px;
+            }
+
+            .actions {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+                min-height: 50px;
+                padding: 12px 15px;
+                font-size: .68rem;
+                letter-spacing: .08em;
+                --clip: 8px;
+            }
+
+            .profile-section {
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            .profile-card {
+                padding: 18px;
+                gap: 22px;
+            }
+
+            .profile-avatar {
+                min-height: 200px;
+            }
+
+            .profile-copy h2 {
+                font-size: clamp(1.55rem, 8vw, 2.1rem);
+            }
+
+            .profile-tags {
+                gap: 6px;
+            }
+
+            .profile-tag {
+                font-size: .56rem;
+                padding: 5px 8px;
+            }
+
+            .section-title {
+                font-size: clamp(1.65rem, 9vw, 2.4rem);
+            }
+
+            .section-sub {
+                font-size: .95rem;
+            }
+
+            .grid-cards {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .info-card {
+                min-height: 0;
+                padding: 22px 18px;
+            }
+
+            .showcase-slide {
+                padding: 14px;
+            }
+
+            .showcase-image {
+                aspect-ratio: 4/3;
+            }
+
+            .showcase-image .zoom-hint {
+                opacity: 1;
+                bottom: 8px;
+                right: 8px;
+                font-size: .5rem;
+                padding: 4px 7px;
+            }
+
+            .image-index {
+                top: 10px;
+                left: 10px;
+                font-size: .55rem;
+                padding: 5px 7px;
+            }
+
+            .showcase-tag {
+                font-size: .56rem;
+                padding: 5px 8px;
+            }
+
+            .showcase-info h3 {
+                font-size: clamp(1.3rem, 7vw, 1.8rem);
+            }
+
+            .showcase-info p {
+                font-size: .9rem;
+                line-height: 1.7;
+            }
+
+            .showcase-list {
+                gap: 8px;
+                margin-top: 16px;
+            }
+
+            .showcase-list div {
+                font-size: .66rem;
+            }
+
+            .showcase-controls {
+                padding: 0 14px 14px;
+            }
+
+            .showcase-btn {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+                font-size: 1.2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .lightbox-close {
+                top: 12px;
+                right: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .lightbox-prev {
+                left: 6px;
+            }
+
+            .lightbox-next {
+                right: 6px;
+            }
+
+            .lightbox-img-wrap img {
+                max-height: 65vh;
+            }
+
+            html[dir="rtl"] .lightbox-prev {
+                right: 6px;
+                left: auto;
+            }
+
+            html[dir="rtl"] .lightbox-next {
+                left: 6px;
+                right: auto;
+            }
+        }
+
+        @media(max-width:380px) {
+
+            .mobile-btn {
+                width: 40px;
+                height: 40px;
+                left: 8px;
+                top: 8px;
+                font-size: 1rem;
+            }
+
+            section {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .showcase-slide {
+                padding: 10px;
+            }
+
+            .showcase-controls {
+                padding: 0 10px 12px;
+            }
+
+            .showcase-dots {
+                gap: 5px;
+            }
+
+            .showcase-dots button.active {
+                width: 22px;
+            }
+
+            .btn {
+                font-size: .62rem;
+                padding: 11px 12px;
+                letter-spacing: .06em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BOOT -->
+    <div id="boot">
+        <div class="bootbox">
+            <div class="bootlogo">i TOOLS</div>
+
+            <div class="bootsub" id="bootSub">
+                BY MOHAMMED // SYSTEM INITIALIZATION
+            </div>
+
+            <div class="bootline">
+                <span id="bootbar"></span>
+            </div>
+
+            <div class="bootpct" id="bootpct">0%</div>
+
+            <div class="bootlog" id="bootlog">
+                Loading interface...
+            </div>
+        </div>
+    </div>
+
+    <canvas id="particles"></canvas>
+    <div class="grid"></div>
+
+    <!-- MOBILE MENU -->
+    <div class="side-backdrop" id="sideBackdrop"></div>
+
+    <button class="mobile-btn"
+        id="mobileBtn"
+        aria-label="Open menu">
+        ☰
+    </button>
+
+    <!-- LANGUAGE -->
+    <button class="lang-toggle"
+        id="langToggle"
+        aria-label="Switch language"
+        title="Switch language">
+
+        <span id="langLabel">AR</span>
+
+    </button>
+
+    <!-- THEME -->
+    <button class="theme-toggle"
+        id="themeToggle"
+        aria-label="Toggle theme"
+        title="Toggle theme">
+        ☾
+    </button>
+
+    <!-- SIDEBAR -->
+    <aside id="side">
+
+        <div class="side-head">
+
+            <div class="brand">
+                <span>i TOOLS</span><em>:</em>
+            </div>
+
+            <div class="tagline">
+                by mohammed
+            </div>
+
+            <button class="side-toggle"
+                id="sideToggle"
+                aria-label="Collapse sidebar">
+                ‹
+            </button>
+
+        </div>
+
+        <nav class="side-nav">
+
+            <a href="#home" class="active">
+                <b class="ico">⌂</b>
+                <span>HOME</span>
+            </a>
+
+            <a href="icare.html">
+                <b class="ico">⚙</b>
+                <span>iCARE TOOL</span>
+            </a>
+
+        </nav>
+
+        <div class="side-footer">
+            <span>PORTFOLIO NODE // ONLINE</span>
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main id="main">
+
+        <!-- HERO -->
+        <section class="hero" id="home">
+
+            <div class="container">
+
+                <div class="status reveal">
+                    <i></i>
+                    <span id="statusText">
+                        Online System // official
+                    </span>
+                </div>
+
+                <h1 class="reveal" style="transition-delay:.12s">
+                    i TOOLS
+                </h1>
+
+                <div class="by reveal"
+                    style="transition-delay:.2s"
+                    id="heroBy">
+                    by mohammed
+                </div>
+
+                <p class="lead reveal"
+                    style="transition-delay:.3s"
+                    id="heroLead">
+                    A curated collection of modern Windows tools,
+                    designed specifically for PC enthusiasts—FREE
+                </p>
+
+                <div class="hero-explanation reveal"
+                    style="transition-delay:.38s">
+
+                    <span class="explain-tag"
+                        id="aboutNode">
+                        // ABOUT THIS NODE
+                    </span>
+
+                    <p id="aboutNodeText">
+                        i TOOLS is a collection of practical PC utilities
+                        designed to give you clearer system information,
+                        faster controls, useful automation and a cleaner
+                        workflow without unnecessary complexity.
+                    </p>
+
+                </div>
+
+                <div class="actions reveal"
+                    style="transition-delay:.52s">
+
+                    <a class="btn"
+                        href="icare.html"
+                        id="openIcareBtn">
+                        OPEN iCARE TOOL ↗
+                    </a>
+
+                    <a class="btn pink"
+                        href="#showcase"
+                        id="projectsBtn">
+                        VIEW PROJECTS
+                    </a>
+
+                </div>
+
+                <div class="profile-section">
+
+                    <div class="panel profile-card reveal"
+                        style="transition-delay:.65s">
+
+                        <div class="profile-avatar">
+                            <div class="avatar-core">
+                                MO
+                            </div>
+                        </div>
+
+                        <div class="profile-copy">
+
+                            <div class="profile-label"
+                                id="developerProfile">
+                                // DEVELOPER PROFILE
+                            </div>
+
+                            <h2 id="profileTitle">
+                                I'M <span>MOHAMMED</span>
+                            </h2>
+
+                            <p id="profileText">I am Mohamed from Egypt. I develop simple tools that meet diverse user needs.
+
+I build practical desktop software focused on performance, control, and a seamless, clean user experience. My work combines system utilities, Windows environment tools, automation technologies, and modern interfaces to deliver useful products.
+
+I work independently, and my software is enhanced using artificial intelligence.</p>
+
+                            <div class="profile-tags">
+
+                                <span class="profile-tag">WINDOWS</span>
+                                <span class="profile-tag">GAMING</span>
+                                <span class="profile-tag">PERFORMANCE</span>
+                                <span class="profile-tag">SYSTEM TOOLS</span>
+                                <span class="profile-tag">AUTOMATION</span>
+                                <span class="profile-tag">FREE</span>
+                                <span class="profile-tag">MODERN UI</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SYSTEMS -->
+        <section id="systems">
+
+            <div class="container">
+
+                <div class="section-kicker reveal"
+                    id="systemsKicker">
+                    01 // Ecosystem
+                </div>
+
+                <h2 class="section-title reveal"
+                    style="transition-delay:.1s"
+                    id="systemsTitle">
+                    SYSTEMS &amp; TECHNOLOGIES
+                </h2>
+
+                <p class="section-sub reveal"
+                    style="transition-delay:.18s"
+                    id="systemsSub">
+                    The platforms, languages and environments behind the tools.
+                </p>
+
+                <div class="divider reveal"></div>
+
+                <div class="grid-cards"
+                    id="systemsGrid">
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SHOWCASE -->
+        <section id="showcase">
+
+            <div class="container">
+
+                <div class="section-kicker reveal"
+                    id="showcaseKicker">
+                    02 // Selected Work
+                </div>
+
+                <h2 class="section-title reveal"
+                    style="transition-delay:.1s"
+                    id="showcaseTitle">
+                    PROJECT SHOWCASE
+                </h2>
+
+                <p class="section-sub reveal"
+                    style="transition-delay:.18s"
+                    id="showcaseSub">
+                    A visual look at selected tools, interfaces and
+                    experiments. Click any image to zoom.
+                </p>
+
+                <div class="divider reveal"></div>
+
+                <div class="panel showcase reveal"
+                    style="transition-delay:.25s"
+                    id="icareShowcase">
+
+                    <div class="showcase-track"
+                        id="showcaseTrack">
+                    </div>
+
+                    <div class="showcase-controls">
+
+                        <button class="showcase-btn"
+                            id="showcasePrev"
+                            aria-label="Previous project">
+                            ‹
+                        </button>
+
+                        <div class="showcase-dots"
+                            id="showcaseDots">
+                        </div>
+
+                        <button class="showcase-btn"
+                            id="showcaseNext"
+                            aria-label="Next project">
+                            ›
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about">
+
+            <div class="container">
+
+                <div class="section-kicker reveal"
+                    id="philosophyKicker">
+                    03 // Philosophy
+                </div>
+
+                <h2 class="section-title reveal"
+                    id="builtFast">
+                    BUILT TO FEEL FAST.
+                </h2>
+
+                <p class="section-sub reveal"
+                    id="philosophySub">
+                    The goal is simple: useful software with a focused
+                    interface, low friction, and enough depth for power users.
+                </p>
+
+                <div class="divider reveal"></div>
+
+                <div class="panel reveal">
+
+                    <div class="about-grid">
+
+                        <div class="about-item">
+                            <div class="section-kicker">
+                                CONTROL
+                            </div>
+
+                            <p>
+                                Gain better, faster, and deeper control
+                                over your device.
+                            </p>
+                        </div>
+
+                        <div class="about-item">
+                            <div class="section-kicker">
+                                PERFORMANCE
+                            </div>
+
+                            <p>
+                                Faster than light... lighter than a needle...
+                                compact size... immense capabilities.
+                            </p>
+                        </div>
+
+                        <div class="about-item">
+                            <div class="section-kicker">
+                                CLEAN
+                            </div>
+
+                            <p>
+                                My software is completely virus-free,
+                                so live freely.
+                            </p>
+                        </div>
+
+                        <div class="about-item">
+                            <div class="section-kicker">
+                                DESIGN
+                            </div>
+
+                            <p>
+                                My software designs are completely clutter-free
+                                and intuitive—so don't worry; you'll understand
+                                everything as soon as you start.
+                            </p>
+                        </div>
+
+                        <div class="about-item">
+                            <div class="section-kicker">
+                                FREE
+                            </div>
+
+                            <p>
+                                All my tools are completely free, so there's
+                                no need to pay a fortune. Want to help me out?
+                                No problem—I'd love a cup of coffee! (:
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer id="contact">
+
+            <div class="footer-grid">
+
+                <div>
+
+                    <div class="footer-title">
+                        i TOOLS : by mohammed
+                    </div>
+
+                    <p id="footerDescription">
+                        Modern PC utilities for gamers,
+                        creators and power users.
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <h4 id="footerPages">
+                        PAGES
+                    </h4>
+
+                    <a href="#home"
+                        id="footerHome">
+                        Home
+                    </a>
+
+                    <a href="icare.html"
+                        id="footerIcare">
+                        iCARE Tool
+                    </a>
+
+                </div>
+
+                <div>
+
+                    <h4 id="footerContact">
+                        CONTACT
+                    </h4>
+
+                    <p>
+                        Mohammed
+                    </p>
+
+                    <a href="mailto:contact@itools.dev">
+                        contact@itools.dev
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom"
+                id="footerBottom">
+                © 2026
+                <b style="color:var(--cyan)">
+                    i TOOLS : by mohammed
+                </b>
+                // ALL RIGHTS RESERVED
+            </div>
+
+        </footer>
+
+    </main>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox"
+        aria-modal="true"
+        role="dialog"
+        aria-label="Image viewer">
+
+        <div class="lightbox-backdrop"
+            id="lightboxBackdrop">
+        </div>
+
+        <div class="lightbox-container">
+
+            <button class="lightbox-close"
+                id="lightboxClose"
+                aria-label="Close viewer">
+                ✕
+            </button>
+
+            <button class="lightbox-nav lightbox-prev"
+                id="lightboxPrev"
+                aria-label="Previous image">
+                ‹
+            </button>
+
+            <div class="lightbox-img-wrap">
+
+                <img src=""
+                    alt=""
+                    id="lightboxImg">
+
+            </div>
+
+            <button class="lightbox-nav lightbox-next"
+                id="lightboxNext"
+                aria-label="Next image">
+                ›
+            </button>
+
+            <div class="lightbox-caption"
+                id="lightboxCaption">
+            </div>
+
+            <div class="lightbox-counter"
+                id="lightboxCounter">
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        (() => {
+
+            'use strict';
+
+            /* =========================================================
+               DOM
+            ========================================================= */
+
+            const $ = id => document.getElementById(id);
+
+            const html = document.documentElement;
+
+            const themeToggle = $('themeToggle');
+            const langToggle = $('langToggle');
+            const langLabel = $('langLabel');
+
+            const side = $('side');
+            const main = $('main');
+            const mobileBtn = $('mobileBtn');
+            const sideBackdrop = $('sideBackdrop');
+
+            const systemsGrid = $('systemsGrid');
+
+            const showcaseTrack = $('showcaseTrack');
+            const showcaseDots = $('showcaseDots');
+            const showcase = $('icareShowcase');
+
+            const lightbox = $('lightbox');
+            const lightboxImg = $('lightboxImg');
+            const lightboxCaption = $('lightboxCaption');
+            const lightboxCounter = $('lightboxCounter');
+
+            const lightboxClose = $('lightboxClose');
+            const lightboxPrev = $('lightboxPrev');
+            const lightboxNext = $('lightboxNext');
+            const lightboxBackdrop = $('lightboxBackdrop');
+
+            const canvas = $('particles');
+            const ctx = canvas ? canvas.getContext('2d') : null;
+
+
+            /* =========================================================
+               TRANSLATIONS
+            ========================================================= */
+
+            const T = {
+
+                en: {
+
+                    tagline: 'by mohammed',
+                    home: 'HOME',
+                    icare: 'iCARE TOOL',
+
+                    online: 'Online System // official',
+
+                    by: 'by mohammed',
+
+                    heroLead:
+                        'A curated collection of modern Windows tools, designed specifically for PC enthusiasts—FREE',
+
+                    aboutNode:
+                        '// ABOUT THIS NODE',
+
+                    aboutNodeText:
+                        'i TOOLS is a collection of practical PC utilities designed to give you clearer system information, faster controls, useful automation and a cleaner workflow without unnecessary complexity.',
+
+                    openIcare:
+                        'OPEN iCARE TOOL ↗',
+
+                    projects:
+                        'VIEW PROJECTS',
+
+                    developerProfile:
+                        '// DEVELOPER PROFILE',
+
+                    profileTitle:
+                        "I'M <span>MOHAMMED</span>",
+
+                    profileText:
+`I am Mohamed from Egypt. I develop simple tools that meet diverse user needs.
+
+I build practical desktop software focused on performance, control, and a seamless, clean user experience. My work combines system utilities, Windows environment tools, automation technologies, and modern interfaces to deliver useful products.
+
+I work independently, and my software is enhanced using artificial intelligence.`,
+
+                    windows: 'WINDOWS',
+                    gaming: 'GAMING',
+                    performance: 'PERFORMANCE',
+                    systemTools: 'SYSTEM TOOLS',
+                    automation: 'AUTOMATION',
+                    free: 'FREE',
+                    modernUI: 'MODERN UI',
+
+                    ecosystem:
+                        '01 // Ecosystem',
+
+                    systemsTitle:
+                        'SYSTEMS & TECHNOLOGIES',
+
+                    systemsSub:
+                        'The platforms, languages and environments behind the tools.',
+
+                    showcaseKicker:
+                        '02 // Selected Work',
+
+                    showcaseTitle:
+                        'PROJECT SHOWCASE',
+
+                    showcaseSub:
+                        'A visual look at selected tools, interfaces and experiments. Click any image to zoom.',
+
+                    philosophy:
+                        '03 // Philosophy',
+
+                    builtFast:
+                        'BUILT TO FEEL FAST.',
+
+                    philosophySub:
+                        'The goal is simple: useful software with a focused interface, low friction, and enough depth for power users.',
+
+                    control:
+                        'CONTROL',
+
+                    controlText:
+                        'Gain better, faster, and deeper control over your device.',
+
+                    performanceTitle:
+                        'PERFORMANCE',
+
+                    performanceText:
+                        'Faster than light... lighter than a needle... compact size... immense capabilities.',
+
+                    clean:
+                        'CLEAN',
+
+                    cleanText:
+                        'My software is completely virus-free, so live freely.',
+
+                    design:
+                        'DESIGN',
+
+                    designText:
+                        "My software designs are completely clutter-free and intuitive—so don't worry; you'll understand everything as soon as you start.",
+
+                    freeTitle:
+                        'FREE',
+
+                    freeText:
+                        "All my tools are completely free, so there's no need to pay a fortune. Want to help me out? No problem—I'd love a cup of coffee! (:",
+
+                    footerDescription:
+                        'Modern PC utilities for gamers, creators and power users.',
+
+                    pages:
+                        'PAGES',
+
+                    contact:
+                        'CONTACT',
+
+                    footerHome:
+                        'Home',
+
+                    footerIcare:
+                        'iCARE Tool',
+
+                    rights:
+                        'ALL RIGHTS RESERVED',
+
+                    image:
+                        'IMAGE',
+
+                    clickZoom:
+                        '🔍 CLICK TO ZOOM',
+
+                    bootSub:
+                        'BY MOHAMMED // SYSTEM INITIALIZATION',
+
+                    linking:
+                        'Linking interface modules...',
+
+                    visual:
+                        'Loading visual layer...',
+
+                    github:
+                        'Connecting GitHub image nodes...',
+
+                    responsive:
+                        'Calibrating responsive layout...',
+
+                    ready:
+                        'Portfolio node ready.',
+
+                    portfolioNode:
+                        'PORTFOLIO NODE // ONLINE',
+
+                    closeViewer:
+                        'Close viewer',
+
+                    previousProject:
+                        'Previous project',
+
+                    nextProject:
+                        'Next project'
+                },
+
+                ar: {
+
+                    tagline:
+                        'بواسطة محمد',
+
+                    home:
+                        'الرئيسية',
+
+                    icare:
+                        'أداة iCARE',
+
+                    online:
+                        'النظام متصل // رسمي',
+
+                    by:
+                        'بواسطة محمد',
+
+                    heroLead:
+                        'مجموعة مختارة من أدوات Windows الحديثة، مصممة خصيصًا لعشاق الكمبيوتر — مجانًا',
+
+                    aboutNode:
+                        '// عن هذا النظام',
+
+                    aboutNodeText:
+                        'i TOOLS هي مجموعة من أدوات الكمبيوتر العملية، صُممت لتمنحك معلومات أوضح عن النظام، وتحكمًا أسرع، وأتمتة مفيدة، وتجربة عمل أكثر تنظيمًا بدون تعقيد غير ضروري.',
+
+                    openIcare:
+                        'فتح أداة iCARE ↗',
+
+                    projects:
+                        'عرض المشاريع',
+
+                    developerProfile:
+                        '// ملف المطور',
+
+                    profileTitle:
+                        'أنا <span>محمد</span>',
+
+                    profileText:
+`أنا محمد من مصر. أقوم بتطوير أدوات بسيطة تلبي احتياجات المستخدمين المختلفة.
+
+أقوم ببناء برامج سطح مكتب عملية تركز على الأداء والتحكم وتجربة المستخدم السلسة والنظيفة. يجمع عملي بين أدوات النظام، وبيئة Windows، وتقنيات الأتمتة، والواجهات الحديثة لتقديم منتجات مفيدة.
+
+أعمل بشكل مستقل، ويتم تطوير برامجي وتحسينها باستخدام الذكاء الاصطناعي.`,
+
+                    windows:
+                        'WINDOWS',
+
+                    gaming:
+                        'الألعاب',
+
+                    performance:
+                        'الأداء',
+
+                    systemTools:
+                        'أدوات النظام',
+
+                    automation:
+                        'الأتمتة',
+
+                    free:
+                        'مجاني',
+
+                    modernUI:
+                        'واجهة حديثة',
+
+                    ecosystem:
+                        '01 // المنظومة',
+
+                    systemsTitle:
+                        'الأنظمة والتقنيات',
+
+                    systemsSub:
+                        'المنصات واللغات والبيئات التي تقف خلف هذه الأدوات.',
+
+                    showcaseKicker:
+                        '02 // أعمال مختارة',
+
+                    showcaseTitle:
+                        'عرض المشاريع',
+
+                    showcaseSub:
+                        'نظرة مرئية على بعض الأدوات والواجهات والتجارب. اضغط على أي صورة لتكبيرها.',
+
+                    philosophy:
+                        '03 // الفلسفة',
+
+                    builtFast:
+                        'صُممت لتشعر بالسرعة.',
+
+                    philosophySub:
+                        'الهدف بسيط: برامج مفيدة بواجهة مركزة، وسهولة في الاستخدام، وعمق كافٍ للمستخدمين المتقدمين.',
+
+                    control:
+                        'التحكم',
+
+                    controlText:
+                        'احصل على تحكم أفضل وأسرع وأعمق في جهازك.',
+
+                    performanceTitle:
+                        'الأداء',
+
+                    performanceText:
+                        'أسرع من الضوء... أخف من الإبرة... حجم صغير... وقدرات هائلة.',
+
+                    clean:
+                        'النظافة',
+
+                    cleanText:
+                        'برامجي خالية تمامًا من الفيروسات، فاستخدمها بحرية.',
+
+                    design:
+                        'التصميم',
+
+                    designText:
+                        'تصميم برامجي خالٍ تمامًا من الفوضى وسهل الاستخدام — فلا تقلق، ستفهم كل شيء بمجرد البدء.',
+
+                    freeTitle:
+                        'مجاني',
+
+                    freeText:
+                        'جميع أدواتي مجانية تمامًا، فلا حاجة لدفع مبالغ كبيرة. هل تريد مساعدتي؟ لا مشكلة — سأكون سعيدًا بكوب من القهوة! (:',
+
+                    footerDescription:
+                        'أدوات حديثة للكمبيوتر مخصصة للاعبين والمبدعين والمستخدمين المتقدمين.',
+
+                    pages:
+                        'الصفحات',
+
+                    contact:
+                        'التواصل',
+
+                    footerHome:
+                        'الرئيسية',
+
+                    footerIcare:
+                        'أداة iCARE',
+
+                    rights:
+                        'جميع الحقوق محفوظة',
+
+                    image:
+                        'صورة',
+
+                    clickZoom:
+                        '🔍 اضغط للتكبير',
+
+                    bootSub:
+                        'بواسطة محمد // تهيئة النظام',
+
+                    linking:
+                        'جاري ربط وحدات الواجهة...',
+
+                    visual:
+                        'جاري تحميل الطبقة المرئية...',
+
+                    github:
+                        'جاري الاتصال بعُقد صور GitHub...',
+
+                    responsive:
+                        'جاري ضبط التصميم المتجاوب...',
+
+                    ready:
+                        'النظام جاهز.',
+
+                    portfolioNode:
+                        'عقدة البورتفوليو // متصل',
+
+                    closeViewer:
+                        'إغلاق عارض الصور',
+
+                    previousProject:
+                        'المشروع السابق',
+
+                    nextProject:
+                        'المشروع التالي'
+                }
+
+            };
+
+
+            /* =========================================================
+               LANGUAGE STATE
+            ========================================================= */
+
+            let currentLang = (() => {
+
+                try {
+                    return localStorage.getItem('itools-language') || 'en';
+                }
+
+                catch (e) {
+                    return 'en';
+                }
+
+            })();
+
+            if (!['ar', 'en'].includes(currentLang)) {
+                currentLang = 'en';
+            }
+
+            const t = key =>
+                T[currentLang]?.[key] ??
+                T.en[key] ??
+                key;
+
+
+            /* =========================================================
+               PARTICLES
+            ========================================================= */
+
+            let particles = [];
+
+            function resizeCanvas() {
+
+                if (!canvas || !ctx) return;
+
+                const r =
+                    Math.min(window.devicePixelRatio || 1, 2);
+
+                canvas.width =
+                    innerWidth * r;
+
+                canvas.height =
+                    innerHeight * r;
+
+                ctx.setTransform(
+                    r,
+                    0,
+                    0,
+                    r,
+                    0,
+                    0
+                );
+            }
+
+            function createParticles() {
+
+                if (!canvas || !ctx) return;
+
+                const colors =
+                    html.dataset.theme === 'light'
+                        ? [
+                            '#008c99',
+                            '#a80d83',
+                            '#5a3ec8',
+                            '#07834f'
+                        ]
+                        : [
+                            '#00f6ff',
+                            '#ff28cf',
+                            '#8d66ff',
+                            '#28ff9a',
+                            '#ff9d43'
+                        ];
+
+                const count =
+                    Math.min(
+                        100,
+                        Math.max(
+                            35,
+                            Math.floor(innerWidth / 11)
+                        )
+                    );
+
+                particles =
+                    Array.from(
+                        {
+                            length: count
+                        },
+                        () => ({
+                            x: Math.random() * innerWidth,
+                            y: Math.random() * innerHeight,
+                            vx: (Math.random() - .5) * .22,
+                            vy: (Math.random() - .5) * .18,
+                            r: .5 + Math.random() * 1.7,
+                            a: .10 + Math.random() * .42,
+                            color:
+                                colors[
+                                    Math.floor(
+                                        Math.random() *
+                                        colors.length
+                                    )
+                                ]
+                        })
+                    );
+            }
+
+            function drawParticles() {
+
+                if (!canvas || !ctx) return;
+
+                ctx.clearRect(
+                    0,
+                    0,
+                    innerWidth,
+                    innerHeight
+                );
+
+                for (const p of particles) {
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0) p.x = innerWidth;
+                    if (p.x > innerWidth) p.x = 0;
+
+                    if (p.y < 0) p.y = innerHeight;
+                    if (p.y > innerHeight) p.y = 0;
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        p.x,
+                        p.y,
+                        p.r,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    ctx.globalAlpha = p.a;
+
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = p.color;
+
+                    ctx.fillStyle = p.color;
+
+                    ctx.fill();
+                }
+
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+
+                requestAnimationFrame(drawParticles);
+            }
+
+            resizeCanvas();
+            createParticles();
+            drawParticles();
+
+            addEventListener(
+                'resize',
+                resizeCanvas
+            );
+
+            addEventListener(
+                'resize',
+                createParticles
+            );
+
+
+            /* =========================================================
+               THEME
+            ========================================================= */
+
+            function applyTheme(theme) {
+
+                const selected =
+                    theme === 'light'
+                        ? 'light'
+                        : 'dark';
+
+                html.dataset.theme =
+                    selected;
+
+                try {
+                    localStorage.setItem(
+                        'itools-theme',
+                        selected
+                    );
+                }
+
+                catch (e) {}
+
+                if (themeToggle) {
+
+                    themeToggle.textContent =
+                        selected === 'light'
+                            ? '☀'
+                            : '☾';
+
+                    themeToggle.setAttribute(
+                        'aria-label',
+                        selected === 'light'
+                            ? 'Switch to dark theme'
+                            : 'Switch to light theme'
+                    );
+
+                    themeToggle.title =
+                        selected === 'light'
+                            ? 'Switch to dark theme'
+                            : 'Switch to light theme';
+                }
+
+                createParticles();
+            }
+
+            let savedTheme = 'dark';
+
+            try {
+                savedTheme =
+                    localStorage.getItem('itools-theme') ||
+                    'dark';
+            }
+
+            catch (e) {}
+
+            applyTheme(savedTheme);
+
+            themeToggle?.addEventListener(
+                'click',
+                () => {
+
+                    applyTheme(
+                        html.dataset.theme === 'light'
+                            ? 'dark'
+                            : 'light'
+                    );
+
+                }
+            );
+
+
+            /* =========================================================
+               DATA
+            ========================================================= */
+
+            const systemData = [
+
+                {
+                    icon: '▣',
+                    title: 'Windows',
+                    titleAr: 'Windows',
+                    text:
+                        'Primary target platform with a focus on Windows 10 and 11 desktop workflows.',
+                    textAr:
+                        'المنصة الأساسية المستهدفة مع التركيز على بيئة سطح المكتب في Windows 10 و11.',
+                    color: 'cyan'
+                },
+
+                {
+                    icon: 'C#',
+                    title: 'C# / .NET',
+                    titleAr: 'C# / .NET',
+                    text:
+                        'Desktop application development, system tooling and modern UI logic.',
+                    textAr:
+                        'تطوير تطبيقات سطح المكتب وأدوات النظام ومنطق الواجهات الحديثة.',
+                    color: 'pink'
+                },
+
+                {
+                    icon: 'C++',
+                    title: 'C++ / WinAPI',
+                    titleAr: 'C++ / WinAPI',
+                    text:
+                        'Low-level Windows integration, performance work and system access.',
+                    textAr:
+                        'تكامل منخفض المستوى مع Windows والعمل على الأداء والوصول إلى النظام.',
+                    color: 'violet'
+                },
+
+                {
+                    icon: 'JS',
+                    title: 'JavaScript',
+                    titleAr: 'JavaScript',
+                    text:
+                        'Web interfaces, interactive dashboards and dynamic product experiences.',
+                    textAr:
+                        'واجهات الويب ولوحات التحكم التفاعلية وتجارب المنتجات الديناميكية.',
+                    color: 'orange'
+                },
+
+                {
+                    icon: 'UI',
+                    title: 'Modern UI',
+                    titleAr: 'واجهة حديثة',
+                    text:
+                        'HUD-inspired layouts, visual feedback, motion and responsive components.',
+                    textAr:
+                        'واجهات مستوحاة من أنظمة HUD مع مؤثرات بصرية وحركة وتصميم متجاوب.',
+                    color: 'cyan'
+                }
+
+            ];
+
+
+            /* =========================================================
+               SHOWCASE DATA
+            ========================================================= */
+
+            const showcaseData = [
+
+                {
+                    image:
+                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/1.png',
+
+                    tag:
+                        'FLAGSHIP // iCARE',
+
+                    tagAr:
+                        'رئيسية // iCARE',
+
+                    title:
+                        'iCARE TOOL',
+
+                    titleAr:
+                        'أداة iCARE',
+
+                    desc:
+                        'A Windows utility concept focused on monitoring, gaming assistance, optimization and advanced system controls.',
+
+                    descAr:
+                        'أداة لنظام Windows تركز على المراقبة ومساعدة اللاعبين وتحسين النظام والتحكم المتقدم.',
+
+                    items: [
+                        'Performance monitoring',
+                        'Gaming utilities',
+                        'System optimization',
+                        'Modern control interface'
+                    ],
+
+                    itemsAr: [
+                        'مراقبة الأداء',
+                        'أدوات الألعاب',
+                        'تحسين النظام',
+                        'واجهة تحكم حديثة'
+                    ]
+                },
+
+                {
+                    image:
+                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/2.png',
+
+                    tag:
+                        'MODULE // MONITOR',
+
+                    tagAr:
+                        'وحدة // المراقبة',
+
+                    title:
+                        'SMART MINI MONITOR',
+
+                    titleAr:
+                        'المراقب الذكي المصغر',
+
+                    desc:
+                        'A compact interface designed to keep the most important system statistics visible while gaming or working.',
+
+                    descAr:
+                        'واجهة صغيرة مصممة لإبقاء أهم إحصائيات النظام ظاهرة أثناء اللعب أو العمل.',
+
+                    items: [
+                        'CPU / GPU / RAM / FPS',
+                        'Live performance graphs',
+                        'Compact always-on-top layout',
+                        'Minimal visual footprint'
+                    ],
+
+                    itemsAr: [
+                        'CPU / GPU / RAM / FPS',
+                        'رسوم بيانية مباشرة للأداء',
+                        'واجهة صغيرة تظهر دائمًا في المقدمة',
+                        'استهلاك بصري ومساحة منخفضة'
+                    ]
+                },
+
+                {
+                    image:
+                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/4.png',
+
+                    tag:
+                        'MODULE // GAMING',
+
+                    tagAr:
+                        'وحدة // الألعاب',
+
+                    title:
+                        'GAME CONTROL SUITE',
+
+                    titleAr:
+                        'حزمة التحكم بالألعاب',
+
+                    desc:
+                        'Gaming-focused tools designed to make common performance and game-related controls easier to access.',
+
+                    descAr:
+                        'مجموعة أدوات مخصصة للألعاب تجعل الوصول إلى إعدادات الأداء والتحكمات المتعلقة بالألعاب أسهل.',
+
+                    items: [
+                        'Per-game profiles',
+                        'FPS controls',
+                        'Game utilities',
+                        'Performance helpers'
+                    ],
+
+                    itemsAr: [
+                        'ملفات تعريف لكل لعبة',
+                        'تحكم في FPS',
+                        'أدوات الألعاب',
+                        'مساعدات لتحسين الأداء'
+                    ]
+                },
+
+                {
+                    image:
+                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/3.png',
+
+                    tag:
+                        'MODULE // GAMING',
+
+                    tagAr:
+                        'وحدة // الألعاب',
+
+                    title:
+                        'GAME Monitor',
+
+                    titleAr:
+                        'مراقب الألعاب',
+
+                    desc:
+                        'Gaming-Safely monitor whatever you want while gaming, without interruptions or restrictions.',
+
+                    descAr:
+                        'راقب ما تريد أثناء اللعب بأمان، بدون مقاطعات أو قيود.',
+
+                    items: [
+                        'Per-game profiles',
+                        'FPS controls',
+                        'Game utilities',
+                        'Performance helpers'
+                    ],
+
+                    itemsAr: [
+                        'ملفات تعريف لكل لعبة',
+                        'تحكم في FPS',
+                        'أدوات الألعاب',
+                        'مساعدات لتحسين الأداء'
+                    ]
+                }
+
+            ];
+
+
+            /* =========================================================
+               SHOWCASE STATE
+            ========================================================= */
+
+            let projectIndex = 0;
+            let showcaseTimer = null;
+            let lightboxIndex = 0;
+
+
+            /* =========================================================
+               REVEAL OBSERVER
+            ========================================================= */
+
+            const revealObserver =
+                new IntersectionObserver(
+                    entries => {
+
+                        entries.forEach(entry => {
+
+                            if (entry.isIntersecting) {
+
+                                entry.target.classList.add('show');
+
+                                revealObserver.unobserve(
+                                    entry.target
+                                );
+
+                            }
+
+                        });
+
+                    },
+                    {
+                        threshold: .12,
+                        rootMargin: '0px 0px -35px'
+                    }
+                );
+
+
+            /* =========================================================
+               RENDER SYSTEMS
+            ========================================================= */
+
+            function renderSystems() {
+
+                if (!systemsGrid) return;
+
+                systemsGrid.innerHTML =
+                    systemData.map((x, i) => {
+
+                        const title =
+                            currentLang === 'ar'
+                                ? x.titleAr
+                                : x.title;
+
+                        const text =
+                            currentLang === 'ar'
+                                ? x.textAr
+                                : x.text;
+
+                        return `
+                            <article
+                                class="panel info-card reveal"
+                                style="transition-delay:${i * .08}s">
+
+                                <div
+                                    class="card-icon"
+                                    style="color:var(--${x.color})">
+                                    ${x.icon}
+                                </div>
+
+                                <h3>
+                                    ${title}
+                                </h3>
+
+                                <p>
+                                    ${text}
+                                </p>
+
+                            </article>
+                        `;
+
+                    }).join('');
+
+                systemsGrid
+                    .querySelectorAll('.reveal')
+                    .forEach(el => {
+
+                        revealObserver.observe(el);
+
+                    });
+            }
+
+
+            /* =========================================================
+               PROJECT NAVIGATION
+            ========================================================= */
+
+            function goProject(index) {
+
+                projectIndex =
+                    (
+                        index +
+                        showcaseData.length
+                    ) %
+                    showcaseData.length;
+
+                if (showcaseTrack) {
+
+                    showcaseTrack.style.transform =
+                        `translate3d(-${projectIndex * 100}%, 0, 0)`;
+                }
+
+                if (showcaseDots) {
+
+                    [...showcaseDots.children]
+                        .forEach((dot, i) => {
+
+                            dot.classList.toggle(
+                                'active',
+                                i === projectIndex
+                            );
+
+                        });
+                }
+            }
+
+            function restartShowcase() {
+
+                clearInterval(showcaseTimer);
+
+                showcaseTimer =
+                    setInterval(
+                        () => {
+
+                            goProject(
+                                projectIndex + 1
+                            );
+
+                        },
+                        6500
+                    );
+            }
+
+
+            /* =========================================================
+               LIGHTBOX
+            ========================================================= */
+
+            function updateLightbox() {
+
+                const data =
+                    showcaseData[lightboxIndex];
+
+                if (!data) return;
+
+                const title =
+                    currentLang === 'ar'
+                        ? data.titleAr
+                        : data.title;
+
+                const imageUrl =
+                    data.image;
+
+                lightboxImg.classList.add('loading');
+
+                lightboxImg.src =
+                    imageUrl;
+
+                lightboxImg.alt =
+                    title;
+
+                lightboxCaption.textContent =
+                    title;
+
+                lightboxCounter.textContent =
+                    `${lightboxIndex + 1} / ${showcaseData.length}`;
+            }
+
+
+            function openLightbox(index) {
+
+                lightboxIndex =
+                    (
+                        index +
+                        showcaseData.length
+                    ) %
+                    showcaseData.length;
+
+                updateLightbox();
+
+                lightbox.classList.add('active');
+
+                document.body.style.overflow =
+                    'hidden';
+
+                clearInterval(showcaseTimer);
+            }
+
+
+            function closeLightbox() {
+
+                lightbox.classList.remove('active');
+
+                document.body.style.overflow =
+                    '';
+
+                restartShowcase();
+            }
+
+
+            function lightboxNav(dir) {
+
+                lightboxIndex =
+                    (
+                        lightboxIndex +
+                        dir +
+                        showcaseData.length
+                    ) %
+                    showcaseData.length;
+
+                updateLightbox();
+            }
+
+
+            /* Lightbox image loaded */
+            lightboxImg?.addEventListener(
+                'load',
+                () => {
+
+                    lightboxImg.classList.remove(
+                        'loading'
+                    );
+
+                    lightboxImg.style.opacity =
+                        '1';
+                }
+            );
+
+
+            lightboxImg?.addEventListener(
+                'error',
+                () => {
+
+                    console.error(
+                        'Lightbox image failed:',
+                        lightboxImg.src
+                    );
+
+                    lightboxImg.classList.remove(
+                        'loading'
+                    );
+
+                }
+            );
+
+
+            /* =========================================================
+               RENDER SHOWCASE
+            ========================================================= */
+
+            function renderShowcase() {
+
+                if (!showcaseTrack || !showcaseDots) {
+                    return;
+                }
+
+                /* -----------------------------------------------------
+                   Rebuild slides
+                ----------------------------------------------------- */
+
+                showcaseTrack.innerHTML =
+                    showcaseData.map((x, i) => {
+
+                        const tag =
+                            currentLang === 'ar'
+                                ? x.tagAr
+                                : x.tag;
+
+                        const title =
+                            currentLang === 'ar'
+                                ? x.titleAr
+                                : x.title;
+
+                        const desc =
+                            currentLang === 'ar'
+                                ? x.descAr
+                                : x.desc;
+
+                        const items =
+                            currentLang === 'ar'
+                                ? x.itemsAr
+                                : x.items;
+
+                        return `
+                            <article
+                                class="showcase-slide">
+
+                                <div
+                                    class="showcase-image"
+                                    data-index="${i}"
+                                    role="button"
+                                    tabindex="0"
+                                    aria-label="${
+                                        currentLang === 'ar'
+                                            ? 'تكبير صورة: '
+                                            : 'Zoom image: '
+                                    }${title}">
+
+                                    <div class="image-index">
+                                        ${t('image')}
+                                        ${String(i + 1).padStart(2, '0')}
+                                    </div>
+
+                                    <img
+                                        src="${x.image}"
+                                        alt="${title}"
+                                        loading="eager"
+                                        decoding="async"
+                                        draggable="false"
+                                        referrerpolicy="no-referrer"
+                                        data-index="${i}"
+                                        class="loading">
+
+                                    <span class="zoom-hint">
+                                        ${t('clickZoom')}
+                                    </span>
+
+                                </div>
+
+                                <div class="showcase-info">
+
+                                    <span class="showcase-tag">
+                                        ${tag}
+                                    </span>
+
+                                    <h3>
+                                        ${title}
+                                    </h3>
+
+                                    <p>
+                                        ${desc}
+                                    </p>
+
+                                    <div class="showcase-list">
+
+                                        ${items.map(item => `
+                                            <div>
+                                                <span class="showcase-dot"></span>
+                                                <span>${item}</span>
+                                            </div>
+                                        `).join('')}
+
+                                    </div>
+
+                                    <div style="margin-top:22px">
+
+                                        <a
+                                            class="btn"
+                                            href="icare.html">
+
+                                            ${t('openIcare')}
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+                        `;
+
+                    }).join('');
+
+
+                /* -----------------------------------------------------
+                   Force / monitor image loading
+                ----------------------------------------------------- */
+
+                showcaseTrack
+                    .querySelectorAll('img')
+                    .forEach((img, index) => {
+
+                        const src =
+                            showcaseData[index]?.image;
+
+                        if (!src) return;
+
+                        img.src =
+                            src;
+
+                        img.onload =
+                            () => {
+
+                                img.classList.remove(
+                                    'loading'
+                                );
+
+                                img.style.opacity =
+                                    '1';
+
+                            };
+
+                        img.onerror =
+                            () => {
+
+                                console.error(
+                                    'Showcase image failed to load:',
+                                    src
+                                );
+
+                                img.classList.remove(
+                                    'loading'
+                                );
+
+                                img.alt =
+                                    currentLang === 'ar'
+                                        ? 'تعذر تحميل الصورة'
+                                        : 'Image failed to load';
+                            };
+
+                    });
+
+
+                /* -----------------------------------------------------
+                   Dots
+                ----------------------------------------------------- */
+
+                showcaseDots.innerHTML = '';
+
+                showcaseData.forEach((_, i) => {
+
+                    const dot =
+                        document.createElement('button');
+
+                    dot.type =
+                        'button';
+
+                    dot.setAttribute(
+                        'aria-label',
+                        currentLang === 'ar'
+                            ? `عرض المشروع ${i + 1}`
+                            : `Show project ${i + 1}`
+                    );
+
+                    if (i === projectIndex) {
+
+                        dot.classList.add(
+                            'active'
+                        );
+                    }
+
+                    dot.addEventListener(
+                        'click',
+                        () => {
+
+                            goProject(i);
+
+                            restartShowcase();
+
+                        }
+                    );
+
+                    showcaseDots.appendChild(
+                        dot
+                    );
+
+                });
+
+
+                /* -----------------------------------------------------
+                   Restore current slide
+                ----------------------------------------------------- */
+
+                goProject(
+                    projectIndex
+                );
+
+
+                /* -----------------------------------------------------
+                   Image click / keyboard events
+                ----------------------------------------------------- */
+
+                showcaseTrack
+                    .querySelectorAll('.showcase-image')
+                    .forEach(el => {
+
+                        const index =
+                            parseInt(
+                                el.dataset.index,
+                                10
+                            );
+
+                        el.addEventListener(
+                            'click',
+                            () => {
+
+                                openLightbox(
+                                    index
+                                );
+
+                            }
+                        );
+
+                        el.addEventListener(
+                            'keydown',
+                            e => {
+
+                                if (
+                                    e.key === 'Enter' ||
+                                    e.key === ' '
+                                ) {
+
+                                    e.preventDefault();
+
+                                    openLightbox(
+                                        index
+                                    );
+                                }
+
+                            }
+                        );
+
+                    });
+
+
+                /* -----------------------------------------------------
+                   Make dynamic elements compatible with reveal observer
+                ----------------------------------------------------- */
+
+                showcaseTrack
+                    .querySelectorAll('.reveal')
+                    .forEach(el => {
+
+                        revealObserver.observe(
+                            el
+                        );
+
+                    });
+            }
+
+
+            /* =========================================================
+               SIDEBAR
+            ========================================================= */
+
+            $('sideToggle')?.addEventListener(
+                'click',
+                () => {
+
+                    side?.classList.toggle(
+                        'collapsed'
+                    );
+
+                    main?.classList.toggle(
+                        'expanded'
+                    );
+
+                }
+            );
+
+
+            function closeMobileSide() {
+
+                side?.classList.remove(
+                    'open'
+                );
+
+                sideBackdrop?.classList.remove(
+                    'active'
+                );
+
+                if (mobileBtn) {
+
+                    mobileBtn.textContent =
+                        '☰';
+
+                    mobileBtn.setAttribute(
+                        'aria-label',
+                        'Open menu'
+                    );
+                }
+            }
+
+
+            mobileBtn?.addEventListener(
+                'click',
+                () => {
+
+                    const isOpen =
+                        side?.classList.toggle(
+                            'open'
+                        );
+
+                    sideBackdrop?.classList.toggle(
+                        'active',
+                        isOpen
+                    );
+
+                    mobileBtn.textContent =
+                        isOpen
+                            ? '✕'
+                            : '☰';
+
+                    mobileBtn.setAttribute(
+                        'aria-label',
+                        isOpen
+                            ? 'Close menu'
+                            : 'Open menu'
+                    );
+
+                }
+            );
+
+
+            sideBackdrop?.addEventListener(
+                'click',
+                closeMobileSide
+            );
+
+
+            document
+                .querySelectorAll('.side-nav a')
+                .forEach(link => {
+
+                    link.addEventListener(
+                        'click',
+                        () => {
+
+                            if (innerWidth <= 900) {
+                                closeMobileSide();
+                            }
+
+                        }
+                    );
+
+                });
+
+
+            /* =========================================================
+               HOME ACTIVE
+            ========================================================= */
+
+            const homeLink =
+                document.querySelector(
+                    '.side-nav a[href="#home"]'
+                );
+
+            const home =
+                $('home');
+
+            if (home && homeLink) {
+
+                new IntersectionObserver(
+                    entries => {
+
+                        entries.forEach(entry => {
+
+                            homeLink.classList.toggle(
+                                'active',
+                                entry.isIntersecting
+                            );
+
+                        });
+
+                    },
+                    {
+                        threshold: .25
+                    }
+                ).observe(home);
+            }
+
+
+            /* =========================================================
+               SHOWCASE BUTTONS
+            ========================================================= */
+
+            $('showcasePrev')?.addEventListener(
+                'click',
+                () => {
+
+                    goProject(
+                        projectIndex - 1
+                    );
+
+                    restartShowcase();
+
+                }
+            );
+
+
+            $('showcaseNext')?.addEventListener(
+                'click',
+                () => {
+
+                    goProject(
+                        projectIndex + 1
+                    );
+
+                    restartShowcase();
+
+                }
+            );
+
+
+            showcase?.addEventListener(
+                'mouseenter',
+                () => {
+
+                    clearInterval(
+                        showcaseTimer
+                    );
+
+                }
+            );
+
+
+            showcase?.addEventListener(
+                'mouseleave',
+                restartShowcase
+            );
+
+
+            /* =========================================================
+               LIGHTBOX EVENTS
+            ========================================================= */
+
+            lightboxClose?.addEventListener(
+                'click',
+                closeLightbox
+            );
+
+            lightboxBackdrop?.addEventListener(
+                'click',
+                closeLightbox
+            );
+
+            lightboxPrev?.addEventListener(
+                'click',
+                () => {
+
+                    lightboxNav(
+                        -1
+                    );
+
+                }
+            );
+
+            lightboxNext?.addEventListener(
+                'click',
+                () => {
+
+                    lightboxNav(
+                        1
+                    );
+
+                }
+            );
+
+
+            document.addEventListener(
+                'keydown',
+                e => {
+
+                    if (
+                        !lightbox.classList.contains(
+                            'active'
+                        )
+                    ) {
+                        return;
+                    }
+
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                    }
+
+                    if (e.key === 'ArrowLeft') {
+
+                        lightboxNav(
+                            currentLang === 'ar'
+                                ? 1
+                                : -1
+                        );
+
+                    }
+
+                    if (e.key === 'ArrowRight') {
+
+                        lightboxNav(
+                            currentLang === 'ar'
+                                ? -1
+                                : 1
+                        );
+
+                    }
+
+                }
+            );
+
+
+            /* =========================================================
+               APPLY LANGUAGE
+            ========================================================= */
+
+            function applyLanguage(lang) {
+
+                currentLang =
+                    lang === 'ar'
+                        ? 'ar'
+                        : 'en';
+
+                const isArabic =
+                    currentLang === 'ar';
+
+                /*
+                 * Only the document gets RTL.
+                 * Showcase stays LTR through CSS.
+                 */
+
+                html.lang =
+                    currentLang;
+
+                html.dir =
+                    isArabic
+                        ? 'rtl'
+                        : 'ltr';
+
+
+                try {
+
+                    localStorage.setItem(
+                        'itools-language',
+                        currentLang
+                    );
+
+                }
+
+                catch (e) {}
+
+
+                /* Language button */
+
+                if (langLabel) {
+
+                    langLabel.textContent =
+                        isArabic
+                            ? 'EN'
+                            : 'AR';
+                }
+
+
+                if (langToggle) {
+
+                    langToggle.setAttribute(
+                        'aria-label',
+                        isArabic
+                            ? 'Switch to English'
+                            : 'Switch to Arabic'
+                    );
+
+                    langToggle.title =
+                        isArabic
+                            ? 'Switch to English'
+                            : 'Switch to Arabic';
+                }
+
+
+                /* Sidebar */
+
+                document
+                    .querySelector('.tagline')
+                    .textContent =
+                    t('tagline');
+
+                document
+                    .querySelector(
+                        '.side-nav a[href="#home"] span'
+                    )
+                    .textContent =
+                    t('home');
+
+                document
+                    .querySelector(
+                        '.side-nav a[href="icare.html"] span'
+                    )
+                    .textContent =
+                    t('icare');
+
+                document
+                    .querySelector(
+                        '.side-footer span'
+                    )
+                    .textContent =
+                    t('portfolioNode');
+
+
+                /* Hero */
+
+                $('statusText').textContent =
+                    t('online');
+
+                $('heroBy').textContent =
+                    t('by');
+
+                $('heroLead').textContent =
+                    t('heroLead');
+
+                $('aboutNode').textContent =
+                    t('aboutNode');
+
+                $('aboutNodeText').textContent =
+                    t('aboutNodeText');
+
+                $('openIcareBtn').textContent =
+                    t('openIcare');
+
+                $('projectsBtn').textContent =
+                    t('projects');
+
+
+                /* Profile */
+
+                $('developerProfile').textContent =
+                    t('developerProfile');
+
+                $('profileTitle').innerHTML =
+                    t('profileTitle');
+
+                $('profileText').textContent =
+                    t('profileText');
+
+
+                const tagKeys = [
+                    'windows',
+                    'gaming',
+                    'performance',
+                    'systemTools',
+                    'automation',
+                    'free',
+                    'modernUI'
+                ];
+
+
+                document
+                    .querySelectorAll('.profile-tag')
+                    .forEach((tag, i) => {
+
+                        if (tagKeys[i]) {
+
+                            tag.textContent =
+                                t(tagKeys[i]);
+
+                        }
+
+                    });
+
+
+                /* Systems */
+
+                $('systemsKicker').textContent =
+                    t('ecosystem');
+
+                $('systemsTitle').textContent =
+                    t('systemsTitle');
+
+                $('systemsSub').textContent =
+                    t('systemsSub');
+
+
+                /* Showcase */
+
+                $('showcaseKicker').textContent =
+                    t('showcaseKicker');
+
+                $('showcaseTitle').textContent =
+                    t('showcaseTitle');
+
+                $('showcaseSub').textContent =
+                    t('showcaseSub');
+
+
+                /* About */
+
+                $('philosophyKicker').textContent =
+                    t('philosophy');
+
+                $('builtFast').textContent =
+                    t('builtFast');
+
+                $('philosophySub').textContent =
+                    t('philosophySub');
+
+
+                const aboutData = [
+
+                    [
+                        'control',
+                        'controlText'
+                    ],
+
+                    [
+                        'performanceTitle',
+                        'performanceText'
+                    ],
+
+                    [
+                        'clean',
+                        'cleanText'
+                    ],
+
+                    [
+                        'design',
+                        'designText'
+                    ],
+
+                    [
+                        'freeTitle',
+                        'freeText'
+                    ]
+
+                ];
+
+
+                document
+                    .querySelectorAll('.about-item')
+                    .forEach((item, i) => {
+
+                        if (!aboutData[i]) {
+                            return;
+                        }
+
+                        const [
+                            titleKey,
+                            textKey
+                        ] =
+                            aboutData[i];
+
+                        item
+                            .querySelector(
+                                '.section-kicker'
+                            )
+                            .textContent =
+                            t(titleKey);
+
+                        item
+                            .querySelector('p')
+                            .textContent =
+                            t(textKey);
+
+                    });
+
+
+                /* Footer */
+
+                $('footerDescription').textContent =
+                    t('footerDescription');
+
+                $('footerPages').textContent =
+                    t('pages');
+
+                $('footerContact').textContent =
+                    t('contact');
+
+                $('footerHome').textContent =
+                    t('footerHome');
+
+                $('footerIcare').textContent =
+                    t('footerIcare');
+
+                $('footerBottom').innerHTML =
+                    `© 2026
+                    <b style="color:var(--cyan)">
+                        i TOOLS : by mohammed
+                    </b>
+                    // ${t('rights')}`;
+
+
+                /* Lightbox */
+
+                lightbox.setAttribute(
+                    'aria-label',
+                    isArabic
+                        ? 'عارض الصور'
+                        : 'Image viewer'
+                );
+
+                lightboxClose.setAttribute(
+                    'aria-label',
+                    t('closeViewer')
+                );
+
+                lightboxPrev.setAttribute(
+                    'aria-label',
+                    t('previousProject')
+                );
+
+                lightboxNext.setAttribute(
+                    'aria-label',
+                    t('nextProject')
+                );
+
+
+                /* Boot */
+
+                $('bootSub').textContent =
+                    t('bootSub');
+
+
+                /*
+                 * Important:
+                 * Render dynamic image content again after the
+                 * language changes. Image URLs NEVER change.
+                 */
+
+                renderSystems();
+
+                renderShowcase();
+
+                updateLightbox();
+
+            }
+
+
+            /* =========================================================
+               LANGUAGE BUTTON
+            ========================================================= */
+
+            langToggle?.addEventListener(
+                'click',
+                () => {
+
+                    applyLanguage(
+                        currentLang === 'ar'
+                            ? 'en'
+                            : 'ar'
+                    );
+
+                }
+            );
+
+
+            /* =========================================================
+               BOOT
+            ========================================================= */
+
+            (function startBoot() {
+
+                const boot =
+                    $('boot');
+
+                const bar =
+                    $('bootbar');
+
+                const pct =
+                    $('bootpct');
+
+                const log =
+                    $('bootlog');
+
+                if (!boot) {
+                    return;
+                }
+
+                let progress = 0;
+                let msgIndex = 0;
+
+
+                function getMessages() {
+
+                    return [
+                        t('linking'),
+                        t('visual'),
+                        t('github'),
+                        t('responsive'),
+                        t('ready')
+                    ];
+
+                }
+
+
+                function step() {
+
+                    progress +=
+                        Math.random() * 8 + 4;
+
+                    if (progress > 100) {
+                        progress = 100;
+                    }
+
+                    if (bar) {
+                        bar.style.width =
+                            progress + '%';
+                    }
+
+                    if (pct) {
+
+                        pct.textContent =
+                            Math.floor(progress) +
+                            '%';
+                    }
+
+
+                    const messages =
+                        getMessages();
+
+
+                    if (
+                        log &&
+                        Math.floor(progress) % 18 < 4 &&
+                        msgIndex < messages.length
+                    ) {
+
+                        log.textContent =
+                            messages[msgIndex++];
+
+                    }
+
+
+                    if (progress < 100) {
+
+                        setTimeout(
+                            step,
+                            70 +
+                            Math.random() * 90
+                        );
+
+                    }
+
+                    else {
+
+                        setTimeout(
+                            () => {
+
+                                boot.classList.add(
+                                    'hide'
+                                );
+
+                            },
+                            500
+                        );
+
+                    }
+
+                }
+
+
+                step();
+
+            })();
+
+
+            /* =========================================================
+               INIT
+            ========================================================= */
+
+            applyLanguage(
+                currentLang
+            );
+
+            restartShowcase();
+
+            document
+                .querySelectorAll('.reveal')
+                .forEach(el => {
+
+                    revealObserver.observe(
+                        el
+                    );
+
+                });
+
+
+        })();
+    </script>
+
+</body>
+</html>
+```

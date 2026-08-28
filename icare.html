@@ -1,0 +1,7934 @@
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <meta name="theme-color" content="#05060d">
+
+    <title>iCARE TOOL : i TOOLS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        :root {
+
+            --bg: #05060d;
+            --bg2: #080a13;
+
+            --panel: #0a0d18;
+            --panel2: #0d1020;
+
+            --text: #eaf7ff;
+            --heading: #f4fbff;
+
+            --muted: #8692ad;
+            --muted-strong: #aab6c8;
+
+            --cyan: #00f6ff;
+            --cyan-soft: rgba(0,246,255,.10);
+
+            --pink: #ff28cf;
+            --pink-soft: rgba(255,40,207,.10);
+
+            --violet: #8d66ff;
+            --green: #28ff9a;
+            --orange: #ff9d43;
+
+            --line: rgba(0,246,255,.18);
+            --line-soft: rgba(0,246,255,.10);
+            --grid-line: rgba(0,246,255,.07);
+
+            --surface: #060912;
+            --surface-2: #08101a;
+
+            --nav-bg: rgba(7,9,17,.84);
+            --scanline: rgba(255,255,255,.018);
+
+            --button-text: #ecfcff;
+
+            --head: "Orbitron", sans-serif;
+            --body: "Rajdhani", sans-serif;
+            --mono: "Share Tech Mono", monospace;
+        }
+
+
+        /* =========================================================
+           LIGHT THEME
+        ========================================================= */
+
+        html[data-theme="light"] {
+
+            --bg: #edf3f8;
+            --bg2: #e4edf4;
+
+            --panel: #f8fbfd;
+            --panel2: #eef5f9;
+
+            --text: #182331;
+            --heading: #0c1623;
+
+            --muted: #55647a;
+            --muted-strong: #2f4054;
+
+            --cyan: #008c99;
+            --cyan-soft: rgba(0,140,153,.12);
+
+            --pink: #a80d83;
+            --pink-soft: rgba(168,13,131,.10);
+
+            --violet: #5a3ec8;
+            --green: #07834f;
+            --orange: #c66c12;
+
+            --line: rgba(0,140,153,.25);
+            --line-soft: rgba(0,140,153,.14);
+
+            --grid-line: rgba(0,140,153,.09);
+
+            --surface: #f3f8fb;
+            --surface-2: #eaf2f7;
+
+            --nav-bg: rgba(248,251,253,.92);
+
+            --scanline: rgba(20,45,65,.03);
+
+            --button-text: #0c1623;
+        }
+
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+
+            scrollbar-width: thin;
+
+            scrollbar-color:
+                var(--cyan)
+                var(--bg);
+
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            width: 100%;
+
+            overflow-x: hidden;
+
+            font-family:
+                var(--body);
+
+            color:
+                var(--text);
+
+            line-height: 1.55;
+
+            background:
+                radial-gradient(
+                    circle at 20% 0%,
+                    var(--cyan-soft),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 15%,
+                    var(--pink-soft),
+                    transparent 28%
+                ),
+
+                linear-gradient(
+                    180deg,
+                    var(--bg2) 0%,
+                    var(--bg) 100%
+                );
+
+            transition:
+                background .35s ease,
+                color .35s ease;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+            background: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        ::selection {
+            background:
+                var(--cyan);
+
+            color:
+                #fff;
+        }
+
+        body::before {
+            content: "";
+
+            position: fixed;
+            inset: 0;
+
+            z-index: 9000;
+
+            pointer-events: none;
+
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0 2px,
+                    var(--scanline) 3px 4px
+                );
+        }
+
+
+        /* =========================================================
+           BACKGROUND
+        ========================================================= */
+
+        #particles {
+            position: fixed;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            z-index: 0;
+
+            pointer-events: none;
+        }
+
+        .grid {
+            position: fixed;
+            inset: 0;
+
+            z-index: 0;
+
+            pointer-events: none;
+
+            opacity: .32;
+
+            background-image:
+                linear-gradient(
+                    var(--grid-line) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    var(--grid-line) 1px,
+                    transparent 1px
+                );
+
+            background-size:
+                42px 42px;
+        }
+
+
+        /* =========================================================
+           BOOT
+        ========================================================= */
+
+        #boot {
+            position: fixed;
+            inset: 0;
+
+            z-index: 99999;
+
+            display: grid;
+            place-items: center;
+
+            padding: 20px;
+
+            background:
+                var(--bg);
+
+            animation:
+                bootAutoHide .7s ease 5s forwards;
+
+            transition:
+                opacity .7s ease,
+                visibility .7s ease;
+        }
+
+        @keyframes bootAutoHide {
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+        }
+
+        #boot.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .bootbox {
+            width:
+                min(720px,100%);
+
+            padding:
+                clamp(20px,5vw,34px);
+        }
+
+        .bootlogo {
+            color:
+                var(--cyan);
+
+            text-align:
+                center;
+
+            font:
+                900 clamp(2.2rem,10vw,5.4rem)/1
+                var(--head);
+
+            letter-spacing:
+                .08em;
+
+            text-shadow:
+                0 0 20px var(--cyan),
+                0 0 70px var(--pink-soft);
+        }
+
+        .bootsub {
+            margin:
+                18px 0 32px;
+
+            color:
+                var(--pink);
+
+            text-align:
+                center;
+
+            font:
+                700 clamp(.62rem,2vw,.9rem)
+                var(--mono);
+
+            letter-spacing:
+                .18em;
+
+            line-height:
+                1.7;
+        }
+
+        .bootline {
+            height: 4px;
+
+            overflow: hidden;
+
+            background:
+                var(--surface-2);
+
+            border:
+                1px solid var(--line);
+        }
+
+        .bootline span {
+            display: block;
+
+            width: 0;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--cyan),
+                    var(--pink),
+                    var(--violet)
+                );
+
+            box-shadow:
+                0 0 26px var(--cyan);
+
+            transition:
+                width .18s ease;
+        }
+
+        .bootpct {
+            margin-top:
+                12px;
+
+            color:
+                var(--cyan);
+
+            text-align:
+                center;
+
+            font:
+                700 .8rem
+                var(--mono);
+
+            letter-spacing:
+                .16em;
+        }
+
+        .bootlog {
+            min-height:
+                18px;
+
+            margin-top:
+                20px;
+
+            color:
+                var(--muted);
+
+            text-align:
+                center;
+
+            font:
+                700 .72rem
+                var(--mono);
+        }
+
+
+        /* =========================================================
+           APP
+        ========================================================= */
+
+        #app {
+            position: relative;
+            z-index: 5;
+        }
+
+        section {
+            position: relative;
+
+            min-height: 100svh;
+
+            padding:
+                clamp(80px,8vw,110px)
+                clamp(16px,6vw,6vw)
+                clamp(65px,7vw,90px);
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content:
+                center;
+
+            scroll-margin-top:
+                80px;
+        }
+
+        .container {
+            width:
+                min(1180px,100%);
+
+            margin:
+                auto;
+
+            min-width:
+                0;
+        }
+
+
+        /* =========================================================
+           REVEAL
+        ========================================================= */
+
+        .reveal {
+            opacity: 0;
+
+            transform:
+                translateY(38px)
+                scale(.98);
+
+            transition:
+                opacity .85s cubic-bezier(.2,.75,.25,1),
+                transform .85s cubic-bezier(.2,.75,.25,1);
+
+            will-change:
+                opacity,
+                transform;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: none;
+        }
+
+
+        /* =========================================================
+           TITLES
+        ========================================================= */
+
+        .kicker {
+            margin-bottom:
+                12px;
+
+            color:
+                var(--green);
+
+            font:
+                700 .72rem
+                var(--mono);
+
+            letter-spacing:
+                .20em;
+
+            text-transform:
+                uppercase;
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .title {
+            color:
+                transparent;
+
+            font:
+                900 clamp(1.8rem,5vw,3.6rem)
+                var(--head);
+
+            line-height:
+                1.1;
+
+            letter-spacing:
+                .04em;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--cyan),
+                    var(--pink),
+                    var(--violet)
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+        }
+
+        .subtxt {
+            max-width:
+                780px;
+
+            margin-top:
+                14px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                clamp(.95rem,2vw,1.05rem);
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .divider {
+            position: relative;
+
+            height: 1px;
+
+            margin:
+                28px 0 34px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--cyan),
+                    var(--pink),
+                    transparent
+                );
+        }
+
+        .divider::after {
+            content: "";
+
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background:
+                var(--cyan);
+
+            box-shadow:
+                0 0 16px var(--cyan),
+                0 0 30px var(--pink);
+
+            transform:
+                translate(-50%,-50%);
+        }
+
+
+        /* =========================================================
+           PANEL
+        ========================================================= */
+
+        .panel {
+            position: relative;
+
+            overflow: hidden;
+
+            min-width:
+                0;
+
+            border:
+                1px solid var(--line);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--panel2),
+                    var(--panel)
+                );
+
+            box-shadow:
+                0 0 40px
+                rgba(0,246,255,.12),
+
+                0 0 90px
+                rgba(255,40,207,.07);
+
+            isolation:
+                isolate;
+        }
+
+        .panel::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            border:
+                1px solid var(--line-soft);
+
+            box-shadow:
+                inset 0 0 20px
+                var(--cyan-soft);
+
+            pointer-events:
+                none;
+        }
+
+        .panel::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at 10% 0%,
+                    var(--cyan-soft),
+                    transparent 26%
+                ),
+
+                radial-gradient(
+                    circle at 90% 100%,
+                    var(--pink-soft),
+                    transparent 30%
+                );
+
+            pointer-events:
+                none;
+        }
+
+        .panel > * {
+            position: relative;
+
+            z-index:
+                1;
+        }
+
+
+        /* =========================================================
+           BUTTON
+        ========================================================= */
+
+        .btn {
+            position: relative;
+
+            display: inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            min-height:
+                48px;
+
+            padding:
+                13px
+                clamp(16px,2vw,24px);
+
+            gap:
+                9px;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid var(--cyan);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--cyan-soft),
+                    transparent
+                );
+
+            color:
+                var(--button-text);
+
+            font:
+                700 clamp(.68rem,1.3vw,.76rem)
+                var(--head);
+
+            letter-spacing:
+                .10em;
+
+            line-height:
+                1.35;
+
+            text-align:
+                center;
+
+            text-transform:
+                uppercase;
+
+            clip-path:
+                polygon(
+                    10px 0,
+                    100% 0,
+                    100% calc(100% - 10px),
+                    calc(100% - 10px) 100%,
+                    0 100%,
+                    0 10px
+                );
+
+            box-shadow:
+                0 0 14px
+                var(--cyan-soft);
+
+            transition:
+                transform .28s,
+                background .28s,
+                box-shadow .28s;
+        }
+
+        .btn::before {
+            content: "";
+
+            position: absolute;
+
+            inset:
+                -20% -60%;
+
+            background:
+                linear-gradient(
+                    105deg,
+                    transparent 38%,
+                    rgba(255,255,255,.05) 43%,
+                    rgba(255,255,255,.8) 50%,
+                    rgba(255,255,255,.05) 57%,
+                    transparent 62%
+                );
+
+            transform:
+                translateX(-80%)
+                skewX(-18deg);
+
+            transition:
+                transform .7s
+                cubic-bezier(.2,.7,.2,1);
+        }
+
+        .btn:hover::before {
+            transform:
+                translateX(80%)
+                skewX(-18deg);
+        }
+
+        .btn:hover {
+            transform:
+                translateY(-3px);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--cyan),
+                    #006b72
+                );
+
+            color:
+                #fff;
+
+            box-shadow:
+                0 0 18px var(--cyan),
+                0 0 42px var(--cyan-soft);
+        }
+
+        .btn.pink {
+            border-color:
+                var(--pink);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--pink-soft),
+                    transparent
+                );
+
+            box-shadow:
+                0 0 14px
+                var(--pink-soft);
+        }
+
+        .btn.pink:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--pink),
+                    #70005b
+                );
+
+            box-shadow:
+                0 0 18px var(--pink),
+                0 0 42px var(--pink-soft);
+        }
+
+
+        /* =========================================================
+           TOPBAR
+        ========================================================= */
+
+        .topbar {
+            position: fixed;
+
+            top: 16px;
+
+            left: 18px;
+            right: 18px;
+
+            z-index:
+                40;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
+
+            padding:
+                11px 14px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                8px;
+
+            background:
+                var(--nav-bg);
+
+            backdrop-filter:
+                blur(16px);
+
+            box-shadow:
+                0 0 25px
+                rgba(0,0,0,.12);
+        }
+
+        .logo-mini {
+            color:
+                var(--cyan);
+
+            font:
+                900 .9rem
+                var(--head);
+
+            letter-spacing:
+                .12em;
+
+            text-shadow:
+                0 0 12px
+                var(--cyan);
+
+            white-space:
+                nowrap;
+        }
+
+        .logo-mini span {
+            color:
+                var(--pink);
+        }
+
+        .toplinks {
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                flex-end;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                16px;
+
+            color:
+                var(--muted);
+
+            font:
+                700 .65rem
+                var(--mono);
+
+            letter-spacing:
+                .12em;
+        }
+
+        .toplinks a {
+            transition:
+                color .25s ease;
+        }
+
+        .toplinks a:hover {
+            color:
+                var(--cyan);
+        }
+
+        .mobile-back {
+            display:
+                none;
+
+            color:
+                var(--pink);
+
+            font:
+                700 .62rem
+                var(--mono);
+        }
+
+
+        /* =========================================================
+           THEME + LANGUAGE
+        ========================================================= */
+
+        .theme-toggle,
+        .lang-toggle {
+
+            position: fixed;
+
+            bottom: 20px;
+
+            z-index: 120;
+
+            width: 52px;
+            height: 52px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--surface);
+
+            cursor: pointer;
+
+            transition:
+                transform .25s,
+                background .25s,
+                color .25s,
+                box-shadow .25s;
+        }
+
+        .theme-toggle {
+
+            right: 20px;
+
+            border:
+                1px solid
+                var(--cyan);
+
+            color:
+                var(--cyan);
+
+            font-size:
+                1.1rem;
+
+            box-shadow:
+                0 0 18px
+                var(--cyan-soft),
+
+                inset 0 0 16px
+                var(--cyan-soft);
+        }
+
+        .lang-toggle {
+
+            right: 82px;
+
+            border:
+                1px solid
+                var(--pink);
+
+            color:
+                var(--pink);
+
+            font:
+                800 .68rem
+                var(--head);
+
+            letter-spacing:
+                .08em;
+
+            box-shadow:
+                0 0 18px
+                var(--pink-soft),
+
+                inset 0 0 16px
+                var(--pink-soft);
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            transform:
+                translateY(-3px);
+        }
+
+        .theme-toggle:hover {
+            background:
+                var(--cyan);
+
+            color:
+                #fff;
+        }
+
+        .lang-toggle:hover {
+            background:
+                var(--pink);
+
+            color:
+                #fff;
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            padding-top:
+                145px;
+        }
+
+        .hero-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                minmax(0,1fr)
+                minmax(0,1fr);
+
+            gap:
+                28px;
+
+            align-items:
+                center;
+        }
+
+        .hero-copy {
+            min-width:
+                0;
+        }
+
+        .flag {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap:
+                9px;
+
+            max-width:
+                100%;
+
+            padding:
+                8px 15px;
+
+            color:
+                var(--green);
+
+            border:
+                1px solid
+                var(--green);
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(40,255,154,.04);
+
+            font:
+                700 .65rem
+                var(--mono);
+
+            letter-spacing:
+                .12em;
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .hero h1 {
+
+            margin:
+                26px 0 14px;
+
+            font:
+                900 clamp(3rem,7vw,6.2rem)/.95
+                var(--head);
+
+            letter-spacing:
+                .07em;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--cyan),
+                    #d5fbff 28%,
+                    var(--pink) 64%,
+                    var(--violet)
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+
+            filter:
+                drop-shadow(
+                    0 0 28px
+                    var(--cyan-soft)
+                );
+        }
+
+        .hero h2 {
+
+            color:
+                var(--muted);
+
+            font:
+                700 .92rem
+                var(--mono);
+
+            letter-spacing:
+                .23em;
+        }
+
+        .hero-description {
+
+            max-width:
+                760px;
+
+            margin:
+                22px 0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                clamp(1rem,2vw,1.08rem);
+        }
+
+        .hero-info {
+
+            width:
+                min(760px,100%);
+
+            padding:
+                14px 18px;
+
+            border-left:
+                2px solid
+                var(--cyan);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--cyan-soft),
+                    transparent
+                );
+        }
+
+        .hero-info strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                6px;
+
+            color:
+                var(--cyan);
+
+            font:
+                700 .62rem
+                var(--mono);
+
+            letter-spacing:
+                .18em;
+        }
+
+        .hero-info p {
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                .88rem;
+
+            line-height:
+                1.7;
+        }
+
+        .hero-actions {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                12px;
+
+            margin-top:
+                25px;
+        }
+
+
+        /* =========================================================
+           VIDEO
+        ========================================================= */
+
+        .program-card {
+            padding:
+                16px;
+        }
+
+        .program-video {
+
+            position:
+                relative;
+
+            width:
+                100%;
+
+            aspect-ratio:
+                16 / 9;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid
+                var(--line);
+
+            background:
+                #02040a;
+
+            box-shadow:
+                inset 0 0 40px
+                rgba(0,0,0,.45),
+
+                0 0 30px
+                var(--cyan-soft);
+        }
+
+        .program-video iframe {
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            border:
+                0;
+        }
+
+        .program-badge {
+
+            position:
+                absolute;
+
+            top:
+                14px;
+
+            left:
+                14px;
+
+            z-index:
+                3;
+
+            padding:
+                7px 10px;
+
+            color:
+                var(--pink);
+
+            border:
+                1px solid
+                var(--pink);
+
+            background:
+                rgba(5,10,18,.88);
+
+            font:
+                700 .6rem
+                var(--mono);
+
+            letter-spacing:
+                .13em;
+        }
+
+        .program-caption {
+
+            padding:
+                15px 4px 3px;
+        }
+
+        .program-caption small {
+
+            display:
+                block;
+
+            margin-bottom:
+                7px;
+
+            color:
+                var(--cyan);
+
+            font:
+                700 .62rem
+                var(--mono);
+
+            letter-spacing:
+                .16em;
+        }
+
+        .program-caption h3 {
+
+            margin-bottom:
+                5px;
+
+            color:
+                var(--heading);
+
+            font:
+                900 1.4rem
+                var(--head);
+        }
+
+        .program-caption p {
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                .9rem;
+        }
+
+
+        /* =========================================================
+           FEATURES
+        ========================================================= */
+
+        .feature-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3,minmax(0,1fr));
+
+            gap:
+                18px;
+        }
+
+        .feature {
+
+            min-height:
+                225px;
+
+            padding:
+                24px 20px;
+
+            transition:
+                transform .35s,
+                box-shadow .35s;
+        }
+
+        .feature:hover {
+
+            transform:
+                translateY(-7px);
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,.28),
+
+                0 0 30px
+                var(--cyan-soft);
+        }
+
+        .feature-icon {
+
+            width:
+                60px;
+
+            height:
+                60px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            margin-bottom:
+                18px;
+
+            border:
+                1px solid
+                var(--cyan);
+
+            color:
+                var(--cyan);
+
+            font:
+                900 1.15rem
+                var(--head);
+
+            box-shadow:
+                0 0 24px
+                var(--cyan-soft);
+        }
+
+        .feature h3 {
+
+            margin-bottom:
+                10px;
+
+            color:
+                var(--cyan);
+
+            font:
+                800 .95rem
+                var(--head);
+
+            letter-spacing:
+                .06em;
+        }
+
+        .feature p {
+
+            color:
+                var(--muted);
+
+            font-size:
+                .89rem;
+        }
+
+        .feature .meta {
+
+            margin-top:
+                15px;
+
+            color:
+                var(--muted);
+
+            font:
+                700 .59rem
+                var(--mono);
+
+            letter-spacing:
+                .12em;
+        }
+
+
+        /* =========================================================
+           SHOWCASE
+           LTR داخليًا حتى مع العربية
+        ========================================================= */
+
+        .showcase {
+
+            position:
+                relative;
+
+            width:
+                100%;
+
+            overflow:
+                hidden;
+
+            direction:
+                ltr;
+        }
+
+        .showcase-track {
+
+            display:
+                flex;
+
+            width:
+                100%;
+
+            direction:
+                ltr;
+
+            transition:
+                transform .75s
+                cubic-bezier(.2,.7,.2,1);
+
+            will-change:
+                transform;
+        }
+
+        .showcase-slide {
+
+            min-width:
+                100%;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                minmax(0,1.18fr)
+                minmax(280px,.82fr);
+
+            align-items:
+                center;
+
+            gap:
+                28px;
+
+            padding:
+                clamp(18px,3vw,28px);
+
+            direction:
+                ltr;
+        }
+
+        .showcase-image {
+
+            position:
+                relative;
+
+            width:
+                100%;
+
+            aspect-ratio:
+                16 / 10;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            overflow:
+                hidden;
+
+            background:
+                var(--surface);
+
+            border:
+                1px solid
+                var(--line);
+
+            cursor:
+                zoom-in;
+
+            touch-action:
+                pan-y;
+
+            direction:
+                ltr;
+
+            isolation:
+                isolate;
+        }
+
+        .showcase-image img {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            display:
+                block;
+
+            object-fit:
+                contain;
+
+            object-position:
+                center;
+
+            opacity:
+                0;
+
+            transform:
+                scale(.975);
+
+            transition:
+                opacity .6s ease,
+                transform .65s
+                cubic-bezier(.2,.7,.2,1);
+
+            user-select:
+                none;
+
+            -webkit-user-drag:
+                none;
+
+            direction:
+                ltr;
+
+            unicode-bidi:
+                isolate;
+        }
+
+        .showcase-image img.ready {
+
+            opacity:
+                1;
+
+            transform:
+                scale(1);
+        }
+
+        .showcase-image:hover img.ready {
+
+            transform:
+                scale(1.012);
+        }
+
+        .showcase-image::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            pointer-events:
+                none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(0,246,255,.025),
+                    transparent 40%,
+                    rgba(255,40,207,.025)
+                );
+        }
+
+        .image-index {
+
+            position:
+                absolute;
+
+            top:
+                12px;
+
+            left:
+                12px;
+
+            z-index:
+                4;
+
+            padding:
+                6px 9px;
+
+            background:
+                rgba(5,10,18,.86);
+
+            border:
+                1px solid
+                var(--line);
+
+            color:
+                var(--cyan);
+
+            font:
+                700 .58rem
+                var(--mono);
+
+            letter-spacing:
+                .13em;
+        }
+
+        .zoom-hint {
+
+            position:
+                absolute;
+
+            right:
+                12px;
+
+            bottom:
+                12px;
+
+            z-index:
+                4;
+
+            padding:
+                6px 10px;
+
+            background:
+                rgba(5,10,18,.86);
+
+            border:
+                1px solid
+                var(--line);
+
+            color:
+                var(--cyan);
+
+            font:
+                700 .56rem
+                var(--mono);
+
+            letter-spacing:
+                .10em;
+
+            opacity:
+                0;
+
+            transition:
+                opacity .25s ease;
+
+            pointer-events:
+                none;
+        }
+
+        .showcase-image:hover .zoom-hint {
+            opacity:
+                1;
+        }
+
+        .showcase-info {
+
+            min-width:
+                0;
+
+            direction:
+                ltr;
+
+            text-align:
+                left;
+        }
+
+        html[dir="rtl"] .showcase-info {
+
+            direction:
+                rtl;
+
+            text-align:
+                right;
+        }
+
+        .showcase-tag {
+
+            display:
+                inline-block;
+
+            max-width:
+                100%;
+
+            margin-bottom:
+                14px;
+
+            padding:
+                6px 10px;
+
+            color:
+                var(--pink);
+
+            border:
+                1px solid
+                var(--pink);
+
+            font:
+                700 .61rem
+                var(--mono);
+
+            letter-spacing:
+                .12em;
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .showcase-info h3 {
+
+            margin-bottom:
+                12px;
+
+            color:
+                var(--heading);
+
+            font:
+                900 clamp(1.4rem,3vw,2.4rem)
+                var(--head);
+
+            line-height:
+                1.15;
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .showcase-info p {
+
+            color:
+                var(--muted);
+
+            font-size:
+                clamp(.92rem,1.6vw,1rem);
+
+            line-height:
+                1.75;
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .showcase-list {
+
+            display:
+                grid;
+
+            gap:
+                9px;
+
+            margin-top:
+                20px;
+        }
+
+        .showcase-list div {
+
+            display:
+                flex;
+
+            align-items:
+                flex-start;
+
+            gap:
+                10px;
+
+            color:
+                var(--muted-strong);
+
+            font:
+                700 .7rem
+                var(--mono);
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .showcase-dot {
+
+            width:
+                6px;
+
+            height:
+                6px;
+
+            flex:
+                0 0 6px;
+
+            margin-top:
+                7px;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--cyan);
+
+            box-shadow:
+                0 0 10px
+                var(--cyan);
+        }
+
+        .showcase-action {
+
+            margin-top:
+                22px;
+        }
+
+        .showcase-controls {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                14px;
+
+            padding:
+                0
+                clamp(14px,3vw,28px)
+                clamp(16px,3vw,24px);
+
+            direction:
+                ltr;
+        }
+
+        .showcase-btn {
+
+            width:
+                44px;
+
+            height:
+                44px;
+
+            flex:
+                0 0 44px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border:
+                1px solid
+                var(--cyan);
+
+            border-radius:
+                50%;
+
+            background:
+                var(--surface);
+
+            color:
+                var(--cyan);
+
+            font-size:
+                1.35rem;
+
+            transition:
+                transform .25s,
+                background .25s,
+                color .25s,
+                box-shadow .25s;
+        }
+
+        .showcase-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                var(--cyan);
+
+            color:
+                #fff;
+
+            box-shadow:
+                0 0 28px
+                var(--cyan-soft);
+        }
+
+        .showcase-dots {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                8px;
+
+            direction:
+                ltr;
+        }
+
+        .showcase-dot-button {
+
+            width:
+                8px;
+
+            height:
+                8px;
+
+            padding:
+                0;
+
+            border:
+                0;
+
+            border-radius:
+                99px;
+
+            background:
+                #637282;
+
+            transition:
+                width .35s ease,
+                background .35s ease,
+                box-shadow .35s ease;
+        }
+
+        .showcase-dot-button.active {
+
+            width:
+                30px;
+
+            background:
+                var(--pink);
+
+            box-shadow:
+                0 0 14px
+                var(--pink-soft);
+        }
+
+
+        /* =========================================================
+           MANAGEMENT
+        ========================================================= */
+
+        .management-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2,minmax(0,1fr));
+
+            gap:
+                18px;
+        }
+
+        .list-editor {
+
+            padding:
+                24px;
+        }
+
+        .list-row {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                12px;
+
+            padding:
+                13px 0;
+
+            border-bottom:
+                1px solid
+                var(--line-soft);
+
+            color:
+                var(--muted-strong);
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .list-row b {
+
+            min-width:
+                75px;
+
+            color:
+                var(--pink);
+
+            font:
+                800 .63rem
+                var(--mono);
+        }
+
+        .management-note {
+
+            margin-top:
+                14px;
+
+            color:
+                var(--muted);
+
+            font:
+                700 .63rem
+                var(--mono);
+        }
+
+        .download {
+
+            min-height:
+                100%;
+
+            padding:
+                28px;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            text-align:
+                center;
+        }
+
+        .version {
+
+            padding:
+                7px 14px;
+
+            color:
+                var(--green);
+
+            border:
+                1px solid
+                var(--green);
+
+            border-radius:
+                999px;
+
+            font:
+                700 .66rem
+                var(--mono);
+
+            letter-spacing:
+                .15em;
+        }
+
+        .download h3 {
+
+            margin:
+                18px 0 8px;
+
+            color:
+                var(--heading);
+
+            font:
+                900 1.75rem
+                var(--head);
+        }
+
+        .download p {
+
+            max-width:
+                520px;
+
+            margin-bottom:
+                20px;
+
+            color:
+                var(--muted);
+        }
+
+        .safe {
+
+            margin-top:
+                12px;
+
+            color:
+                var(--muted);
+
+            font:
+                700 .63rem
+                var(--mono);
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+
+            position:
+                relative;
+
+            padding:
+                60px
+                clamp(18px,6vw,6vw)
+                24px;
+
+            border-top:
+                1px solid
+                var(--line);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--surface-2) 0%,
+                    var(--bg) 100%
+                );
+        }
+
+        html[data-theme="light"] footer {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #e9f2f7 0%,
+                    #edf3f8 55%,
+                    #f2f7fa 100%
+                );
+
+            border-top-color:
+                rgba(0,122,133,.20);
+
+            box-shadow:
+                inset 0 18px 40px
+                rgba(45,75,95,.035);
+        }
+
+        html[data-theme="light"] footer::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            left:
+                0;
+
+            right:
+                0;
+
+            top:
+                0;
+
+            height:
+                1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(0,140,153,.35),
+                    rgba(168,13,131,.25),
+                    transparent
+                );
+        }
+
+        .footer-grid {
+
+            width:
+                min(1180px,100%);
+
+            margin:
+                auto;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1.3fr
+                1fr
+                1fr
+                1fr;
+
+            gap:
+                28px;
+        }
+
+        .ftitle {
+
+            margin-bottom:
+                12px;
+
+            color:
+                var(--cyan);
+
+            font:
+                900 clamp(1rem,2vw,1.25rem)
+                var(--head);
+
+            text-shadow:
+                0 0 14px
+                var(--cyan);
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        footer h4 {
+
+            margin-bottom:
+                13px;
+
+            color:
+                var(--pink);
+
+            font:
+                800 .75rem
+                var(--head);
+
+            letter-spacing:
+                .15em;
+        }
+
+        footer p,
+        footer a {
+
+            display:
+                block;
+
+            margin-bottom:
+                7px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                .85rem;
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        footer a {
+
+            transition:
+                color .25s ease;
+        }
+
+        footer a:hover {
+
+            color:
+                var(--cyan);
+        }
+
+        html[data-theme="light"] .ftitle {
+
+            text-shadow:
+                0 0 12px
+                rgba(0,140,153,.18);
+        }
+
+        html[data-theme="light"] footer p,
+        html[data-theme="light"] footer a {
+
+            color:
+                #516579;
+        }
+
+        html[data-theme="light"] footer h4 {
+
+            color:
+                #a80d83;
+        }
+
+        .foot {
+
+            margin-top:
+                35px;
+
+            padding-top:
+                20px;
+
+            color:
+                var(--muted);
+
+            text-align:
+                center;
+
+            border-top:
+                1px solid
+                var(--line-soft);
+
+            font:
+                700 .63rem
+                var(--mono);
+
+            letter-spacing:
+                .10em;
+
+            line-height:
+                1.8;
+        }
+
+        html[data-theme="light"] .foot {
+
+            border-top-color:
+                rgba(0,122,133,.14);
+
+            color:
+                #5b7084;
+        }
+
+
+        /* =========================================================
+           LIGHTBOX
+        ========================================================= */
+
+        #lightbox {
+
+            position:
+                fixed;
+
+            inset:
+                0;
+
+            z-index:
+                5000;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                20px;
+
+            opacity:
+                0;
+
+            visibility:
+                hidden;
+
+            pointer-events:
+                none;
+
+            transition:
+                opacity .35s ease,
+                visibility .35s ease;
+        }
+
+        #lightbox.active {
+
+            opacity:
+                1;
+
+            visibility:
+                visible;
+
+            pointer-events:
+                auto;
+        }
+
+        .lightbox-backdrop {
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            background:
+                rgba(0,0,0,.90);
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+        .lightbox-box {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            width:
+                min(1120px,94vw);
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                center;
+
+            gap:
+                14px;
+
+            direction:
+                ltr;
+        }
+
+        .lightbox-image-wrap {
+
+            width:
+                100%;
+
+            max-height:
+                78vh;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            overflow:
+                hidden;
+        }
+
+        .lightbox-image-wrap img {
+
+            max-width:
+                100%;
+
+            max-height:
+                75vh;
+
+            object-fit:
+                contain;
+
+            border:
+                1px solid
+                var(--line);
+
+            box-shadow:
+                0 0 60px
+                rgba(0,0,0,.55);
+
+            opacity:
+                0;
+
+            transform:
+                scale(.965);
+
+            transition:
+                opacity .35s ease,
+                transform .4s
+                cubic-bezier(.2,.7,.2,1);
+
+            direction:
+                ltr;
+        }
+
+        #lightbox.active
+        .lightbox-image-wrap img {
+
+            opacity:
+                1;
+
+            transform:
+                scale(1);
+        }
+
+        .lightbox-caption {
+
+            padding:
+                8px 16px;
+
+            max-width:
+                90%;
+
+            color:
+                var(--text);
+
+            background:
+                rgba(0,0,0,.6);
+
+            border:
+                1px solid
+                var(--line);
+
+            font:
+                700 .78rem
+                var(--mono);
+
+            letter-spacing:
+                .12em;
+
+            text-align:
+                center;
+        }
+
+        .lightbox-counter {
+
+            color:
+                var(--muted);
+
+            font:
+                700 .63rem
+                var(--mono);
+
+            letter-spacing:
+                .14em;
+        }
+
+        .lightbox-close,
+        .lightbox-nav {
+
+            position:
+                absolute;
+
+            z-index:
+                3;
+
+            width:
+                44px;
+
+            height:
+                44px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border:
+                1px solid
+                var(--cyan);
+
+            border-radius:
+                50%;
+
+            background:
+                var(--surface);
+
+            color:
+                var(--cyan);
+
+            transition:
+                background .25s,
+                color .25s,
+                box-shadow .25s;
+        }
+
+        .lightbox-close {
+
+            top:
+                0;
+
+            right:
+                0;
+
+            font-size:
+                1rem;
+        }
+
+        .lightbox-nav {
+
+            top:
+                50%;
+
+            transform:
+                translateY(-50%);
+
+            font-size:
+                1.4rem;
+        }
+
+        .lightbox-prev {
+
+            left:
+                8px;
+        }
+
+        .lightbox-next {
+
+            right:
+                8px;
+        }
+
+        .lightbox-close:hover,
+        .lightbox-nav:hover {
+
+            background:
+                var(--cyan);
+
+            color:
+                #fff;
+
+            box-shadow:
+                0 0 28px
+                var(--cyan-soft);
+        }
+
+
+        /* =========================================================
+           RTL
+        ========================================================= */
+
+        html[dir="rtl"] body {
+            direction:
+                rtl;
+        }
+
+        html[dir="rtl"] .hero-copy {
+            text-align:
+                right;
+        }
+
+        html[dir="rtl"] .hero-info {
+
+            border-left:
+                0;
+
+            border-right:
+                2px solid
+                var(--cyan);
+
+            background:
+                linear-gradient(
+                    270deg,
+                    var(--cyan-soft),
+                    transparent
+                );
+
+            text-align:
+                right;
+        }
+
+        html[dir="rtl"] .hero-actions {
+
+            justify-content:
+                flex-start;
+        }
+
+        html[dir="rtl"] .feature {
+
+            text-align:
+                right;
+        }
+
+        html[dir="rtl"] .list-row {
+
+            flex-direction:
+                row;
+        }
+
+        html[dir="rtl"] .list-editor,
+        html[dir="rtl"] .download {
+
+            text-align:
+                right;
+        }
+
+        html[dir="rtl"] .download {
+
+            align-items:
+                center;
+        }
+
+        html[dir="rtl"] .footer-grid {
+
+            text-align:
+                right;
+        }
+
+        html[dir="rtl"] .mobile-back {
+
+            direction:
+                rtl;
+        }
+
+        /*
+         * القائمة العلوية تبقى RTL من غير ما نغير ترتيب
+         * الـ showcase والصور.
+         */
+
+        html[dir="rtl"] .toplinks {
+
+            direction:
+                rtl;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width:1100px) {
+
+            .feature-grid {
+
+                grid-template-columns:
+                    repeat(2,minmax(0,1fr));
+            }
+
+            .footer-grid {
+
+                grid-template-columns:
+                    repeat(2,minmax(0,1fr));
+            }
+
+        }
+
+
+        @media (max-width:900px) {
+
+            section {
+                min-height:
+                    auto;
+            }
+
+            .hero-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .hero-copy {
+
+                text-align:
+                    center;
+            }
+
+            html[dir="rtl"] .hero-copy {
+
+                text-align:
+                    center;
+            }
+
+            .hero-description {
+
+                margin-left:
+                    auto;
+
+                margin-right:
+                    auto;
+            }
+
+            .hero-info {
+
+                margin-left:
+                    auto;
+
+                margin-right:
+                    auto;
+
+                text-align:
+                    left;
+            }
+
+            html[dir="rtl"] .hero-info {
+
+                text-align:
+                    right;
+            }
+
+            .hero-actions {
+
+                justify-content:
+                    center;
+            }
+
+            .showcase-slide {
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    20px;
+            }
+
+            .showcase-image {
+
+                aspect-ratio:
+                    16 / 10;
+            }
+
+            .management-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+
+        @media (max-width:700px) {
+
+            .topbar {
+
+                left:
+                    10px;
+
+                right:
+                    10px;
+
+                padding:
+                    10px 12px;
+            }
+
+            .logo-mini {
+
+                font-size:
+                    .7rem;
+            }
+
+            .toplinks {
+
+                display:
+                    none;
+            }
+
+            .mobile-back {
+
+                display:
+                    block;
+            }
+
+            section {
+
+                padding:
+                    95px 14px 65px;
+            }
+
+            .hero {
+
+                padding-top:
+                    120px;
+            }
+
+            .flag {
+
+                padding:
+                    7px 11px;
+
+                font-size:
+                    .55rem;
+
+                letter-spacing:
+                    .08em;
+            }
+
+            .hero h1 {
+
+                font-size:
+                    clamp(
+                        2.5rem,
+                        14vw,
+                        4rem
+                    );
+            }
+
+            .hero h2 {
+
+                font-size:
+                    .72rem;
+
+                letter-spacing:
+                    .12em;
+            }
+
+            .hero-actions {
+
+                width:
+                    100%;
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    stretch;
+            }
+
+            .hero-actions .btn {
+
+                width:
+                    100%;
+            }
+
+            .feature-grid {
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    14px;
+            }
+
+            .feature {
+
+                min-height:
+                    0;
+
+                padding:
+                    22px 18px;
+            }
+
+            .showcase-slide {
+
+                padding:
+                    14px;
+            }
+
+            .showcase-image {
+
+                aspect-ratio:
+                    4 / 3;
+            }
+
+            .zoom-hint {
+
+                opacity:
+                    1;
+            }
+
+            .showcase-info h3 {
+
+                font-size:
+                    clamp(
+                        1.3rem,
+                        7vw,
+                        1.8rem
+                    );
+            }
+
+            .showcase-info p {
+
+                font-size:
+                    .9rem;
+
+                line-height:
+                    1.7;
+            }
+
+            .showcase-controls {
+
+                padding:
+                    0 14px 14px;
+            }
+
+            .showcase-btn {
+
+                width:
+                    40px;
+
+                height:
+                    40px;
+
+                flex-basis:
+                    40px;
+            }
+
+            .download {
+
+                padding:
+                    22px 18px;
+            }
+
+            .footer-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .theme-toggle {
+
+                width:
+                    46px;
+
+                height:
+                    46px;
+
+                right:
+                    12px;
+
+                bottom:
+                    12px;
+            }
+
+            .lang-toggle {
+
+                width:
+                    46px;
+
+                height:
+                    46px;
+
+                right:
+                    66px;
+
+                bottom:
+                    12px;
+
+                font-size:
+                    .6rem;
+            }
+
+            .lightbox-image-wrap img {
+
+                max-height:
+                    65vh;
+            }
+
+            .lightbox-close {
+
+                width:
+                    40px;
+
+                height:
+                    40px;
+
+                top:
+                    5px;
+
+                right:
+                    5px;
+            }
+
+            .lightbox-nav {
+
+                width:
+                    40px;
+
+                height:
+                    40px;
+            }
+
+            .lightbox-prev {
+
+                left:
+                    3px;
+            }
+
+            .lightbox-next {
+
+                right:
+                    3px;
+            }
+
+        }
+
+
+        @media (max-width:380px) {
+
+            section {
+
+                padding-left:
+                    10px;
+
+                padding-right:
+                    10px;
+            }
+
+            .showcase-slide {
+
+                padding:
+                    10px;
+            }
+
+            .showcase-dots {
+
+                gap:
+                    5px;
+            }
+
+            .showcase-dot-button.active {
+
+                width:
+                    22px;
+            }
+
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                scroll-behavior:
+                    auto !important;
+
+                animation-duration:
+                    .01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    .01ms !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         BOOT
+    ========================================================= -->
+
+    <div id="boot">
+
+        <div class="bootbox">
+
+            <div class="bootlogo">
+                iCARE TOOL
+            </div>
+
+            <div
+                class="bootsub"
+                id="bootSub"
+            >
+                FLAGSHIP MODULE //
+                SYSTEM INITIALIZATION
+            </div>
+
+            <div class="bootline">
+                <span id="bootbar"></span>
+            </div>
+
+            <div
+                class="bootpct"
+                id="bootpct"
+            >
+                0%
+            </div>
+
+            <div
+                class="bootlog"
+                id="bootlog"
+            >
+                Initializing iCARE interface...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BACKGROUND -->
+
+    <canvas id="particles"></canvas>
+
+    <div class="grid"></div>
+
+
+    <!-- =========================================================
+         TOPBAR
+    ========================================================= -->
+
+    <div class="topbar">
+
+        <a
+            class="logo-mini"
+            href="index.html"
+        >
+            i TOOLS <span>:</span> by mohammed
+        </a>
+
+
+        <nav class="toplinks">
+
+            <a
+                href="index.html"
+                id="navHome"
+            >
+                HOME
+            </a>
+
+            <a
+                href="#features"
+                id="navFeatures"
+            >
+                FEATURES
+            </a>
+
+            <a
+                href="#modules"
+                id="navModules"
+            >
+                MODULES
+            </a>
+
+            <a
+                href="#management"
+                id="navManagement"
+            >
+                MANAGEMENT
+            </a>
+
+            <a
+                href="#download"
+                id="navDownload"
+            >
+                DOWNLOAD
+            </a>
+
+        </nav>
+
+
+        <a
+            class="mobile-back"
+            href="index.html"
+            id="mobileBack"
+        >
+            ← HOME
+        </a>
+
+    </div>
+
+
+    <!-- =========================================================
+         LANGUAGE
+    ========================================================= -->
+
+    <button
+        class="lang-toggle"
+        id="langToggle"
+        type="button"
+        aria-label="Switch language"
+        title="Switch language"
+    >
+        <span id="langLabel">AR</span>
+    </button>
+
+
+    <!-- =========================================================
+         THEME
+    ========================================================= -->
+
+    <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Toggle theme"
+    >
+        ☾
+    </button>
+
+
+    <!-- =========================================================
+         LIGHTBOX
+    ========================================================= -->
+
+    <div
+        id="lightbox"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-label="iCARE image viewer"
+    >
+
+        <div
+            class="lightbox-backdrop"
+            id="lightboxBackdrop"
+        ></div>
+
+
+        <div class="lightbox-box">
+
+
+            <button
+                class="lightbox-close"
+                id="lightboxClose"
+                type="button"
+                aria-label="Close"
+            >
+                ✕
+            </button>
+
+
+            <button
+                class="lightbox-nav lightbox-prev"
+                id="lightboxPrev"
+                type="button"
+                aria-label="Previous"
+            >
+                ‹
+            </button>
+
+
+            <div class="lightbox-image-wrap">
+
+                <img
+                    id="lightboxImage"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+
+            <button
+                class="lightbox-nav lightbox-next"
+                id="lightboxNext"
+                type="button"
+                aria-label="Next"
+            >
+                ›
+            </button>
+
+
+            <div
+                class="lightbox-caption"
+                id="lightboxCaption"
+            ></div>
+
+
+            <div
+                class="lightbox-counter"
+                id="lightboxCounter"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
+
+    <main id="app">
+
+
+        <!-- =====================================================
+             HERO
+        ===================================================== -->
+
+        <section class="hero">
+
+            <div class="container">
+
+                <div class="hero-grid">
+
+
+                    <div class="hero-copy">
+
+
+                        <div
+                            class="flag reveal"
+                            style="transition-delay:.05s"
+                        >
+
+                            <span>
+                                ●
+                            </span>
+
+                            <span id="flagText">
+                                FLAGSHIP TOOL // i TOOLS
+                            </span>
+
+                        </div>
+
+
+                        <h1
+                            class="reveal"
+                            style="transition-delay:.12s"
+                        >
+                            iCARE TOOL
+                        </h1>
+
+
+                        <h2
+                            class="reveal"
+                            style="transition-delay:.19s"
+                            id="heroSubtitle"
+                        >
+                            MONITOR • OPTIMIZE • CONTROL
+                        </h2>
+
+
+                        <p
+                            class="hero-description reveal"
+                            style="transition-delay:.26s"
+                            id="heroDescription"
+                        >
+                            A powerful Windows utility suite that brings
+                            monitoring, gaming controls, system optimization
+                            and everyday PC helpers into one fast, focused
+                            interface.
+                        </p>
+
+
+                        <div
+                            class="hero-info reveal"
+                            style="transition-delay:.33s"
+                        >
+
+                            <strong id="aboutIcareTitle">
+                                // ABOUT iCARE
+                            </strong>
+
+                            <p id="aboutIcareText">
+                                iCARE is the flagship utility inside i TOOLS.
+                                It brings useful Windows controls,
+                                performance visibility, gaming helpers and
+                                system-management tools together inside one
+                                organized workspace.
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="hero-actions reveal"
+                            style="transition-delay:.40s"
+                        >
+
+                            <a
+                                class="btn"
+                                href="https://github.com/MOHAMMED-OFFICAL/iCARE-TOOL"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                id="downloadHeroBtn"
+                            >
+                                DOWNLOAD iCARE ↘
+                            </a>
+
+
+                            <a
+                                class="btn pink"
+                                href="#features"
+                                id="exploreBtn"
+                            >
+                                EXPLORE FEATURES
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- VIDEO -->
+
+                    <div
+                        class="panel program-card reveal"
+                        style="transition-delay:.48s"
+                    >
+
+                        <div
+                            class="program-video"
+                        >
+
+                            <iframe
+                                src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1"
+                                title="iCARE Tool Video"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen
+                            ></iframe>
+
+
+                            <div
+                                class="program-badge"
+                                id="programBadge"
+                            >
+                                iCARE // FLAGSHIP
+                            </div>
+
+                        </div>
+
+
+                        <div class="program-caption">
+
+                            <small id="programSmall">
+                                WINDOWS UTILITY SUITE
+                            </small>
+
+                            <h3 id="programTitle">
+                                ONE CONTROL LAYER
+                            </h3>
+
+                            <p id="programText">
+                                Monitoring, optimization, gaming assistance
+                                and practical system tools in one place.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURES
+        ===================================================== -->
+
+        <section id="features">
+
+            <div class="container">
+
+
+                <div
+                    class="kicker reveal"
+                    id="featuresKicker"
+                >
+                    01 // Core modules
+                </div>
+
+
+                <h2
+                    class="title reveal"
+                    style="transition-delay:.08s"
+                    id="featuresTitle"
+                >
+                    EVERYTHING IN ONE CONTROL LAYER
+                </h2>
+
+
+                <p
+                    class="subtxt reveal"
+                    style="transition-delay:.16s"
+                    id="featuresSub"
+                >
+                    iCARE brings the most useful monitoring, gaming,
+                    optimization and system-management functions into one
+                    organized workspace.
+                </p>
+
+
+                <div
+                    class="divider reveal"
+                    style="transition-delay:.24s"
+                ></div>
+
+
+                <div
+                    class="feature-grid"
+                    id="featureGrid"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SHOWCASE
+        ===================================================== -->
+
+        <section id="modules">
+
+            <div class="container">
+
+
+                <div
+                    class="kicker reveal"
+                    id="modulesKicker"
+                >
+                    02 // Visual showcase
+                </div>
+
+
+                <h2
+                    class="title reveal"
+                    style="transition-delay:.08s"
+                    id="modulesTitle"
+                >
+                    EXPLORE iCARE
+                </h2>
+
+
+                <p
+                    class="subtxt reveal"
+                    style="transition-delay:.16s"
+                    id="modulesSub"
+                >
+                    A visual tour through the interface, tools and core
+                    experiences inside iCARE.
+                </p>
+
+
+                <div
+                    class="divider reveal"
+                    style="transition-delay:.24s"
+                ></div>
+
+
+                <div
+                    class="showcase panel reveal"
+                    id="showcase"
+                    style="transition-delay:.30s"
+                >
+
+                    <div
+                        class="showcase-track"
+                        id="showcaseTrack"
+                    ></div>
+
+
+                    <div
+                        class="showcase-controls"
+                    >
+
+                        <button
+                            class="showcase-btn"
+                            id="showcasePrev"
+                            type="button"
+                            aria-label="Previous project"
+                        >
+                            ‹
+                        </button>
+
+
+                        <div
+                            class="showcase-dots"
+                            id="showcaseDots"
+                        ></div>
+
+
+                        <button
+                            class="showcase-btn"
+                            id="showcaseNext"
+                            type="button"
+                            aria-label="Next project"
+                        >
+                            ›
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             MANAGEMENT
+        ===================================================== -->
+
+        <section id="management">
+
+            <div class="container">
+
+
+                <div
+                    class="kicker reveal"
+                    id="managementKicker"
+                >
+                    03 // System management
+                </div>
+
+
+                <h2
+                    class="title reveal"
+                    id="managementTitle"
+                >
+                    STARTUP, TASKS & EXTENSIONS
+                </h2>
+
+
+                <p
+                    class="subtxt reveal"
+                    id="managementSub"
+                >
+                    A structured place for the system controls that are
+                    usually scattered across Windows settings.
+                </p>
+
+
+                <div
+                    class="divider reveal"
+                ></div>
+
+
+                <div
+                    class="management-grid"
+                >
+
+
+                    <div
+                        class="panel list-editor reveal"
+                        style="transition-delay:.05s"
+                    >
+
+                        <div
+                            id="manageList"
+                        ></div>
+
+
+                        <div
+                            class="management-note"
+                            id="managementNote"
+                        >
+                            SYSTEM MANAGEMENT //
+                            ONE ORGANIZED CONTROL LAYER.
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="panel download reveal"
+                        style="transition-delay:.12s"
+                        id="download"
+                    >
+
+                        <span
+                            class="version"
+                            id="versionBadge"
+                        >
+                            LATEST BUILD // v2.5.1
+                        </span>
+
+
+                        <h3 id="downloadTitle">
+                            READY TO TAKE CONTROL?
+                        </h3>
+
+
+                        <p id="downloadText">
+                            Use the button below to open the official iCARE-TOOL GitHub repository.
+                        </p>
+
+
+                        <a
+                            class="btn"
+                            id="downloadBtn"
+                            href="https://github.com/MOHAMMED-OFFICAL/iCARE-TOOL"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            DOWNLOAD iCARE TOOL ↘
+                        </a>
+
+
+                        <div
+                            class="safe"
+                            id="safeText"
+                        >
+                            SAFE • NO ADS • NO BLOATWARE • WINDOWS 10 / 11
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FOOTER
+        ===================================================== -->
+
+        <footer>
+
+
+            <div
+                class="footer-grid"
+            >
+
+
+                <div>
+
+                    <div
+                        class="ftitle"
+                    >
+                        iCARE TOOL
+                    </div>
+
+                    <p id="footerAbout">
+                        Part of the i TOOLS : by mohammed ecosystem —
+                        built around control, visibility and performance.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h4 id="footerNavigation">
+                        NAVIGATION
+                    </h4>
+
+
+                    <a
+                        href="index.html"
+                        id="footerHome"
+                    >
+                        Home
+                    </a>
+
+
+                    <a
+                        href="#features"
+                        id="footerFeatures"
+                    >
+                        Features
+                    </a>
+
+
+                    <a
+                        href="#modules"
+                        id="footerModules"
+                    >
+                        Modules
+                    </a>
+
+
+                    <a
+                        href="#management"
+                        id="footerManagement"
+                    >
+                        Management
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h4 id="footerProduct">
+                        PRODUCT
+                    </h4>
+
+
+                    <p id="footerBuild">
+                        Latest build: v2.5.1
+                    </p>
+
+
+                    <p id="footerPlatform">
+                        Platform: Windows 10 / 11
+                    </p>
+
+
+                    <p id="footerInterface">
+                        Interface: English
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h4 id="footerContact">
+                        CONTACT
+                    </h4>
+
+
+                    <p>
+                        Mohammed
+                    </p>
+
+
+                    <a
+                        href="mailto:contact@itools.dev"
+                    >
+                        contact@itools.dev
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="foot"
+                id="footerBottom"
+            >
+
+                © 2026
+
+                <b style="color:var(--cyan)">
+                    i TOOLS : by mohammed
+                </b>
+
+                // iCARE TOOL
+
+            </div>
+
+        </footer>
+
+    </main>
+
+
+    <script>
+
+        (function () {
+
+            "use strict";
+
+
+            /* =====================================================
+               DOM
+            ===================================================== */
+
+            var html =
+                document.documentElement;
+
+            var themeToggle =
+                document.getElementById(
+                    "themeToggle"
+                );
+
+            var langToggle =
+                document.getElementById(
+                    "langToggle"
+                );
+
+            var langLabel =
+                document.getElementById(
+                    "langLabel"
+                );
+
+
+            /* =====================================================
+               LANGUAGE DATA
+            ===================================================== */
+
+            var translations = {
+
+                en: {
+
+                    flag:
+                        "FLAGSHIP TOOL // i TOOLS",
+
+                    heroSubtitle:
+                        "MONITOR • OPTIMIZE • CONTROL",
+
+                    heroDescription:
+                        "A powerful Windows utility suite that brings monitoring, gaming controls, system optimization and everyday PC helpers into one fast, focused interface.",
+
+                    aboutIcareTitle:
+                        "// ABOUT iCARE",
+
+                    aboutIcareText:
+                        "iCARE is the flagship utility inside i TOOLS. It brings useful Windows controls, performance visibility, gaming helpers and system-management tools together inside one organized workspace.",
+
+                    downloadHero:
+                        "DOWNLOAD iCARE ↘",
+
+                    exploreFeatures:
+                        "EXPLORE FEATURES",
+
+                    programBadge:
+                        "iCARE // FLAGSHIP",
+
+                    programSmall:
+                        "WINDOWS UTILITY SUITE",
+
+                    programTitle:
+                        "ONE CONTROL LAYER",
+
+                    programText:
+                        "Monitoring, optimization, gaming assistance and practical system tools in one place.",
+
+                    navHome:
+                        "HOME",
+
+                    navFeatures:
+                        "FEATURES",
+
+                    navModules:
+                        "MODULES",
+
+                    navManagement:
+                        "MANAGEMENT",
+
+                    navDownload:
+                        "DOWNLOAD",
+
+                    mobileBack:
+                        "← HOME",
+
+                    featuresKicker:
+                        "01 // Core modules",
+
+                    featuresTitle:
+                        "EVERYTHING IN ONE CONTROL LAYER",
+
+                    featuresSub:
+                        "iCARE brings the most useful monitoring, gaming, optimization and system-management functions into one organized workspace.",
+
+                    modulesKicker:
+                        "02 // Visual showcase",
+
+                    modulesTitle:
+                        "EXPLORE iCARE",
+
+                    modulesSub:
+                        "A visual tour through the interface, tools and core experiences inside iCARE.",
+
+                    managementKicker:
+                        "03 // System management",
+
+                    managementTitle:
+                        "STARTUP, TASKS & EXTENSIONS",
+
+                    managementSub:
+                        "A structured place for the system controls that are usually scattered across Windows settings.",
+
+                    managementNote:
+                        "SYSTEM MANAGEMENT // ONE ORGANIZED CONTROL LAYER.",
+
+                    version:
+                        "LATEST BUILD // v2.5.1",
+
+                    downloadTitle:
+                        "READY TO TAKE CONTROL?",
+
+                    downloadText:
+                        "Use the button below to open the official iCARE-TOOL GitHub repository.",
+
+                    downloadButton:
+                        "DOWNLOAD iCARE TOOL ↘",
+
+                    safe:
+                        "SAFE • NO ADS • NO BLOATWARE • WINDOWS 10 / 11",
+
+                    footerAbout:
+                        "Part of the i TOOLS : by mohammed ecosystem — built around control, visibility and performance.",
+
+                    footerNavigation:
+                        "NAVIGATION",
+
+                    footerHome:
+                        "Home",
+
+                    footerFeatures:
+                        "Features",
+
+                    footerModules:
+                        "Modules",
+
+                    footerManagement:
+                        "Management",
+
+                    footerProduct:
+                        "PRODUCT",
+
+                    footerBuild:
+                        "Latest build: v2.5.1",
+
+                    footerPlatform:
+                        "Platform: Windows 10 / 11",
+
+                    footerInterface:
+                        "Interface: English",
+
+                    footerContact:
+                        "CONTACT",
+
+                    footerBottom:
+                        "© 2026 // iCARE TOOL",
+
+                    image:
+                        "IMAGE",
+
+                    zoom:
+                        "🔍 CLICK TO ZOOM",
+
+                    showProject:
+                        "Show project",
+
+                    openImage:
+                        "Open image",
+
+                    previous:
+                        "Previous",
+
+                    next:
+                        "Next",
+
+                    close:
+                        "Close",
+
+                    bootSub:
+                        "FLAGSHIP MODULE // SYSTEM INITIALIZATION",
+
+                    boot1:
+                        "Loading visual modules...",
+
+                    boot2:
+                        "Connecting GitHub image nodes...",
+
+                    boot3:
+                        "Loading iCARE interface...",
+
+                    boot4:
+                        "Preparing dynamic showcase...",
+
+                    boot5:
+                        "Calibrating responsive layout...",
+
+                    boot6:
+                        "iCARE interface ready.",
+
+                    module:
+                        "MODULE",
+
+                    downloadOpen:
+                        "OPENING DOWNLOAD…"
+                },
+
+
+                ar: {
+
+                    flag:
+                        "الأداة الرئيسية // i TOOLS",
+
+                    heroSubtitle:
+                        "مراقبة • تحسين • تحكم",
+
+                    heroDescription:
+                        "مجموعة أدوات قوية لنظام Windows تجمع بين المراقبة، وأدوات الألعاب، وتحسين النظام، والمساعدات اليومية للكمبيوتر داخل واجهة سريعة ومنظمة.",
+
+                    aboutIcareTitle:
+                        "// عن iCARE",
+
+                    aboutIcareText:
+                        "iCARE هي الأداة الرئيسية داخل i TOOLS. تجمع أدوات التحكم في Windows، ومراقبة الأداء، ومساعدات الألعاب، وأدوات إدارة النظام في مساحة عمل واحدة ومنظمة.",
+
+                    downloadHero:
+                        "تحميل iCARE ↘",
+
+                    exploreFeatures:
+                        "استكشف المميزات",
+
+                    programBadge:
+                        "iCARE // الأداة الرئيسية",
+
+                    programSmall:
+                        "مجموعة أدوات Windows",
+
+                    programTitle:
+                        "طبقة تحكم واحدة",
+
+                    programText:
+                        "مراقبة وتحسين ومساعدة في الألعاب وأدوات عملية للنظام في مكان واحد.",
+
+                    navHome:
+                        "الرئيسية",
+
+                    navFeatures:
+                        "المميزات",
+
+                    navModules:
+                        "الوحدات",
+
+                    navManagement:
+                        "الإدارة",
+
+                    navDownload:
+                        "التحميل",
+
+                    mobileBack:
+                        "← الرئيسية",
+
+                    featuresKicker:
+                        "01 // الوحدات الأساسية",
+
+                    featuresTitle:
+                        "كل شيء داخل طبقة تحكم واحدة",
+
+                    featuresSub:
+                        "تجمع iCARE أهم وظائف المراقبة والألعاب والتحسين وإدارة النظام داخل مساحة عمل منظمة.",
+
+                    modulesKicker:
+                        "02 // العرض المرئي",
+
+                    modulesTitle:
+                        "استكشف iCARE",
+
+                    modulesSub:
+                        "جولة مرئية داخل الواجهة والأدوات والتجارب الأساسية الموجودة في iCARE.",
+
+                    managementKicker:
+                        "03 // إدارة النظام",
+
+                    managementTitle:
+                        "برامج بدء التشغيل والمهام والإضافات",
+
+                    managementSub:
+                        "مساحة منظمة لأدوات التحكم بالنظام التي تكون عادة موزعة بين إعدادات Windows المختلفة.",
+
+                    managementNote:
+                        "إدارة النظام // طبقة تحكم منظمة واحدة.",
+
+                    version:
+                        "آخر إصدار // v2.5.1",
+
+                    downloadTitle:
+                        "جاهز للتحكم؟",
+
+                    downloadText:
+                        "استخدم الزر بالأسفل لفتح مستودع iCARE-TOOL الرسمي على GitHub.",
+
+                    downloadButton:
+                        "تحميل أداة iCARE ↘",
+
+                    safe:
+                        "آمن • بدون إعلانات • بدون برامج إضافية • WINDOWS 10 / 11",
+
+                    footerAbout:
+                        "جزء من منظومة i TOOLS : by mohammed — مبنية حول التحكم والرؤية والأداء.",
+
+                    footerNavigation:
+                        "التنقل",
+
+                    footerHome:
+                        "الرئيسية",
+
+                    footerFeatures:
+                        "المميزات",
+
+                    footerModules:
+                        "الوحدات",
+
+                    footerManagement:
+                        "الإدارة",
+
+                    footerProduct:
+                        "المنتج",
+
+                    footerBuild:
+                        "آخر إصدار: v2.5.1",
+
+                    footerPlatform:
+                        "المنصة: Windows 10 / 11",
+
+                    footerInterface:
+                        "الواجهة: العربية",
+
+                    footerContact:
+                        "التواصل",
+
+                    footerBottom:
+                        "© 2026 // أداة iCARE",
+
+                    image:
+                        "صورة",
+
+                    zoom:
+                        "🔍 اضغط للتكبير",
+
+                    showProject:
+                        "عرض المشروع",
+
+                    openImage:
+                        "فتح الصورة",
+
+                    previous:
+                        "السابق",
+
+                    next:
+                        "التالي",
+
+                    close:
+                        "إغلاق",
+
+                    bootSub:
+                        "الوحدة الرئيسية // تهيئة النظام",
+
+                    boot1:
+                        "جاري تحميل الوحدات المرئية...",
+
+                    boot2:
+                        "جاري الاتصال بعُقد صور GitHub...",
+
+                    boot3:
+                        "جاري تحميل واجهة iCARE...",
+
+                    boot4:
+                        "جاري تجهيز العرض الديناميكي...",
+
+                    boot5:
+                        "جاري ضبط التصميم المتجاوب...",
+
+                    boot6:
+                        "واجهة iCARE جاهزة.",
+
+                    module:
+                        "وحدة",
+
+                    downloadOpen:
+                        "جاري فتح التحميل…"
+                }
+
+            };
+
+
+            /* =====================================================
+               LANGUAGE STATE
+            ===================================================== */
+
+            var currentLang =
+                "en";
+
+            try {
+
+                currentLang =
+                    localStorage.getItem(
+                        "itools-language"
+                    ) || "en";
+
+            } catch (error) {
+
+                currentLang =
+                    "en";
+            }
+
+            if (
+                currentLang !== "en" &&
+                currentLang !== "ar"
+            ) {
+
+                currentLang =
+                    "en";
+            }
+
+
+            function t(key) {
+
+                return (
+                    translations[currentLang] &&
+                    translations[currentLang][key]
+                ) ||
+                translations.en[key] ||
+                key;
+            }
+
+
+            /* =====================================================
+               REVEAL
+            ===================================================== */
+
+            var revealObserver = null;
+
+
+            if (
+                "IntersectionObserver"
+                in window
+            ) {
+
+                revealObserver =
+                    new IntersectionObserver(
+                        function (entries) {
+
+                            entries.forEach(
+                                function (entry) {
+
+                                    if (
+                                        entry.isIntersecting
+                                    ) {
+
+                                        entry.target
+                                            .classList
+                                            .add("show");
+
+                                        revealObserver
+                                            .unobserve(
+                                                entry.target
+                                            );
+                                    }
+
+                                }
+                            );
+
+                        },
+                        {
+                            threshold:
+                                .12,
+
+                            rootMargin:
+                                "0px 0px -40px"
+                        }
+                    );
+
+            }
+
+
+            function observeRevealElements() {
+
+                var elements =
+                    document.querySelectorAll(
+                        ".reveal"
+                    );
+
+                elements.forEach(
+                    function (element) {
+
+                        if (
+                            revealObserver
+                        ) {
+
+                            revealObserver.observe(
+                                element
+                            );
+
+                        } else {
+
+                            element.classList.add(
+                                "show"
+                            );
+
+                        }
+
+                    }
+                );
+            }
+
+
+            /* =====================================================
+               PARTICLES
+            ===================================================== */
+
+            var canvas =
+                document.getElementById(
+                    "particles"
+                );
+
+            var ctx =
+                null;
+
+            var particles =
+                [];
+
+
+            if (canvas) {
+
+                try {
+
+                    ctx =
+                        canvas.getContext(
+                            "2d"
+                        );
+
+                } catch (error) {
+
+                    ctx =
+                        null;
+
+                }
+
+            }
+
+
+            function resizeCanvas() {
+
+                if (
+                    !canvas ||
+                    !ctx
+                ) {
+                    return;
+                }
+
+                var dpr =
+                    Math.min(
+                        window.devicePixelRatio || 1,
+                        2
+                    );
+
+
+                canvas.width =
+                    Math.floor(
+                        window.innerWidth *
+                        dpr
+                    );
+
+
+                canvas.height =
+                    Math.floor(
+                        window.innerHeight *
+                        dpr
+                    );
+
+
+                canvas.style.width =
+                    window.innerWidth +
+                    "px";
+
+
+                canvas.style.height =
+                    window.innerHeight +
+                    "px";
+
+
+                ctx.setTransform(
+                    dpr,
+                    0,
+                    0,
+                    dpr,
+                    0,
+                    0
+                );
+
+            }
+
+
+            function createParticles() {
+
+                if (
+                    !canvas ||
+                    !ctx
+                ) {
+                    return;
+                }
+
+
+                var colors =
+                    html.dataset.theme === "light"
+
+                        ? [
+                            "#008c99",
+                            "#a80d83",
+                            "#5a3ec8",
+                            "#07834f"
+                        ]
+
+                        : [
+                            "#00f6ff",
+                            "#ff28cf",
+                            "#8d66ff",
+                            "#28ff9a",
+                            "#ff9d43"
+                        ];
+
+
+                var count =
+                    Math.min(
+                        90,
+                        Math.max(
+                            30,
+                            Math.floor(
+                                window.innerWidth /
+                                13
+                            )
+                        )
+                    );
+
+
+                particles =
+                    [];
+
+
+                for (
+                    var i = 0;
+                    i < count;
+                    i++
+                ) {
+
+                    particles.push({
+
+                        x:
+                            Math.random() *
+                            window.innerWidth,
+
+                        y:
+                            Math.random() *
+                            window.innerHeight,
+
+                        vx:
+                            (Math.random() - .5)
+                            * .18,
+
+                        vy:
+                            (Math.random() - .5)
+                            * .14,
+
+                        r:
+                            .5 +
+                            Math.random() *
+                            1.5,
+
+                        a:
+                            .10 +
+                            Math.random() *
+                            .40,
+
+                        color:
+                            colors[
+                                Math.floor(
+                                    Math.random() *
+                                    colors.length
+                                )
+                            ]
+
+                    });
+
+                }
+            }
+
+
+            function drawParticles() {
+
+                if (
+                    !canvas ||
+                    !ctx
+                ) {
+                    return;
+                }
+
+
+                ctx.clearRect(
+                    0,
+                    0,
+                    window.innerWidth,
+                    window.innerHeight
+                );
+
+
+                for (
+                    var i = 0;
+                    i < particles.length;
+                    i++
+                ) {
+
+                    var p =
+                        particles[i];
+
+
+                    p.x +=
+                        p.vx;
+
+                    p.y +=
+                        p.vy;
+
+
+                    if (
+                        p.x < 0
+                    ) {
+
+                        p.x =
+                            window.innerWidth;
+
+                    }
+
+
+                    if (
+                        p.x >
+                        window.innerWidth
+                    ) {
+
+                        p.x =
+                            0;
+                    }
+
+
+                    if (
+                        p.y < 0
+                    ) {
+
+                        p.y =
+                            window.innerHeight;
+
+                    }
+
+
+                    if (
+                        p.y >
+                        window.innerHeight
+                    ) {
+
+                        p.y =
+                            0;
+                    }
+
+
+                    ctx.beginPath();
+
+
+                    ctx.arc(
+                        p.x,
+                        p.y,
+                        p.r,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.globalAlpha =
+                        p.a;
+
+
+                    ctx.shadowBlur =
+                        12;
+
+
+                    ctx.shadowColor =
+                        p.color;
+
+
+                    ctx.fillStyle =
+                        p.color;
+
+
+                    ctx.fill();
+
+                }
+
+
+                ctx.globalAlpha =
+                    1;
+
+                ctx.shadowBlur =
+                    0;
+
+
+                requestAnimationFrame(
+                    drawParticles
+                );
+            }
+
+
+            /* =====================================================
+               THEME
+            ===================================================== */
+
+            function setTheme(
+                theme
+            ) {
+
+                var selected =
+                    theme === "light"
+                        ? "light"
+                        : "dark";
+
+
+                html.dataset.theme =
+                    selected;
+
+
+                try {
+
+                    localStorage.setItem(
+                        "itools-theme",
+                        selected
+                    );
+
+                } catch (error) {}
+
+
+                if (themeToggle) {
+
+                    themeToggle.textContent =
+                        selected === "light"
+                            ? "☀"
+                            : "☾";
+
+
+                    themeToggle.setAttribute(
+                        "aria-label",
+                        selected === "light"
+                            ? "Switch to dark theme"
+                            : "Switch to light theme"
+                    );
+                }
+
+
+                createParticles();
+
+            }
+
+
+            var savedTheme =
+                "dark";
+
+
+            try {
+
+                savedTheme =
+                    localStorage.getItem(
+                        "itools-theme"
+                    ) ||
+                    "dark";
+
+            } catch (error) {
+
+                savedTheme =
+                    "dark";
+
+            }
+
+
+            setTheme(
+                savedTheme
+            );
+
+
+            if (themeToggle) {
+
+                themeToggle.addEventListener(
+                    "click",
+                    function () {
+
+                        setTheme(
+                            html.dataset.theme === "light"
+                                ? "dark"
+                                : "light"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               FEATURES DATA
+            ===================================================== */
+
+            var features = [
+
+                {
+                    icon: "▰",
+
+                    title:
+                        "Performance Monitor",
+
+                    titleAr:
+                        "مراقبة الأداء",
+
+                    text:
+                        "Real-time CPU, GPU, RAM, disk and network visibility with graphs and live indicators.",
+
+                    textAr:
+                        "مراقبة مباشرة للمعالج وكرت الشاشة والرام والقرص والشبكة مع رسوم بيانية ومؤشرات حية.",
+
+                    meta:
+                        "CORE",
+
+                    metaAr:
+                        "أساسي"
+                },
+
+
+                {
+                    icon: "FPS",
+
+                    title:
+                        "Game Monitor + FPS Limiter",
+
+                    titleAr:
+                        "مراقب الألعاب ومحدد FPS",
+
+                    text:
+                        "Frame-rate monitoring, FPS control and profile-based gaming settings.",
+
+                    textAr:
+                        "مراقبة معدل الإطارات والتحكم في FPS وإعدادات الألعاب حسب كل ملف تعريف.",
+
+                    meta:
+                        "GAMING",
+
+                    metaAr:
+                        "ألعاب"
+                },
+
+
+                {
+                    icon: "◈",
+
+                    title:
+                        "Smart Mini Monitor",
+
+                    titleAr:
+                        "المراقب الذكي المصغر",
+
+                    text:
+                        "A compact always-on-top panel for the metrics you want to keep visible.",
+
+                    textAr:
+                        "لوحة صغيرة تظهر دائمًا في المقدمة لعرض المؤشرات التي تريد متابعتها.",
+
+                    meta:
+                        "OVERLAY",
+
+                    metaAr:
+                        "طبقة علوية"
+                },
+
+
+                {
+                    icon: "⚡",
+
+                    title:
+                        "Smart Optimization",
+
+                    titleAr:
+                        "التحسين الذكي",
+
+                    text:
+                        "Focused actions for gaming and system performance with a clean workflow.",
+
+                    textAr:
+                        "إجراءات مركزة لتحسين الألعاب وأداء النظام من خلال خطوات واضحة وسهلة.",
+
+                    meta:
+                        "OPTIMIZE",
+
+                    metaAr:
+                        "تحسين"
+                },
+
+
+                {
+                    icon: "☀",
+
+                    title:
+                        "Brightness + Contrast",
+
+                    titleAr:
+                        "السطوع والتباين",
+
+                    text:
+                        "Fast access to display controls for quick visual adjustments.",
+
+                    textAr:
+                        "وصول سريع إلى إعدادات الشاشة لإجراء تعديلات بصرية بسهولة.",
+
+                    meta:
+                        "DISPLAY",
+
+                    metaAr:
+                        "شاشة"
+                },
+
+
+                {
+                    icon: "DX",
+
+                    title:
+                        "Game Assistant Tools",
+
+                    titleAr:
+                        "أدوات مساعد الألعاب",
+
+                    text:
+                        "Practical helpers for DirectX, Visual C++, .NET and common game dependencies.",
+
+                    textAr:
+                        "أدوات مساعدة لـ DirectX وVisual C++ و.NET ومتطلبات الألعاب الشائعة.",
+
+                    meta:
+                        "TOOLS",
+
+                    metaAr:
+                        "أدوات"
+                },
+
+
+                {
+                    icon: "♫",
+
+                    title:
+                        "Audio Control",
+
+                    titleAr:
+                        "التحكم في الصوت",
+
+                    text:
+                        "Central audio workflow with volume-oriented controls for games and applications.",
+
+                    textAr:
+                        "إدارة مركزية للصوت مع أدوات للتحكم في مستوى الصوت للألعاب والتطبيقات.",
+
+                    meta:
+                        "AUDIO",
+
+                    metaAr:
+                        "صوت"
+                },
+
+
+                {
+                    icon: "⏻",
+
+                    title:
+                        "Startup Manager",
+
+                    titleAr:
+                        "مدير بدء التشغيل",
+
+                    text:
+                        "Manage startup programs and related system items from one organized view.",
+
+                    textAr:
+                        "إدارة البرامج التي تعمل عند بدء Windows والعناصر المرتبطة بها من مكان واحد.",
+
+                    meta:
+                        "SYSTEM",
+
+                    metaAr:
+                        "نظام"
+                },
+
+
+                {
+                    icon: "ADD",
+
+                    title:
+                        "Browser Add-ons",
+
+                    titleAr:
+                        "إضافات المتصفح",
+
+                    text:
+                        "Keep browser extensions visible within the same system-management workflow.",
+
+                    textAr:
+                        "إدارة إضافات المتصفح ضمن نفس مساحة إدارة النظام.",
+
+                    meta:
+                        "BROWSER",
+
+                    metaAr:
+                        "متصفح"
+                }
+
+            ];
+
+
+            /* =====================================================
+               MANAGEMENT DATA
+            ===================================================== */
+
+            var managementItems = [
+
+                {
+                    key:
+                        "STARTUP",
+
+                    keyAr:
+                        "بدء التشغيل",
+
+                    value:
+                        "Startup programs",
+
+                    valueAr:
+                        "برامج بدء التشغيل"
+                },
+
+                {
+                    key:
+                        "SERVICE",
+
+                    keyAr:
+                        "الخدمات",
+
+                    value:
+                        "Windows services",
+
+                    valueAr:
+                        "خدمات Windows"
+                },
+
+                {
+                    key:
+                        "TASK",
+
+                    keyAr:
+                        "المهام",
+
+                    value:
+                        "Scheduled tasks",
+
+                    valueAr:
+                        "المهام المجدولة"
+                },
+
+                {
+                    key:
+                        "BROWSER",
+
+                    keyAr:
+                        "المتصفح",
+
+                    value:
+                        "Browser extensions",
+
+                    valueAr:
+                        "إضافات المتصفح"
+                },
+
+                {
+                    key:
+                        "PROFILE",
+
+                    keyAr:
+                        "الملفات",
+
+                    value:
+                        "Per-app / per-game profiles",
+
+                    valueAr:
+                        "ملفات تعريف لكل تطبيق أو لعبة"
+                },
+
+                {
+                    key:
+                        "TOOLS",
+
+                    keyAr:
+                        "الأدوات",
+
+                    value:
+                        "Game dependency helpers",
+
+                    valueAr:
+                        "مساعدات متطلبات الألعاب"
+                }
+
+            ];
+
+
+            /* =====================================================
+               SHOWCASE DATA
+            ===================================================== */
+
+            var showcaseData = [
+
+                {
+                    image:
+                        "https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/2.png",
+
+                    tag:
+                        "MODULE // MONITOR",
+
+                    tagAr:
+                        "وحدة // المراقبة",
+
+                    title:
+                        "SMART MONITOR",
+
+                    titleAr:
+                        "المراقب الذكي",
+
+                    desc:
+                        "A focused monitoring interface that keeps important CPU, GPU, RAM and system information visible and easy to understand.",
+
+                    descAr:
+                        "واجهة مراقبة مركزة تبقي معلومات المعالج وكرت الشاشة والرام والنظام ظاهرة وسهلة الفهم.",
+
+                    items: [
+
+                        "CPU / GPU / RAM monitoring",
+
+                        "Brightness and contrast",
+
+                        "Volume control",
+
+                        "Internet monitoring"
+
+                    ],
+
+                    itemsAr: [
+
+                        "مراقبة CPU / GPU / RAM",
+
+                        "السطوع والتباين",
+
+                        "التحكم في الصوت",
+
+                        "مراقبة الإنترنت"
+
+                    ]
+                },
+
+
+                {
+                    image:
+                        "https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/4.png",
+
+                    tag:
+                        "MODULE // GAMING",
+
+                    tagAr:
+                        "وحدة // الألعاب",
+
+                    title:
+                        "GAMING TOOLS",
+
+                    titleAr:
+                        "أدوات الألعاب",
+
+                    desc:
+                        "Keep an eye on whatever you want while you play with focused gaming utilities and a clean interface.",
+
+                    descAr:
+                        "راقب ما تريد أثناء اللعب باستخدام أدوات ألعاب مركزة وواجهة نظيفة.",
+
+                    items: [
+
+                        "RAM / CPU / GPU",
+
+                        "Temperature monitoring",
+
+                        "FPS monitoring",
+
+                        "FPS limiter"
+
+                    ],
+
+                    itemsAr: [
+
+                        "RAM / CPU / GPU",
+
+                        "مراقبة الحرارة",
+
+                        "مراقبة FPS",
+
+                        "محدد FPS"
+
+                    ]
+                },
+
+
+                {
+                    image:
+                        "https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/7.png",
+
+                    tag:
+                        "MODULE // OPTIMIZE",
+
+                    tagAr:
+                        "وحدة // التحسين",
+
+                    title:
+                        "SMART OPTIMIZATION",
+
+                    titleAr:
+                        "التحسين الذكي",
+
+                    desc:
+                        "A clean optimization workflow that gives users useful performance actions without forcing them through complicated menus.",
+
+                    descAr:
+                        "نظام تحسين بسيط يمنح المستخدم إجراءات مفيدة للأداء دون إجباره على الدخول في قوائم معقدة.",
+
+                    items: [
+
+                        "Optimization actions",
+
+                        "Performance helpers",
+
+                        "Game booster tools",
+
+                        "Windows controls"
+
+                    ],
+
+                    itemsAr: [
+
+                        "إجراءات التحسين",
+
+                        "مساعدات الأداء",
+
+                        "أدوات تسريع الألعاب",
+
+                        "أدوات Windows"
+
+                    ]
+                },
+
+
+                {
+                    image:
+                        "https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/8.png",
+
+                    tag:
+                        "MODULE // TOOLS",
+
+                    tagAr:
+                        "وحدة // الأدوات",
+
+                    title:
+                        "HELPER TOOLS",
+
+                    titleAr:
+                        "أدوات المساعدة",
+
+                    desc:
+                        "Support tools for common game requirements such as DirectX, Visual C++ Redistributable and .NET.",
+
+                    descAr:
+                        "أدوات مساعدة لمتطلبات الألعاب الشائعة مثل DirectX وVisual C++ Redistributable و.NET.",
+
+                    items: [
+
+                        "Game dependency helpers",
+
+                        "DirectX",
+
+                        "Visual C++",
+
+                        ".NET"
+
+                    ],
+
+                    itemsAr: [
+
+                        "مساعدات متطلبات الألعاب",
+
+                        "DirectX",
+
+                        "Visual C++",
+
+                        ".NET"
+
+                    ]
+                },
+
+
+                {
+                    image:
+                        "https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/6.png",
+
+                    tag:
+                        "MODULE // CONTROL",
+
+                    tagAr:
+                        "وحدة // التحكم",
+
+                    title:
+                        "SCREEN & VOLUME CONTROL",
+
+                    titleAr:
+                        "التحكم في الشاشة والصوت",
+
+                    desc:
+                        "Direct control of screen brightness and contrast through monitor support, combined with convenient audio controls.",
+
+                    descAr:
+                        "تحكم مباشر في سطوع الشاشة وتباينها مع أدوات صوت مريحة في نفس الواجهة.",
+
+                    items: [
+
+                        "Screen control",
+
+                        "Voice control",
+
+                        "Hard disk monitoring",
+
+                        "Internet monitoring"
+
+                    ],
+
+                    itemsAr: [
+
+                        "التحكم في الشاشة",
+
+                        "التحكم الصوتي",
+
+                        "مراقبة القرص الصلب",
+
+                        "مراقبة الإنترنت"
+
+                    ]
+                },
+
+
+                {
+                    image:
+                        "https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/9.png",
+
+                    tag:
+                        "MODULE // SYSTEM",
+
+                    tagAr:
+                        "وحدة // النظام",
+
+                    title:
+                        "SYSTEM CONTROL",
+
+                    titleAr:
+                        "التحكم في النظام",
+
+                    desc:
+                        "Centralized access to startup programs, services, scheduled tasks and browser extensions from one organized workflow.",
+
+                    descAr:
+                        "وصول مركزي إلى برامج بدء التشغيل والخدمات والمهام المجدولة وإضافات المتصفح من خلال مساحة عمل منظمة.",
+
+                    items: [
+
+                        "Startup programs",
+
+                        "Windows services",
+
+                        "Scheduled tasks",
+
+                        "Browser extensions"
+
+                    ],
+
+                    itemsAr: [
+
+                        "برامج بدء التشغيل",
+
+                        "خدمات Windows",
+
+                        "المهام المجدولة",
+
+                        "إضافات المتصفح"
+
+                    ]
+                }
+
+            ];
+
+
+            /* =====================================================
+               SHOWCASE STATE
+            ===================================================== */
+
+            var showcaseTrack =
+                document.getElementById(
+                    "showcaseTrack"
+                );
+
+            var showcaseDots =
+                document.getElementById(
+                    "showcaseDots"
+                );
+
+            var showcasePrev =
+                document.getElementById(
+                    "showcasePrev"
+                );
+
+            var showcaseNext =
+                document.getElementById(
+                    "showcaseNext"
+                );
+
+            var showcase =
+                document.getElementById(
+                    "showcase"
+                );
+
+
+            var currentIndex =
+                0;
+
+            var autoTimer =
+                null;
+
+            var AUTO_TIME =
+                2500;
+
+
+            var touchStartX =
+                0;
+
+            var touchStartY =
+                0;
+
+
+            /* =====================================================
+               SHOWCASE HELPERS
+            ===================================================== */
+
+            function updateDots() {
+
+                if (!showcaseDots) {
+                    return;
+                }
+
+                var dots =
+                    showcaseDots.children;
+
+
+                for (
+                    var i = 0;
+                    i < dots.length;
+                    i++
+                ) {
+
+                    dots[i]
+                        .classList
+                        .toggle(
+                            "active",
+                            i === currentIndex
+                        );
+
+                }
+            }
+
+
+            function goTo(
+                index,
+                animate
+            ) {
+
+                if (
+                    typeof animate ===
+                    "undefined"
+                ) {
+
+                    animate =
+                        true;
+                }
+
+
+                currentIndex =
+                    (
+                        index +
+                        showcaseData.length
+                    ) %
+                    showcaseData.length;
+
+
+                if (
+                    showcaseTrack
+                ) {
+
+                    showcaseTrack.style.transition =
+                        animate
+                            ? ""
+                            : "none";
+
+
+                    showcaseTrack.style.transform =
+                        "translate3d(-" +
+                        (
+                            currentIndex *
+                            100
+                        ) +
+                        "%,0,0)";
+
+
+                    if (!animate) {
+
+                        requestAnimationFrame(
+                            function () {
+
+                                showcaseTrack.style.transition =
+                                    "";
+
+                            }
+                        );
+
+                    }
+
+                }
+
+
+                updateDots();
+            }
+
+
+            function stopAuto() {
+
+                clearTimeout(
+                    autoTimer
+                );
+
+                autoTimer =
+                    null;
+            }
+
+
+            function restartAuto() {
+
+                stopAuto();
+
+
+                autoTimer =
+                    setTimeout(
+                        function () {
+
+                            goTo(
+                                currentIndex +
+                                1
+                            );
+
+
+                            restartAuto();
+
+                        },
+                        AUTO_TIME
+                    );
+            }
+
+
+            /* =====================================================
+               BUILD FEATURES
+            ===================================================== */
+
+            function buildFeatures() {
+
+                var featureGrid =
+                    document.getElementById(
+                        "featureGrid"
+                    );
+
+
+                if (!featureGrid) {
+                    return;
+                }
+
+
+                featureGrid.innerHTML =
+                    "";
+
+
+                features.forEach(
+                    function (item, index) {
+
+                        var article =
+                            document.createElement(
+                                "article"
+                            );
+
+
+                        article.className =
+                            "panel feature reveal";
+
+
+                        article.style.transitionDelay =
+                            (
+                                .05 +
+                                index *
+                                .07
+                            ).toFixed(2) +
+                            "s";
+
+
+                        var icon =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        icon.className =
+                            "feature-icon";
+
+
+                        var iconColor;
+
+
+                        if (
+                            index % 3 ===
+                            0
+                        ) {
+
+                            iconColor =
+                                "var(--cyan)";
+
+                        } else if (
+                            index % 3 ===
+                            1
+                        ) {
+
+                            iconColor =
+                                "var(--pink)";
+
+                        } else {
+
+                            iconColor =
+                                "var(--violet)";
+                        }
+
+
+                        icon.style.color =
+                            iconColor;
+
+                        icon.style.borderColor =
+                            iconColor;
+
+                        icon.textContent =
+                            item.icon;
+
+
+                        var title =
+                            document.createElement(
+                                "h3"
+                            );
+
+
+                        title.textContent =
+                            currentLang === "ar"
+                                ? item.titleAr
+                                : item.title;
+
+
+                        var text =
+                            document.createElement(
+                                "p"
+                            );
+
+
+                        text.textContent =
+                            currentLang === "ar"
+                                ? item.textAr
+                                : item.text;
+
+
+                        var meta =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        meta.className =
+                            "meta";
+
+
+                        meta.textContent =
+                            t("module") +
+                            " // " +
+                            (
+                                currentLang === "ar"
+                                    ? item.metaAr
+                                    : item.meta
+                            );
+
+
+                        article.appendChild(
+                            icon
+                        );
+
+                        article.appendChild(
+                            title
+                        );
+
+                        article.appendChild(
+                            text
+                        );
+
+                        article.appendChild(
+                            meta
+                        );
+
+
+                        featureGrid.appendChild(
+                            article
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               BUILD MANAGEMENT
+            ===================================================== */
+
+            function buildManagement() {
+
+                var manageList =
+                    document.getElementById(
+                        "manageList"
+                    );
+
+
+                if (!manageList) {
+                    return;
+                }
+
+
+                manageList.innerHTML =
+                    "";
+
+
+                managementItems.forEach(
+                    function (item) {
+
+                        var row =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        row.className =
+                            "list-row";
+
+
+                        var key =
+                            document.createElement(
+                                "b"
+                            );
+
+
+                        key.textContent =
+                            currentLang === "ar"
+                                ? item.keyAr
+                                : item.key;
+
+
+                        var value =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        value.textContent =
+                            currentLang === "ar"
+                                ? item.valueAr
+                                : item.value;
+
+
+                        row.appendChild(
+                            key
+                        );
+
+                        row.appendChild(
+                            value
+                        );
+
+
+                        manageList.appendChild(
+                            row
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               SHOWCASE IMAGE HANDLER
+            ===================================================== */
+
+            function prepareImage(
+                img,
+                src
+            ) {
+
+                if (!img) {
+                    return;
+                }
+
+
+                img.src =
+                    src;
+
+
+                function ready() {
+
+                    img.classList.add(
+                        "ready"
+                    );
+
+                }
+
+
+                function failed() {
+
+                    console.error(
+                        "iCARE image failed:",
+                        src
+                    );
+
+
+                    /*
+                     * لا نخفي الصورة إلى الأبد
+                     * لو GitHub لم يرسل الصورة.
+                     */
+                    img.classList.add(
+                        "ready"
+                    );
+                }
+
+
+                if (
+                    img.complete &&
+                    img.naturalWidth > 0
+                ) {
+
+                    ready();
+
+                } else {
+
+                    img.addEventListener(
+                        "load",
+                        ready,
+                        {
+                            once: true
+                        }
+                    );
+
+
+                    img.addEventListener(
+                        "error",
+                        failed,
+                        {
+                            once: true
+                        }
+                    );
+
+                }
+
+            }
+
+
+            /* =====================================================
+               LIGHTBOX STATE
+            ===================================================== */
+
+            var lightbox =
+                document.getElementById(
+                    "lightbox"
+                );
+
+            var lightboxImage =
+                document.getElementById(
+                    "lightboxImage"
+                );
+
+            var lightboxCaption =
+                document.getElementById(
+                    "lightboxCaption"
+                );
+
+            var lightboxCounter =
+                document.getElementById(
+                    "lightboxCounter"
+                );
+
+            var lightboxClose =
+                document.getElementById(
+                    "lightboxClose"
+                );
+
+            var lightboxPrev =
+                document.getElementById(
+                    "lightboxPrev"
+                );
+
+            var lightboxNext =
+                document.getElementById(
+                    "lightboxNext"
+                );
+
+            var lightboxBackdrop =
+                document.getElementById(
+                    "lightboxBackdrop"
+                );
+
+            var lightboxIndex =
+                0;
+
+
+            function updateLightbox() {
+
+                var item =
+                    showcaseData[
+                        lightboxIndex
+                    ];
+
+
+                if (!item) {
+                    return;
+                }
+
+
+                var title =
+                    currentLang === "ar"
+                        ? item.titleAr
+                        : item.title;
+
+
+                if (
+                    lightboxImage
+                ) {
+
+                    lightboxImage.style.opacity =
+                        "0";
+
+                    lightboxImage.style.transform =
+                        "scale(.965)";
+
+
+                    lightboxImage.src =
+                        item.image;
+
+
+                    lightboxImage.alt =
+                        title;
+
+
+                    lightboxImage.onload =
+                        function () {
+
+                            lightboxImage.style.opacity =
+                                "1";
+
+                            lightboxImage.style.transform =
+                                "scale(1)";
+                        };
+
+                }
+
+
+                if (
+                    lightboxCaption
+                ) {
+
+                    lightboxCaption.textContent =
+                        title;
+                }
+
+
+                if (
+                    lightboxCounter
+                ) {
+
+                    lightboxCounter.textContent =
+                        (
+                            lightboxIndex +
+                            1
+                        ) +
+                        " / " +
+                        showcaseData.length;
+                }
+
+            }
+
+
+            function openLightbox(
+                index
+            ) {
+
+                if (!lightbox) {
+                    return;
+                }
+
+
+                lightboxIndex =
+                    (
+                        index +
+                        showcaseData.length
+                    ) %
+                    showcaseData.length;
+
+
+                updateLightbox();
+
+
+                lightbox.classList.add(
+                    "active"
+                );
+
+
+                lightbox.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+
+                document.body.style.overflow =
+                    "hidden";
+
+
+                stopAuto();
+
+            }
+
+
+            function closeLightbox() {
+
+                if (!lightbox) {
+                    return;
+                }
+
+
+                lightbox.classList.remove(
+                    "active"
+                );
+
+
+                lightbox.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+
+                document.body.style.overflow =
+                    "";
+
+
+                restartAuto();
+
+            }
+
+
+            function moveLightbox(
+                direction
+            ) {
+
+                lightboxIndex =
+                    (
+                        lightboxIndex +
+                        direction +
+                        showcaseData.length
+                    ) %
+                    showcaseData.length;
+
+
+                updateLightbox();
+            }
+
+
+            /* =====================================================
+               BUILD SHOWCASE
+            ===================================================== */
+
+            function buildShowcase() {
+
+                if (
+                    !showcaseTrack ||
+                    !showcaseDots
+                ) {
+                    return;
+                }
+
+
+                showcaseTrack.innerHTML =
+                    "";
+
+                showcaseDots.innerHTML =
+                    "";
+
+
+                showcaseData.forEach(
+                    function (item, index) {
+
+
+                        /* -----------------------------------------
+                           SLIDE
+                        ----------------------------------------- */
+
+                        var slide =
+                            document.createElement(
+                                "article"
+                            );
+
+
+                        slide.className =
+                            "showcase-slide";
+
+
+                        /* -----------------------------------------
+                           IMAGE
+                        ----------------------------------------- */
+
+                        var imageWrap =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        imageWrap.className =
+                            "showcase-image";
+
+
+                        imageWrap.dataset.index =
+                            String(index);
+
+
+                        imageWrap.setAttribute(
+                            "role",
+                            "button"
+                        );
+
+
+                        imageWrap.setAttribute(
+                            "tabindex",
+                            "0"
+                        );
+
+
+                        var title =
+                            currentLang === "ar"
+                                ? item.titleAr
+                                : item.title;
+
+
+                        imageWrap.setAttribute(
+                            "aria-label",
+                            (
+                                currentLang === "ar"
+                                    ? "فتح صورة: "
+                                    : "Open image: "
+                            ) +
+                            title
+                        );
+
+
+                        var imageIndex =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        imageIndex.className =
+                            "image-index";
+
+
+                        imageIndex.textContent =
+                            t("image") +
+                            " " +
+                            String(
+                                index +
+                                1
+                            ).padStart(
+                                2,
+                                "0"
+                            );
+
+
+                        var img =
+                            document.createElement(
+                                "img"
+                            );
+
+
+                        img.alt =
+                            title;
+
+
+                        img.loading =
+                            index === 0
+                                ? "eager"
+                                : "lazy";
+
+
+                        img.decoding =
+                            "async";
+
+
+                        img.draggable =
+                            false;
+
+
+                        img.referrerPolicy =
+                            "no-referrer";
+
+
+                        var zoom =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        zoom.className =
+                            "zoom-hint";
+
+
+                        zoom.textContent =
+                            t("zoom");
+
+
+                        imageWrap.appendChild(
+                            imageIndex
+                        );
+
+                        imageWrap.appendChild(
+                            img
+                        );
+
+                        imageWrap.appendChild(
+                            zoom
+                        );
+
+
+                        prepareImage(
+                            img,
+                            item.image
+                        );
+
+
+                        /* -----------------------------------------
+                           INFO
+                        ----------------------------------------- */
+
+                        var info =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        info.className =
+                            "showcase-info";
+
+
+                        var tag =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        tag.className =
+                            "showcase-tag";
+
+
+                        tag.textContent =
+                            currentLang === "ar"
+                                ? item.tagAr
+                                : item.tag;
+
+
+                        var heading =
+                            document.createElement(
+                                "h3"
+                            );
+
+
+                        heading.textContent =
+                            title;
+
+
+                        var desc =
+                            document.createElement(
+                                "p"
+                            );
+
+
+                        desc.textContent =
+                            currentLang === "ar"
+                                ? item.descAr
+                                : item.desc;
+
+
+                        var list =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        list.className =
+                            "showcase-list";
+
+
+                        var activeItems =
+                            currentLang === "ar"
+                                ? item.itemsAr
+                                : item.items;
+
+
+                        activeItems.forEach(
+                            function (entry) {
+
+                                var row =
+                                    document.createElement(
+                                        "div"
+                                    );
+
+
+                                var dot =
+                                    document.createElement(
+                                        "span"
+                                    );
+
+
+                                dot.className =
+                                    "showcase-dot";
+
+
+                                var text =
+                                    document.createElement(
+                                        "span"
+                                    );
+
+
+                                text.textContent =
+                                    entry;
+
+
+                                row.appendChild(
+                                    dot
+                                );
+
+                                row.appendChild(
+                                    text
+                                );
+
+
+                                list.appendChild(
+                                    row
+                                );
+
+                            }
+                        );
+
+
+                        var action =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        action.className =
+                            "showcase-action";
+
+
+                        var actionLink =
+                            document.createElement(
+                                "a"
+                            );
+
+
+                        actionLink.className =
+                            "btn";
+
+
+                        actionLink.href =
+                            "https://github.com/MOHAMMED-OFFICAL/iCARE-TOOL";
+
+
+                        actionLink.target =
+                            "_blank";
+
+
+                        actionLink.rel =
+                            "noopener noreferrer";
+
+
+                        actionLink.textContent =
+                            t("downloadButton");
+
+
+                        action.appendChild(
+                            actionLink
+                        );
+
+
+                        info.appendChild(
+                            tag
+                        );
+
+                        info.appendChild(
+                            heading
+                        );
+
+                        info.appendChild(
+                            desc
+                        );
+
+                        info.appendChild(
+                            list
+                        );
+
+                        info.appendChild(
+                            action
+                        );
+
+
+                        slide.appendChild(
+                            imageWrap
+                        );
+
+                        slide.appendChild(
+                            info
+                        );
+
+
+                        showcaseTrack.appendChild(
+                            slide
+                        );
+
+
+                        /* -----------------------------------------
+                           DOT
+                        ----------------------------------------- */
+
+                        var dotButton =
+                            document.createElement(
+                                "button"
+                            );
+
+
+                        dotButton.type =
+                            "button";
+
+
+                        dotButton.className =
+                            "showcase-dot-button";
+
+
+                        dotButton.setAttribute(
+                            "aria-label",
+                            t("showProject") +
+                            " " +
+                            (
+                                index +
+                                1
+                            )
+                        );
+
+
+                        if (
+                            index ===
+                            currentIndex
+                        ) {
+
+                            dotButton.classList.add(
+                                "active"
+                            );
+
+                        }
+
+
+                        (function (
+                            projectIndex
+                        ) {
+
+                            dotButton.addEventListener(
+                                "click",
+                                function () {
+
+                                    goTo(
+                                        projectIndex
+                                    );
+
+                                    restartAuto();
+
+                                }
+                            );
+
+                        })(index);
+
+
+                        showcaseDots.appendChild(
+                            dotButton
+                        );
+
+
+                        /* -----------------------------------------
+                           IMAGE EVENTS
+                        ----------------------------------------- */
+
+                        imageWrap.addEventListener(
+                            "click",
+                            function () {
+
+                                openLightbox(
+                                    index
+                                );
+
+                            }
+                        );
+
+
+                        imageWrap.addEventListener(
+                            "keydown",
+                            function (event) {
+
+                                if (
+                                    event.key ===
+                                    "Enter" ||
+
+                                    event.key ===
+                                    " "
+                                ) {
+
+                                    event.preventDefault();
+
+
+                                    openLightbox(
+                                        index
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                goTo(
+                    currentIndex,
+                    false
+                );
+
+            }
+
+
+            /* =====================================================
+               SHOWCASE BUTTONS
+            ===================================================== */
+
+            if (showcasePrev) {
+
+                showcasePrev.addEventListener(
+                    "click",
+                    function () {
+
+                        goTo(
+                            currentIndex -
+                            1
+                        );
+
+                        restartAuto();
+
+                    }
+                );
+
+            }
+
+
+            if (showcaseNext) {
+
+                showcaseNext.addEventListener(
+                    "click",
+                    function () {
+
+                        goTo(
+                            currentIndex +
+                            1
+                        );
+
+                        restartAuto();
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               SHOWCASE HOVER / TOUCH
+            ===================================================== */
+
+            if (showcase) {
+
+                showcase.addEventListener(
+                    "mouseenter",
+                    stopAuto
+                );
+
+
+                showcase.addEventListener(
+                    "mouseleave",
+                    restartAuto
+                );
+
+
+                showcase.addEventListener(
+                    "touchstart",
+                    function (event) {
+
+                        if (
+                            !event.changedTouches ||
+                            !event.changedTouches[0]
+                        ) {
+                            return;
+                        }
+
+
+                        touchStartX =
+                            event.changedTouches[0]
+                                .screenX;
+
+
+                        touchStartY =
+                            event.changedTouches[0]
+                                .screenY;
+
+
+                        stopAuto();
+
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+
+                showcase.addEventListener(
+                    "touchend",
+                    function (event) {
+
+                        if (
+                            !event.changedTouches ||
+                            !event.changedTouches[0]
+                        ) {
+                            return;
+                        }
+
+
+                        var endX =
+                            event.changedTouches[0]
+                                .screenX;
+
+
+                        var endY =
+                            event.changedTouches[0]
+                                .screenY;
+
+
+                        var diffX =
+                            touchStartX -
+                            endX;
+
+
+                        var diffY =
+                            touchStartY -
+                            endY;
+
+
+                        if (
+                            Math.abs(diffX) >
+                            Math.abs(diffY) &&
+
+                            Math.abs(diffX) >
+                            45
+                        ) {
+
+                            if (
+                                diffX > 0
+                            ) {
+
+                                goTo(
+                                    currentIndex +
+                                    1
+                                );
+
+                            } else {
+
+                                goTo(
+                                    currentIndex -
+                                    1
+                                );
+
+                            }
+
+                        }
+
+
+                        restartAuto();
+
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               LIGHTBOX EVENTS
+            ===================================================== */
+
+            if (lightboxClose) {
+
+                lightboxClose.addEventListener(
+                    "click",
+                    closeLightbox
+                );
+
+            }
+
+
+            if (lightboxBackdrop) {
+
+                lightboxBackdrop.addEventListener(
+                    "click",
+                    closeLightbox
+                );
+
+            }
+
+
+            if (lightboxPrev) {
+
+                lightboxPrev.addEventListener(
+                    "click",
+                    function () {
+
+                        moveLightbox(
+                            currentLang === "ar"
+                                ? 1
+                                : -1
+                        );
+
+                    }
+                );
+
+            }
+
+
+            if (lightboxNext) {
+
+                lightboxNext.addEventListener(
+                    "click",
+                    function () {
+
+                        moveLightbox(
+                            currentLang === "ar"
+                                ? -1
+                                : 1
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               KEYBOARD
+            ===================================================== */
+
+            document.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        lightbox &&
+                        lightbox.classList.contains(
+                            "active"
+                        )
+                    ) {
+
+                        if (
+                            event.key ===
+                            "Escape"
+                        ) {
+
+                            closeLightbox();
+
+                        }
+
+
+                        if (
+                            event.key ===
+                            "ArrowLeft"
+                        ) {
+
+                            moveLightbox(
+                                currentLang === "ar"
+                                    ? 1
+                                    : -1
+                            );
+
+                        }
+
+
+                        if (
+                            event.key ===
+                            "ArrowRight"
+                        ) {
+
+                            moveLightbox(
+                                currentLang === "ar"
+                                    ? -1
+                                    : 1
+                            );
+
+                        }
+
+
+                        return;
+                    }
+
+
+                    var tagName =
+                        event.target &&
+                        event.target.tagName;
+
+
+                    if (
+                        tagName === "INPUT" ||
+                        tagName === "TEXTAREA" ||
+                        tagName === "SELECT"
+                    ) {
+
+                        return;
+                    }
+
+
+                    if (
+                        event.key ===
+                        "ArrowLeft"
+                    ) {
+
+                        goTo(
+                            currentIndex -
+                            1
+                        );
+
+                        restartAuto();
+
+                    }
+
+
+                    if (
+                        event.key ===
+                        "ArrowRight"
+                    ) {
+
+                        goTo(
+                            currentIndex +
+                            1
+                        );
+
+                        restartAuto();
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================================
+               APPLY LANGUAGE
+            ===================================================== */
+
+            function applyLanguage(
+                lang
+            ) {
+
+                currentLang =
+                    lang === "ar"
+                        ? "ar"
+                        : "en";
+
+
+                var isArabic =
+                    currentLang === "ar";
+
+
+                html.lang =
+                    currentLang;
+
+
+                html.dir =
+                    isArabic
+                        ? "rtl"
+                        : "ltr";
+
+
+                try {
+
+                    localStorage.setItem(
+                        "itools-language",
+                        currentLang
+                    );
+
+                } catch (error) {}
+
+
+                /* -----------------------------------------
+                   Language Button
+                ----------------------------------------- */
+
+                if (langLabel) {
+
+                    langLabel.textContent =
+                        isArabic
+                            ? "EN"
+                            : "AR";
+                }
+
+
+                if (langToggle) {
+
+                    langToggle.setAttribute(
+                        "aria-label",
+                        isArabic
+                            ? "Switch to English"
+                            : "Switch to Arabic"
+                    );
+
+                    langToggle.title =
+                        isArabic
+                            ? "Switch to English"
+                            : "Switch to Arabic";
+                }
+
+
+                /* -----------------------------------------
+                   Hero
+                ----------------------------------------- */
+
+                setText(
+                    "flagText",
+                    "flag"
+                );
+
+                setText(
+                    "heroSubtitle",
+                    "heroSubtitle"
+                );
+
+                setText(
+                    "heroDescription",
+                    "heroDescription"
+                );
+
+                setText(
+                    "aboutIcareTitle",
+                    "aboutIcareTitle"
+                );
+
+                setText(
+                    "aboutIcareText",
+                    "aboutIcareText"
+                );
+
+                setText(
+                    "downloadHeroBtn",
+                    "downloadHero"
+                );
+
+                setText(
+                    "exploreBtn",
+                    "exploreFeatures"
+                );
+
+
+                /* -----------------------------------------
+                   Video
+                ----------------------------------------- */
+
+                setText(
+                    "programBadge",
+                    "programBadge"
+                );
+
+                setText(
+                    "programSmall",
+                    "programSmall"
+                );
+
+                setText(
+                    "programTitle",
+                    "programTitle"
+                );
+
+                setText(
+                    "programText",
+                    "programText"
+                );
+
+
+                /* -----------------------------------------
+                   Navigation
+                ----------------------------------------- */
+
+                setText(
+                    "navHome",
+                    "navHome"
+                );
+
+                setText(
+                    "navFeatures",
+                    "navFeatures"
+                );
+
+                setText(
+                    "navModules",
+                    "navModules"
+                );
+
+                setText(
+                    "navManagement",
+                    "navManagement"
+                );
+
+                setText(
+                    "navDownload",
+                    "navDownload"
+                );
+
+                setText(
+                    "mobileBack",
+                    "mobileBack"
+                );
+
+
+                /* -----------------------------------------
+                   Features
+                ----------------------------------------- */
+
+                setText(
+                    "featuresKicker",
+                    "featuresKicker"
+                );
+
+                setText(
+                    "featuresTitle",
+                    "featuresTitle"
+                );
+
+                setText(
+                    "featuresSub",
+                    "featuresSub"
+                );
+
+
+                /* -----------------------------------------
+                   Modules
+                ----------------------------------------- */
+
+                setText(
+                    "modulesKicker",
+                    "modulesKicker"
+                );
+
+                setText(
+                    "modulesTitle",
+                    "modulesTitle"
+                );
+
+                setText(
+                    "modulesSub",
+                    "modulesSub"
+                );
+
+
+                /* -----------------------------------------
+                   Management
+                ----------------------------------------- */
+
+                setText(
+                    "managementKicker",
+                    "managementKicker"
+                );
+
+                setText(
+                    "managementTitle",
+                    "managementTitle"
+                );
+
+                setText(
+                    "managementSub",
+                    "managementSub"
+                );
+
+                setText(
+                    "managementNote",
+                    "managementNote"
+                );
+
+
+                /* -----------------------------------------
+                   Download
+                ----------------------------------------- */
+
+                setText(
+                    "versionBadge",
+                    "version"
+                );
+
+                setText(
+                    "downloadTitle",
+                    "downloadTitle"
+                );
+
+                setText(
+                    "downloadText",
+                    "downloadText"
+                );
+
+                setText(
+                    "downloadBtn",
+                    "downloadButton"
+                );
+
+                setText(
+                    "safeText",
+                    "safe"
+                );
+
+
+                /* -----------------------------------------
+                   Footer
+                ----------------------------------------- */
+
+                setText(
+                    "footerAbout",
+                    "footerAbout"
+                );
+
+                setText(
+                    "footerNavigation",
+                    "footerNavigation"
+                );
+
+                setText(
+                    "footerHome",
+                    "footerHome"
+                );
+
+                setText(
+                    "footerFeatures",
+                    "footerFeatures"
+                );
+
+                setText(
+                    "footerModules",
+                    "footerModules"
+                );
+
+                setText(
+                    "footerManagement",
+                    "footerManagement"
+                );
+
+                setText(
+                    "footerProduct",
+                    "footerProduct"
+                );
+
+                setText(
+                    "footerBuild",
+                    "footerBuild"
+                );
+
+                setText(
+                    "footerPlatform",
+                    "footerPlatform"
+                );
+
+                setText(
+                    "footerInterface",
+                    "footerInterface"
+                );
+
+                setText(
+                    "footerContact",
+                    "footerContact"
+                );
+
+
+                if (currentLang === "ar") {
+
+                    document.getElementById(
+                        "footerBottom"
+                    ).innerHTML =
+                        `© 2026 <b style="color:var(--cyan)">i TOOLS : by mohammed</b> // ${t("footerBottom").replace("© 2026 // ","")}`;
+
+                } else {
+
+                    document.getElementById(
+                        "footerBottom"
+                    ).innerHTML =
+                        `© 2026 <b style="color:var(--cyan)">i TOOLS : by mohammed</b> // iCARE TOOL`;
+
+                }
+
+
+                /* -----------------------------------------
+                   Lightbox
+                ----------------------------------------- */
+
+                if (lightbox) {
+
+                    lightbox.setAttribute(
+                        "aria-label",
+                        isArabic
+                            ? "عارض صور iCARE"
+                            : "iCARE image viewer"
+                    );
+
+                }
+
+
+                if (lightboxClose) {
+
+                    lightboxClose.setAttribute(
+                        "aria-label",
+                        t("close")
+                    );
+
+                }
+
+
+                if (lightboxPrev) {
+
+                    lightboxPrev.setAttribute(
+                        "aria-label",
+                        t("previous")
+                    );
+
+                }
+
+
+                if (lightboxNext) {
+
+                    lightboxNext.setAttribute(
+                        "aria-label",
+                        t("next")
+                    );
+
+                }
+
+
+                /* -----------------------------------------
+                   Boot
+                ----------------------------------------- */
+
+                setText(
+                    "bootSub",
+                    "bootSub"
+                );
+
+
+                /* -----------------------------------------
+                   Rebuild dynamic content
+                ----------------------------------------- */
+
+                buildFeatures();
+
+                buildManagement();
+
+                buildShowcase();
+
+
+                /* Re-observe new reveal elements */
+
+                observeRevealElements();
+
+            }
+
+
+            function setText(
+                id,
+                key
+            ) {
+
+                var element =
+                    document.getElementById(
+                        id
+                    );
+
+
+                if (
+                    element
+                ) {
+
+                    element.textContent =
+                        t(key);
+                }
+
+            }
+
+
+            /* =====================================================
+               LANGUAGE BUTTON
+            ===================================================== */
+
+            if (langToggle) {
+
+                langToggle.addEventListener(
+                    "click",
+                    function () {
+
+                        applyLanguage(
+                            currentLang === "ar"
+                                ? "en"
+                                : "ar"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               DOWNLOAD BUTTON
+            ===================================================== */
+
+            var downloadBtn =
+                document.getElementById(
+                    "downloadBtn"
+                );
+
+
+            if (downloadBtn) {
+
+                downloadBtn.addEventListener(
+                    "click",
+                    function () {
+
+                        var original =
+                            t(
+                                "downloadButton"
+                            );
+
+
+                        downloadBtn.textContent =
+                            t(
+                                "downloadOpen"
+                            );
+
+
+                        setTimeout(
+                            function () {
+
+                                downloadBtn.textContent =
+                                    original;
+
+                            },
+                            1600
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               BOOT
+            ===================================================== */
+
+            var boot =
+                document.getElementById(
+                    "boot"
+                );
+
+            var bootBar =
+                document.getElementById(
+                    "bootbar"
+                );
+
+            var bootPct =
+                document.getElementById(
+                    "bootpct"
+                );
+
+            var bootLog =
+                document.getElementById(
+                    "bootlog"
+                );
+
+
+            var bootProgress =
+                0;
+
+            var bootDone =
+                false;
+
+
+            function hideBoot() {
+
+                if (
+                    !boot ||
+                    bootDone
+                ) {
+                    return;
+                }
+
+
+                bootDone =
+                    true;
+
+
+                boot.classList.add(
+                    "hide"
+                );
+
+            }
+
+
+            function runBoot() {
+
+                if (
+                    !boot ||
+                    bootDone
+                ) {
+                    return;
+                }
+
+
+                try {
+
+                    bootProgress +=
+                        Math.floor(
+                            Math.random() *
+                            7
+                        ) +
+                        4;
+
+
+                    if (
+                        bootProgress >
+                        100
+                    ) {
+
+                        bootProgress =
+                            100;
+                    }
+
+
+                    if (bootBar) {
+
+                        bootBar.style.width =
+                            bootProgress +
+                            "%";
+                    }
+
+
+                    if (bootPct) {
+
+                        bootPct.textContent =
+                            bootProgress +
+                            "%";
+                    }
+
+
+                    var messageIndex =
+                        Math.min(
+                            5,
+                            Math.floor(
+                                bootProgress /
+                                18
+                            )
+                        );
+
+
+                    var bootKeys = [
+
+                        "boot1",
+                        "boot2",
+                        "boot3",
+                        "boot4",
+                        "boot5",
+                        "boot6"
+
+                    ];
+
+
+                    if (bootLog) {
+
+                        bootLog.textContent =
+                            t(
+                                bootKeys[
+                                    messageIndex
+                                ]
+                            );
+
+                    }
+
+
+                    if (
+                        bootProgress >=
+                        100
+                    ) {
+
+                        setTimeout(
+                            hideBoot,
+                            500
+                        );
+
+                    } else {
+
+                        setTimeout(
+                            runBoot,
+                            110 +
+                            Math.random() *
+                            90
+                        );
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Boot error:",
+                        error
+                    );
+
+
+                    hideBoot();
+
+                }
+
+            }
+
+
+            /* =====================================================
+               RESIZE
+            ===================================================== */
+
+            window.addEventListener(
+                "resize",
+                function () {
+
+                    resizeCanvas();
+
+                    createParticles();
+
+                },
+                {
+                    passive:
+                        true
+                }
+            );
+
+
+            /* =====================================================
+               INIT
+            ===================================================== */
+
+            function init() {
+
+                try {
+
+                    resizeCanvas();
+
+                    createParticles();
+
+                    if (ctx) {
+
+                        drawParticles();
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Particle error:",
+                        error
+                    );
+                }
+
+
+                try {
+
+                    applyLanguage(
+                        currentLang
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Language error:",
+                        error
+                    );
+
+                    applyLanguage(
+                        "en"
+                    );
+
+                }
+
+
+                try {
+
+                    restartAuto();
+
+                } catch (error) {}
+
+
+                try {
+
+                    observeRevealElements();
+
+                } catch (error) {}
+
+
+                try {
+
+                    runBoot();
+
+                } catch (error) {
+
+                    hideBoot();
+
+                }
+
+            }
+
+
+            if (
+                document.readyState ===
+                "loading"
+            ) {
+
+                document.addEventListener(
+                    "DOMContentLoaded",
+                    init,
+                    {
+                        once:
+                            true
+                    }
+                );
+
+            } else {
+
+                init();
+
+            }
+
+
+            /* =====================================================
+               FAILSAFE
+            ===================================================== */
+
+            setTimeout(
+                function () {
+
+                    hideBoot();
+
+                },
+                6200
+            );
+
+
+            window.addEventListener(
+                "error",
+                function (event) {
+
+                    console.error(
+                        "iCARE Runtime Error:",
+                        event.error ||
+                        event.message
+                    );
+
+                    /*
+                     * لا نترك شاشة البداية معلقة
+                     */
+                    hideBoot();
+
+                }
+            );
+
+
+            window.addEventListener(
+                "unhandledrejection",
+                function (event) {
+
+                    console.error(
+                        "iCARE Promise Error:",
+                        event.reason
+                    );
+
+                    hideBoot();
+
+                }
+            );
+
+        })();
+
+    </script>
+
+</body>
+
+</html>
+```
