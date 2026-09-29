@@ -1,4416 +1,1320 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-    <title>i TOOLS by mohammed</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"
-        rel="stylesheet">
-
-    <style>
-        :root {
-            --bg: #05060d;
-            --bg2: #080a13;
-            --panel: #0a0d18;
-            --panel2: #0d1020;
-            --text: #eaf7ff;
-            --heading: #f4fbff;
-            --muted: #8692ad;
-            --muted-strong: #aab6c8;
-            --cyan: #00f6ff;
-            --cyan-soft: rgba(0, 246, 255, .10);
-            --pink: #ff28cf;
-            --pink-soft: rgba(255, 40, 207, .10);
-            --violet: #8d66ff;
-            --green: #28ff9a;
-            --orange: #ff9d43;
-            --line: rgba(0, 246, 255, .18);
-            --line-soft: rgba(0, 246, 255, .10);
-            --grid-line: rgba(0, 246, 255, .07);
-            --shadow: 0 0 40px rgba(0, 246, 255, .12), 0 0 90px rgba(255, 40, 207, .07);
-            --card-shadow: 0 18px 60px rgba(0, 0, 0, .28);
-            --nav-bg: rgba(7, 9, 17, .84);
-            --surface: #060912;
-            --surface-2: #08101a;
-            --scanline: rgba(255, 255, 255, .018);
-            --button-text: #ecfcff;
-            --clip: 10px;
-            --mono: 'Share Tech Mono', monospace;
-            --head: 'Orbitron', sans-serif;
-            --body: 'Rajdhani', sans-serif;
-        }
-
-        html[data-theme="light"] {
-            --bg: #edf3f8;
-            --bg2: #e4edf4;
-            --panel: #f8fbfd;
-            --panel2: #eef5f9;
-            --text: #182331;
-            --heading: #0c1623;
-            --muted: #55647a;
-            --muted-strong: #2f4054;
-            --cyan: #008c99;
-            --cyan-soft: rgba(0, 140, 153, .12);
-            --pink: #a80d83;
-            --pink-soft: rgba(168, 13, 131, .10);
-            --violet: #5a3ec8;
-            --green: #07834f;
-            --orange: #c66c12;
-            --line: rgba(0, 140, 153, .25);
-            --line-soft: rgba(0, 140, 153, .14);
-            --grid-line: rgba(0, 140, 153, .09);
-            --shadow: 0 18px 45px rgba(28, 58, 80, .12), 0 0 45px rgba(0, 140, 153, .06);
-            --card-shadow: 0 18px 50px rgba(28, 58, 80, .14);
-            --nav-bg: rgba(248, 251, 253, .92);
-            --surface: #f3f8fb;
-            --surface-2: #eaf2f7;
-            --scanline: rgba(20, 45, 65, .03);
-            --button-text: #0c1623;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: var(--cyan) var(--bg);
-        }
-
-        body {
-            min-height: 100vh;
-            font-family: var(--body);
-            color: var(--text);
-            overflow-x: hidden;
-            line-height: 1.55;
-            background:
-                radial-gradient(circle at 20% 0%, var(--cyan-soft), transparent 30%),
-                radial-gradient(circle at 90% 15%, var(--pink-soft), transparent 28%),
-                linear-gradient(180deg, var(--bg2), var(--bg));
-            transition: background .35s, color .35s;
-        }
-
-        ::selection {
-            background: var(--cyan);
-            color: #fff;
-        }
-
-        body:before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 50;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent 0 2px,
-                var(--scanline) 3px 4px
-            );
-        }
-
-        #particles {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .grid {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            opacity: .32;
-            background-image:
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 42px 42px;
-        }
-
-        #boot {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: var(--bg);
-            display: grid;
-            place-items: center;
-            padding: 20px;
-            transition: opacity .8s, visibility .8s;
-        }
-
-        #boot.hide {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .bootbox {
-            width: min(720px, 100%);
-            padding: clamp(20px, 5vw, 34px);
-        }
-
-        .bootlogo {
-            font: 900 clamp(2.2rem, 10vw, 5.4rem)/1 var(--head);
-            letter-spacing: .08em;
-            color: var(--cyan);
-            text-shadow: 0 0 20px var(--cyan), 0 0 70px var(--pink-soft);
-            text-align: center;
-        }
-
-        .bootsub {
-            text-align: center;
-            color: var(--pink);
-            font: 700 clamp(.62rem, 2vw, .9rem) var(--mono);
-            letter-spacing: .18em;
-            line-height: 1.7;
-            margin: 18px 0 32px;
-        }
-
-        .bootline {
-            height: 4px;
-            background: var(--surface-2);
-            border: 1px solid var(--line);
-            overflow: hidden;
-        }
-
-        .bootline span {
-            display: block;
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, var(--cyan), var(--pink), var(--violet));
-            box-shadow: 0 0 26px var(--cyan);
-        }
-
-        .bootpct {
-            text-align: center;
-            color: var(--cyan);
-            font: 700 .8rem var(--mono);
-            margin-top: 12px;
-            letter-spacing: .16em;
-        }
-
-        .bootlog {
-            font: 700 .72rem var(--mono);
-            color: var(--muted);
-            min-height: 18px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        #side {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 278px;
-            z-index: 20;
-            background: var(--nav-bg);
-            backdrop-filter: blur(16px);
-            border-right: 1px solid var(--line);
-            box-shadow: 15px 0 50px rgba(0, 0, 0, .12);
-            display: flex;
-            flex-direction: column;
-            transition: width .45s, transform .45s;
-        }
-
-        #side.collapsed {
-            width: 76px;
-        }
-
-        .side-head {
-            padding: 24px 18px 18px;
-            border-bottom: 1px solid var(--line);
-            position: relative;
-        }
-
-        .brand {
-            font: 900 1.15rem var(--head);
-            letter-spacing: .11em;
-            color: var(--cyan);
-            text-shadow: 0 0 15px var(--cyan);
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .brand em {
-            color: var(--pink);
-            font-style: normal;
-        }
-
-        .tagline {
-            font: 700 .66rem var(--mono);
-            color: var(--muted);
-            letter-spacing: .16em;
-            margin-top: 5px;
-            white-space: nowrap;
-        }
-
-        .side-toggle {
-            position: absolute;
-            right: -13px;
-            top: 28px;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 1px solid var(--cyan);
-            background: var(--surface);
-            color: var(--cyan);
-            cursor: pointer;
-            box-shadow: 0 0 18px var(--cyan-soft);
-            font-size: .8rem;
-            display: grid;
-            place-items: center;
-            transition: background .25s, color .25s, box-shadow .25s;
-            z-index: 2;
-        }
-
-        .side-toggle:hover {
-            background: var(--cyan);
-            color: #fff;
-            box-shadow: 0 0 25px var(--cyan-soft);
-        }
-
-        .side-nav {
-            padding: 20px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            overflow: auto;
-        }
-
-        .side-nav a {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            padding: 13px;
-            border-radius: 10px;
-            color: var(--muted);
-            position: relative;
-            overflow: hidden;
-            transition: .3s;
-            white-space: nowrap;
-            font-weight: 600;
-        }
-
-        .side-nav a:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--cyan);
-            box-shadow: 0 0 16px var(--cyan);
-            transform: scaleY(0);
-            transition: .3s;
-        }
-
-        .side-nav a:hover,
-        .side-nav a.active {
-            color: var(--cyan);
-            background: var(--cyan-soft);
-            text-shadow: 0 0 10px var(--cyan-soft);
-        }
-
-        .side-nav a:hover:before,
-        .side-nav a.active:before {
-            transform: scaleY(1);
-        }
-
-        .side-nav .ico {
-            width: 24px;
-            flex: 0 0 24px;
-            text-align: center;
-            font-size: 1.05rem;
-        }
-
-        .side-footer {
-            margin-top: auto;
-            padding: 16px;
-            border-top: 1px solid var(--line);
-            font: 700 .64rem var(--mono);
-            color: var(--muted);
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        #side.collapsed .brand span,
-        #side.collapsed .tagline,
-        #side.collapsed .side-nav span,
-        #side.collapsed .side-footer span {
-            display: none;
-        }
-
-        #side.collapsed .side-nav a {
-            justify-content: center;
-        }
-
-        #side.collapsed .side-nav .ico {
-            width: auto;
-            flex-basis: auto;
-        }
-
-        #main {
-            margin-left: 278px;
-            position: relative;
-            z-index: 5;
-            transition: margin-left .45s;
-        }
-
-        #main.expanded {
-            margin-left: 76px;
-        }
-
-        .side-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .5);
-            z-index: 15;
-            opacity: 0;
-            visibility: hidden;
-            transition: .35s;
-            pointer-events: none;
-            backdrop-filter: blur(2px);
-        }
-
-        .side-backdrop.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        .mobile-btn {
-            display: none;
-            position: fixed;
-            left: 14px;
-            top: 14px;
-            z-index: 100;
-            width: 46px;
-            height: 46px;
-            border: 1px solid var(--cyan);
-            border-radius: 10px;
-            background: var(--surface);
-            color: var(--cyan);
-            box-shadow: 0 0 24px var(--cyan-soft);
-            cursor: pointer;
-            font-size: 1.3rem;
-            place-items: center;
-            transition: background .25s, color .25s, box-shadow .25s;
-        }
-
-        .mobile-btn:hover {
-            background: var(--cyan);
-            color: #fff;
-            box-shadow: 0 0 30px var(--cyan-soft);
-        }
-
-        .theme-toggle {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            z-index: 120;
-            width: 52px;
-            height: 52px;
-            border: 1px solid var(--cyan);
-            border-radius: 50%;
-            background: var(--surface);
-            color: var(--cyan);
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            font-size: 1.1rem;
-            box-shadow: 0 0 18px var(--cyan-soft), inset 0 0 16px var(--cyan-soft);
-            transition: transform .25s, background .25s, color .25s, box-shadow .25s;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-3px);
-            background: var(--cyan);
-            color: #fff;
-            box-shadow: 0 0 30px var(--cyan-soft);
-        }
-
-        .lang-toggle {
-            position: fixed;
-            right: 82px;
-            bottom: 20px;
-            z-index: 120;
-            width: 52px;
-            height: 52px;
-            border: 1px solid var(--pink);
-            border-radius: 50%;
-            background: var(--surface);
-            color: var(--pink);
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            font: 800 .68rem var(--head);
-            letter-spacing: .08em;
-            box-shadow: 0 0 18px var(--pink-soft), inset 0 0 16px var(--pink-soft);
-            transition: transform .25s, background .25s, color .25s, box-shadow .25s;
-        }
-
-        .lang-toggle:hover {
-            transform: translateY(-3px);
-            background: var(--pink);
-            color: #fff;
-            box-shadow: 0 0 30px var(--pink-soft);
-        }
-
-        section {
-            min-height: 100svh;
-            padding: clamp(80px, 8vw, 110px) clamp(16px, 6vw, 6vw) clamp(65px, 7vw, 90px);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            scroll-margin-top: 80px;
-        }
-
-        .container {
-            width: min(1180px, 100%);
-            margin: auto;
-        }
-
-        .section-kicker {
-            font: 700 .72rem var(--mono);
-            letter-spacing: .20em;
-            color: var(--green);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font: 900 clamp(1.8rem, 5vw, 3.6rem) var(--head);
-            letter-spacing: .04em;
-            line-height: 1.1;
-            background: linear-gradient(90deg, var(--cyan), var(--pink), var(--violet));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .section-sub {
-            font: 500 clamp(.95rem, 2vw, 1.05rem) var(--body);
-            color: var(--muted);
-            max-width: 760px;
-            margin-top: 14px;
-        }
-
-        .divider {
-            height: 1px;
-            margin: 28px 0 34px;
-            background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), transparent);
-            position: relative;
-        }
-
-        .divider:after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--cyan);
-            box-shadow: 0 0 16px var(--cyan), 0 0 30px var(--pink);
-            transform: translate(-50%, -50%);
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(44px);
-            transition: opacity .8s, transform .8s cubic-bezier(.2, .75, .25, 1);
-        }
-
-        .reveal.show {
-            opacity: 1;
-            transform: none;
-        }
-
-        .panel {
-            position: relative;
-            padding: clamp(18px, 3vw, 26px);
-            border: 1px solid var(--line);
-            background: linear-gradient(180deg, var(--panel2), var(--panel));
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            isolation: isolate;
-        }
-
-        .panel:before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border: 1px solid var(--line-soft);
-            box-shadow: inset 0 0 20px var(--cyan-soft);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .panel:after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 10% 0%, var(--cyan-soft), transparent 26%),
-                radial-gradient(circle at 90% 100%, var(--pink-soft), transparent 30%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .panel > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 14px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            min-height: 48px;
-            padding: 13px clamp(16px, 2vw, 24px);
-            border: 1px solid var(--cyan);
-            background: linear-gradient(180deg, var(--cyan-soft), transparent);
-            color: var(--button-text);
-            font: 700 clamp(.68rem, 1.3vw, .76rem) var(--head);
-            letter-spacing: .10em;
-            line-height: 1.35;
-            text-align: center;
-            text-transform: uppercase;
-            clip-path: polygon(
-                var(--clip) 0,
-                100% 0,
-                100% calc(100% - var(--clip)),
-                calc(100% - var(--clip)) 100%,
-                0 100%,
-                0 var(--clip)
-            );
-            box-shadow: 0 0 14px var(--cyan-soft), inset 0 0 14px var(--cyan-soft);
-            transition: transform .28s, box-shadow .28s, background .28s, color .28s;
-            overflow: hidden;
-            isolation: isolate;
-            cursor: pointer;
-        }
-
-        .btn:before {
-            content: "";
-            position: absolute;
-            inset: -20% -60%;
-            background: linear-gradient(
-                105deg,
-                transparent 38%,
-                rgba(255, 255, 255, .05) 43%,
-                rgba(255, 255, 255, .78) 50%,
-                rgba(255, 255, 255, .05) 57%,
-                transparent 62%
-            );
-            transform: translateX(-80%) skewX(-18deg);
-            transition: transform .7s cubic-bezier(.2, .7, .2, 1);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .btn:hover:before {
-            transform: translateX(80%) skewX(-18deg);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            color: #fff;
-            background: linear-gradient(
-                180deg,
-                var(--cyan),
-                color-mix(in srgb, var(--cyan) 82%, black 18%)
-            );
-            box-shadow: 0 0 18px var(--cyan), 0 0 42px var(--cyan-soft);
-        }
-
-        .btn.pink {
-            border-color: var(--pink);
-            background: linear-gradient(180deg, var(--pink-soft), transparent);
-            color: var(--button-text);
-            box-shadow: 0 0 14px var(--pink-soft);
-        }
-
-        .btn.pink:hover {
-            background: linear-gradient(
-                180deg,
-                var(--pink),
-                color-mix(in srgb, var(--pink) 82%, black 18%)
-            );
-            color: #fff;
-            box-shadow: 0 0 18px var(--pink), 0 0 42px var(--pink-soft);
-        }
-
-        .hero {
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .hero .container {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            padding: 8px 16px;
-            border: 1px solid var(--green);
-            border-radius: 999px;
-            color: var(--green);
-            font: 700 clamp(.58rem, 1.4vw, .7rem) var(--mono);
-            letter-spacing: .12em;
-            background: rgba(40, 255, 154, .04);
-        }
-
-        .status i {
-            width: 7px;
-            height: 7px;
-            flex: 0 0 7px;
-            border-radius: 50%;
-            background: var(--green);
-            box-shadow: 0 0 12px var(--green);
-            animation: pulse 1.6s infinite;
-        }
-
-        .hero h1 {
-            font: 900 clamp(3rem, 10vw, 8rem)/.95 var(--head);
-            letter-spacing: .07em;
-            margin: 28px 0 16px;
-            background: linear-gradient(
-                135deg,
-                var(--cyan),
-                color-mix(in srgb, var(--cyan) 45%, white 55%) 28%,
-                var(--pink) 64%,
-                var(--violet)
-            );
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            filter: drop-shadow(0 0 28px var(--cyan-soft));
-        }
-
-        .hero .by {
-            font: 700 clamp(.8rem, 2vw, 1.15rem) var(--mono);
-            color: var(--pink);
-            letter-spacing: .25em;
-            text-transform: uppercase;
-        }
-
-        .hero .lead {
-            width: min(800px, 100%);
-            color: var(--muted-strong);
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            margin: 26px auto 18px;
-        }
-
-        .hero-explanation {
-            width: min(760px, 100%);
-            margin-top: 18px;
-            padding: 14px 18px;
-            border-left: 2px solid var(--cyan);
-            background: linear-gradient(90deg, var(--cyan-soft), transparent);
-            text-align: left;
-        }
-
-        .hero-explanation .explain-tag {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--cyan);
-            font: 700 .62rem var(--mono);
-            letter-spacing: .18em;
-        }
-
-        .hero-explanation p {
-            margin: 0;
-            color: var(--muted);
-            font-size: .88rem;
-        }
-
-        .profile-section {
-            width: min(920px, 100%);
-            margin-top: 58px;
-        }
-
-        .profile-card {
-            display: grid;
-            grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr);
-            gap: 30px;
-            padding: clamp(20px, 4vw, 32px);
-        }
-
-        .profile-avatar {
-            min-height: 270px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: radial-gradient(circle, var(--cyan-soft), transparent 60%);
-            border: 1px solid var(--line);
-            overflow: hidden;
-        }
-
-        .profile-avatar:before {
-            content: "";
-            position: absolute;
-            width: min(190px, 70%);
-            aspect-ratio: 1;
-            border: 1px dashed var(--line);
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--cyan-soft);
-        }
-
-        .profile-avatar:after {
-            content: "";
-            position: absolute;
-            width: min(125px, 45%);
-            aspect-ratio: 1;
-            border: 1px solid var(--pink);
-            transform: rotate(45deg);
-            box-shadow: 0 0 25px var(--pink-soft);
-        }
-
-        .avatar-core {
-            position: relative;
-            z-index: 2;
-            width: clamp(75px, 10vw, 92px);
-            aspect-ratio: 1;
-            display: grid;
-            place-items: center;
-            border: 1px solid var(--cyan);
-            color: var(--cyan);
-            font: 900 clamp(1.1rem, 2vw, 1.4rem) var(--head);
-            background: var(--surface);
-            box-shadow: 0 0 30px var(--cyan-soft), inset 0 0 20px var(--cyan-soft);
-        }
-
-        .profile-copy {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .profile-label {
-            font: 700 .65rem var(--mono);
-            color: var(--green);
-            letter-spacing: .2em;
-            margin-bottom: 9px;
-        }
-
-        .profile-copy h2 {
-            font: 900 clamp(1.7rem, 4vw, 3rem) var(--head);
-            color: var(--heading);
-            margin-bottom: 10px;
-        }
-
-        .profile-copy h2 span {
-            color: var(--pink);
-        }
-
-        .profile-copy p {
-            color: var(--muted);
-            font-size: clamp(.92rem, 1.7vw, 1rem);
-            max-width: 650px;
-            white-space: pre-line;
-        }
-
-        .profile-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .profile-tag {
-            padding: 6px 10px;
-            border: 1px solid var(--line);
-            background: var(--cyan-soft);
-            color: var(--muted-strong);
-            font: 700 .61rem var(--mono);
-            letter-spacing: .1em;
-            border-radius: 4px;
-        }
-
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .info-card {
-            padding: clamp(20px, 2.4vw, 28px) clamp(18px, 2vw, 22px);
-            min-height: 220px;
-            transition: transform .35s, box-shadow .35s;
-        }
-
-        .info-card:hover {
-            transform: translateY(-7px);
-            box-shadow: var(--card-shadow), 0 0 30px var(--cyan-soft);
-        }
-
-        .card-icon {
-            font-size: clamp(1.8rem, 3vw, 2.2rem);
-            margin-bottom: 18px;
-            filter: drop-shadow(0 0 13px currentColor);
-        }
-
-        .info-card h3 {
-            font: 800 clamp(.9rem, 1.6vw, 1rem) var(--head);
-            letter-spacing: .06em;
-            color: var(--cyan);
-            margin-bottom: 10px;
-        }
-
-        .info-card p {
-            color: var(--muted);
-            font-size: .9rem;
-        }
-
-        /* =========================================================
-           SHOWCASE / IMAGE FIX
-           Keep the carousel itself LTR in both languages.
-           This prevents RTL from breaking flex ordering,
-           transforms and image layout.
-        ========================================================= */
-
-        .showcase {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            direction: ltr;
-        }
-
-        .showcase-track {
-            display: flex;
-            width: 100%;
-            direction: ltr;
-            transition: transform .7s cubic-bezier(.2, .7, .2, 1);
-            will-change: transform;
-        }
-
-        .showcase-slide {
-            min-width: 100%;
-            display: grid;
-            grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
-            gap: 28px;
-            align-items: center;
-            padding: clamp(18px, 3vw, 28px);
-            direction: ltr;
-        }
-
-        .showcase-image {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/10;
-            border: 1px solid var(--line);
-            background: var(--surface);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: zoom-in;
-            direction: ltr;
-            isolation: isolate;
-        }
-
-        .showcase-image img {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: contain;
-            object-position: center;
-            background: var(--surface);
-            transition: transform .6s, opacity .35s;
-            opacity: 1;
-            visibility: visible;
-            direction: ltr;
-            unicode-bidi: isolate;
-            transform-origin: center;
-        }
-
-        .showcase-image img.loading {
-            opacity: .55;
-        }
-
-        .showcase-image:hover img {
-            transform: scale(1.018);
-        }
-
-        .showcase-image .zoom-hint {
-            position: absolute;
-            bottom: 14px;
-            right: 14px;
-            z-index: 4;
-            padding: 6px 10px;
-            border: 1px solid var(--line);
-            background: var(--surface);
-            color: var(--cyan);
-            font: 700 .58rem var(--mono);
-            letter-spacing: .12em;
-            opacity: 0;
-            transition: opacity .3s;
-            pointer-events: none;
-        }
-
-        .showcase-image:hover .zoom-hint {
-            opacity: 1;
-        }
-
-        .image-index {
-            position: absolute;
-            top: 14px;
-            left: 14px;
-            z-index: 4;
-            padding: 6px 9px;
-            border: 1px solid var(--line);
-            background: var(--surface);
-            color: var(--cyan);
-            font: 700 .6rem var(--mono);
-            letter-spacing: .14em;
-        }
-
-        .showcase-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            direction: ltr;
-        }
-
-        html[dir="rtl"] .showcase-info {
-            direction: rtl;
-            text-align: right;
-        }
-
-        html[dir="ltr"] .showcase-info {
-            direction: ltr;
-            text-align: left;
-        }
-
-        .showcase-tag {
-            display: inline-block;
-            width: max-content;
-            padding: 6px 10px;
-            border: 1px solid var(--pink);
-            color: var(--pink);
-            font: 700 .62rem var(--mono);
-            letter-spacing: .12em;
-            margin-bottom: 14px;
-        }
-
-        .showcase-info h3 {
-            font: 900 clamp(1.4rem, 3vw, 2.5rem) var(--head);
-            color: var(--heading);
-            margin-bottom: 12px;
-        }
-
-        .showcase-info p {
-            color: var(--muted);
-            font-size: clamp(.92rem, 1.6vw, 1rem);
-            line-height: 1.75;
-        }
-
-        .showcase-list {
-            display: grid;
-            gap: 9px;
-            margin-top: 20px;
-        }
-
-        .showcase-list div {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font: 700 .72rem var(--mono);
-            color: var(--muted-strong);
-        }
-
-        html[dir="rtl"] .showcase-list div {
-            flex-direction: row;
-        }
-
-        .showcase-dot {
-            width: 6px;
-            height: 6px;
-            flex: 0 0 6px;
-            margin-top: 7px;
-            border-radius: 50%;
-            background: var(--cyan);
-            box-shadow: 0 0 10px var(--cyan);
-        }
-
-        .showcase-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            padding: 0 clamp(18px, 3vw, 28px) clamp(18px, 3vw, 24px);
-            direction: ltr;
-        }
-
-        .showcase-btn {
-            width: 44px;
-            height: 44px;
-            flex: 0 0 44px;
-            border: 1px solid var(--cyan);
-            background: var(--surface);
-            color: var(--cyan);
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.35rem;
-            line-height: 1;
-            transition: background .25s, color .25s, box-shadow .25s, transform .25s;
-            display: grid;
-            place-items: center;
-        }
-
-        .showcase-btn:hover {
-            background: var(--cyan);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 0 28px var(--cyan-soft);
-        }
-
-        .showcase-dots {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            direction: ltr;
-        }
-
-        .showcase-dots button {
-            width: 8px;
-            height: 8px;
-            padding: 0;
-            border: 0;
-            border-radius: 999px;
-            background: #657383;
-            cursor: pointer;
-            transition: .3s;
-        }
-
-        .showcase-dots button.active {
-            width: 30px;
-            background: var(--pink);
-            box-shadow: 0 0 14px var(--pink-soft);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 18px;
-            padding: 4px;
-        }
-
-        .about-item {
-            padding: 22px 20px;
-            border: 1px solid var(--line-soft);
-            background: var(--cyan-soft);
-            border-radius: 8px;
-            transition: transform .3s, box-shadow .3s;
-        }
-
-        .about-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px var(--cyan-soft);
-        }
-
-        .about-item .section-kicker {
-            margin-bottom: 12px;
-            font-size: .65rem;
-        }
-
-        .about-item p {
-            color: var(--muted);
-            font-size: .9rem;
-            line-height: 1.65;
-        }
-
-        footer {
-            padding: 60px clamp(18px, 6vw, 6vw) 24px;
-            border-top: 1px solid var(--line);
-            background: color-mix(in srgb, var(--bg) 92%, transparent);
-        }
-
-        .footer-grid {
-            width: min(1180px, 100%);
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1.3fr 1fr 1fr;
-            gap: 28px;
-        }
-
-        .footer-title {
-            font: 900 clamp(1rem, 2vw, 1.25rem) var(--head);
-            color: var(--cyan);
-            text-shadow: 0 0 14px var(--cyan);
-            margin-bottom: 12px;
-        }
-
-        .footer-grid h4 {
-            font: 800 .75rem var(--head);
-            letter-spacing: .15em;
-            color: var(--pink);
-            margin-bottom: 13px;
-        }
-
-        .footer-grid p,
-        .footer-grid a {
-            display: block;
-            color: var(--muted);
-            font-size: .85rem;
-            margin-bottom: 7px;
-        }
-
-        .footer-grid a:hover {
-            color: var(--cyan);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid var(--line-soft);
-            margin-top: 35px;
-            padding-top: 20px;
-            color: var(--muted);
-            font: 700 .63rem var(--mono);
-            letter-spacing: .10em;
-            line-height: 1.8;
-        }
-
-        #lightbox {
-            position: fixed;
-            inset: 0;
-            z-index: 5000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity .4s, visibility .4s;
-            pointer-events: none;
-        }
-
-        #lightbox.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        .lightbox-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, .88);
-            backdrop-filter: blur(10px);
-        }
-
-        .lightbox-container {
-            position: relative;
-            z-index: 1;
-            width: min(92vw, 1100px);
-            max-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 16px;
-            direction: ltr;
-        }
-
-        .lightbox-img-wrap {
-            width: 100%;
-            max-height: 75vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .lightbox-img-wrap img {
-            max-width: 100%;
-            max-height: 75vh;
-            object-fit: contain;
-            border: 1px solid var(--line);
-            box-shadow: 0 0 60px rgba(0, 0, 0, .5);
-            border-radius: 4px;
-            display: block;
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .lightbox-caption {
-            color: var(--text);
-            font: 700 .8rem var(--mono);
-            letter-spacing: .12em;
-            text-align: center;
-            padding: 8px 16px;
-            background: rgba(0, 0, 0, .6);
-            border-radius: 4px;
-            border: 1px solid var(--line);
-            max-width: 90%;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 44px;
-            height: 44px;
-            border: 1px solid var(--cyan);
-            border-radius: 50%;
-            background: var(--surface);
-            color: var(--cyan);
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            transition: background .25s, color .25s, box-shadow .25s;
-            z-index: 2;
-        }
-
-        .lightbox-close:hover {
-            background: var(--cyan);
-            color: #fff;
-            box-shadow: 0 0 28px var(--cyan-soft);
-        }
-
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 48px;
-            height: 48px;
-            border: 1px solid var(--cyan);
-            border-radius: 50%;
-            background: var(--surface);
-            color: var(--cyan);
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            transition: background .25s, color .25s, box-shadow .25s;
-            z-index: 2;
-        }
-
-        .lightbox-nav:hover {
-            background: var(--cyan);
-            color: #fff;
-            box-shadow: 0 0 28px var(--cyan-soft);
-        }
-
-        .lightbox-prev {
-            left: 12px;
-        }
-
-        .lightbox-next {
-            right: 12px;
-        }
-
-        .lightbox-counter {
-            color: var(--muted);
-            font: 700 .65rem var(--mono);
-            letter-spacing: .14em;
-            text-align: center;
-        }
-
-        @keyframes pulse {
-            50% {
-                opacity: .35;
-                transform: scale(.75);
-            }
-        }
-
-        /* =========================================================
-           RTL
-        ========================================================= */
-
-        html[dir="rtl"] body {
-            direction: rtl;
-        }
-
-        html[dir="rtl"] #side {
-            left: auto;
-            right: 0;
-            border-right: 0;
-            border-left: 1px solid var(--line);
-            box-shadow: -15px 0 50px rgba(0, 0, 0, .12);
-        }
-
-        html[dir="rtl"] #main {
-            margin-left: 0;
-            margin-right: 278px;
-        }
-
-        html[dir="rtl"] #main.expanded {
-            margin-left: 0;
-            margin-right: 76px;
-        }
-
-        html[dir="rtl"] .side-toggle {
-            right: auto;
-            left: -13px;
-        }
-
-        html[dir="rtl"] .side-nav a:before {
-            left: auto;
-            right: 0;
-        }
-
-        html[dir="rtl"] .hero-explanation {
-            border-left: 0;
-            border-right: 2px solid var(--cyan);
-            background: linear-gradient(270deg, var(--cyan-soft), transparent);
-            text-align: right;
-        }
-
-        html[dir="rtl"] .lightbox-prev {
-            left: auto;
-            right: 12px;
-        }
-
-        html[dir="rtl"] .lightbox-next {
-            right: auto;
-            left: 12px;
-        }
-
-        @media(max-width:1100px) {
-
-            #side {
-                width: 240px;
-            }
-
-            #main {
-                margin-left: 240px;
-            }
-
-            #main.expanded {
-                margin-left: 76px;
-            }
-
-            html[dir="rtl"] #main {
-                margin-left: 0;
-                margin-right: 240px;
-            }
-
-            html[dir="rtl"] #main.expanded {
-                margin-left: 0;
-                margin-right: 76px;
-            }
-
-            .profile-card {
-                grid-template-columns: minmax(180px, .75fr) minmax(0, 1.25fr);
-                gap: 22px;
-            }
-
-            .showcase-slide {
-                grid-template-columns: minmax(0, 1.08fr) minmax(250px, .92fr);
-                gap: 20px;
-            }
-
-            .grid-cards {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media(max-width:900px) {
-
-            #side {
-                transform: translateX(-102%);
-                width: 278px;
-            }
-
-            #side.open {
-                transform: translateX(0);
-                box-shadow: 20px 0 60px rgba(0, 0, 0, .3);
-            }
-
-            html[dir="rtl"] #side {
-                transform: translateX(102%);
-            }
-
-            html[dir="rtl"] #side.open {
-                transform: translateX(0);
-                box-shadow: -20px 0 60px rgba(0, 0, 0, .3);
-            }
-
-            .mobile-btn {
-                display: grid;
-            }
-
-            .side-backdrop {
-                display: block;
-            }
-
-            #main,
-            #main.expanded,
-            html[dir="rtl"] #main,
-            html[dir="rtl"] #main.expanded {
-                margin-left: 0;
-                margin-right: 0;
-            }
-
-            section {
-                min-height: auto;
-            }
-
-            .profile-card {
-                grid-template-columns: 1fr;
-            }
-
-            .profile-avatar {
-                min-height: 220px;
-            }
-
-            .grid-cards {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 14px;
-            }
-
-            .showcase-slide {
-                grid-template-columns: 1fr;
-                align-items: stretch;
-                gap: 18px;
-            }
-
-            .showcase-image {
-                aspect-ratio: 16/9;
-            }
-
-            .footer-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 22px;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 14px;
-            }
-        }
-
-        @media(max-width:600px) {
-
-            section {
-                padding: 88px 14px 62px;
-                scroll-margin-top: 70px;
-            }
-
-            .mobile-btn {
-                left: 10px;
-                top: 10px;
-                width: 44px;
-                height: 44px;
-                border-radius: 9px;
-                font-size: 1.15rem;
-            }
-
-            .theme-toggle {
-                width: 46px;
-                height: 46px;
-                right: 12px;
-                bottom: 12px;
-                font-size: 1rem;
-            }
-
-            .lang-toggle {
-                right: 66px;
-                bottom: 12px;
-                width: 46px;
-                height: 46px;
-                font-size: .6rem;
-            }
-
-            .hero {
-                padding-top: 115px;
-            }
-
-            .status {
-                padding: 7px 11px;
-                letter-spacing: .08em;
-                line-height: 1.4;
-                font-size: .55rem;
-            }
-
-            .hero h1 {
-                font-size: clamp(2.5rem, 14vw, 4rem);
-                letter-spacing: .03em;
-                margin: 22px 0 12px;
-            }
-
-            .hero .by {
-                font-size: .78rem;
-                letter-spacing: .18em;
-            }
-
-            .hero .lead {
-                font-size: .98rem;
-                line-height: 1.65;
-            }
-
-            .hero-explanation {
-                padding: 13px 15px;
-            }
-
-            .actions {
-                width: 100%;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-
-            .btn {
-                width: 100%;
-                min-height: 50px;
-                padding: 12px 15px;
-                font-size: .68rem;
-                letter-spacing: .08em;
-                --clip: 8px;
-            }
-
-            .profile-section {
-                width: 100%;
-                margin-top: 40px;
-            }
-
-            .profile-card {
-                padding: 18px;
-                gap: 22px;
-            }
-
-            .profile-avatar {
-                min-height: 200px;
-            }
-
-            .profile-copy h2 {
-                font-size: clamp(1.55rem, 8vw, 2.1rem);
-            }
-
-            .profile-tags {
-                gap: 6px;
-            }
-
-            .profile-tag {
-                font-size: .56rem;
-                padding: 5px 8px;
-            }
-
-            .section-title {
-                font-size: clamp(1.65rem, 9vw, 2.4rem);
-            }
-
-            .section-sub {
-                font-size: .95rem;
-            }
-
-            .grid-cards {
-                grid-template-columns: 1fr;
-                gap: 14px;
-            }
-
-            .info-card {
-                min-height: 0;
-                padding: 22px 18px;
-            }
-
-            .showcase-slide {
-                padding: 14px;
-            }
-
-            .showcase-image {
-                aspect-ratio: 4/3;
-            }
-
-            .showcase-image .zoom-hint {
-                opacity: 1;
-                bottom: 8px;
-                right: 8px;
-                font-size: .5rem;
-                padding: 4px 7px;
-            }
-
-            .image-index {
-                top: 10px;
-                left: 10px;
-                font-size: .55rem;
-                padding: 5px 7px;
-            }
-
-            .showcase-tag {
-                font-size: .56rem;
-                padding: 5px 8px;
-            }
-
-            .showcase-info h3 {
-                font-size: clamp(1.3rem, 7vw, 1.8rem);
-            }
-
-            .showcase-info p {
-                font-size: .9rem;
-                line-height: 1.7;
-            }
-
-            .showcase-list {
-                gap: 8px;
-                margin-top: 16px;
-            }
-
-            .showcase-list div {
-                font-size: .66rem;
-            }
-
-            .showcase-controls {
-                padding: 0 14px 14px;
-            }
-
-            .showcase-btn {
-                width: 40px;
-                height: 40px;
-                flex-basis: 40px;
-                font-size: 1.2rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 22px;
-            }
-
-            .lightbox-close {
-                top: 12px;
-                right: 12px;
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-
-            .lightbox-nav {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-
-            .lightbox-prev {
-                left: 6px;
-            }
-
-            .lightbox-next {
-                right: 6px;
-            }
-
-            .lightbox-img-wrap img {
-                max-height: 65vh;
-            }
-
-            html[dir="rtl"] .lightbox-prev {
-                right: 6px;
-                left: auto;
-            }
-
-            html[dir="rtl"] .lightbox-next {
-                left: 6px;
-                right: auto;
-            }
-        }
-
-        @media(max-width:380px) {
-
-            .mobile-btn {
-                width: 40px;
-                height: 40px;
-                left: 8px;
-                top: 8px;
-                font-size: 1rem;
-            }
-
-            section {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .showcase-slide {
-                padding: 10px;
-            }
-
-            .showcase-controls {
-                padding: 0 10px 12px;
-            }
-
-            .showcase-dots {
-                gap: 5px;
-            }
-
-            .showcase-dots button.active {
-                width: 22px;
-            }
-
-            .btn {
-                font-size: .62rem;
-                padding: 11px 12px;
-                letter-spacing: .06em;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>itools | محمد صلاح</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04050d;
+  --txt:#eaf0ff;
+  --muted:#98a6c6;
+  --glass:rgba(255,255,255,.07);
+  --glass-2:rgba(255,255,255,.11);
+  --stroke:rgba(255,255,255,.14);
+  --c1:#22d3ee;
+  --c2:#a855f7;
+  --c3:#f472b6;
+  --radius:24px;
+  --sbw:300px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Tajawal','Cairo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100dvh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+::selection{background:rgba(168,85,247,.45)}
+
+/* ================= الخلفية ================= */
+.bg{
+  position:fixed;inset:0;z-index:-2;overflow:hidden;
+  background:
+    radial-gradient(1200px 800px at 85% -15%, #1d1246 0%, transparent 62%),
+    radial-gradient(950px 750px at -10% 105%, #05283c 0%, transparent 62%),
+    radial-gradient(700px 600px at 50% 50%, #12061f 0%, transparent 70%),
+    #04050d;
+}
+.blob{
+  position:absolute;border-radius:50%;filter:blur(100px);opacity:.5;
+  animation:float 20s ease-in-out infinite;
+}
+.blob.b1{width:520px;height:520px;background:radial-gradient(circle,#22d3ee,transparent 70%);top:-140px;right:-120px}
+.blob.b2{width:600px;height:600px;background:radial-gradient(circle,#a855f7,transparent 70%);bottom:-200px;left:-160px;animation-delay:-6s}
+.blob.b3{width:420px;height:420px;background:radial-gradient(circle,#f472b6,transparent 70%);top:40%;left:45%;animation-delay:-12s;opacity:.35}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(60px,-50px) scale(1.12)}
+  66%{transform:translate(-50px,40px) scale(.92)}
+}
+.grid-overlay{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(circle at 50% 25%,#000 0%,transparent 78%);
+  mask-image:radial-gradient(circle at 50% 25%,#000 0%,transparent 78%);
+}
+.noise{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ================= الزجاج ================= */
+.glass{
+  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.028));
+  border:1px solid var(--stroke);
+  backdrop-filter:blur(24px) saturate(170%);
+  -webkit-backdrop-filter:blur(24px) saturate(170%);
+  border-radius:var(--radius);
+  box-shadow:
+    0 24px 60px -24px rgba(0,0,0,.85),
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -1px 0 rgba(255,255,255,.04);
+  position:relative;
+  overflow:hidden;
+}
+.glass::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.14),transparent 32%,transparent 70%,rgba(255,255,255,.06));
+  opacity:.7;
+}
+
+/* ================= الشريط العلوي ================= */
+.shell{transition:margin-right .5s cubic-bezier(.2,.8,.2,1)}
+@media(min-width:993px){
+  body.sidebar-open .shell{margin-right:var(--sbw)}
+}
+.topbar{
+  position:sticky;top:0;z-index:40;
+  display:flex;align-items:center;gap:14px;
+  padding:13px clamp(14px,3.5vw,38px);
+  background:linear-gradient(180deg,rgba(5,7,18,.9),rgba(5,7,18,.45));
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.icon-btn{
+  width:46px;height:46px;flex:0 0 auto;
+  display:grid;place-items:center;border-radius:15px;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04));
+  border:1px solid var(--stroke);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:.3s;color:var(--txt);
+}
+.icon-btn:hover{background:linear-gradient(145deg,rgba(34,211,238,.28),rgba(168,85,247,.24));transform:translateY(-2px);box-shadow:0 10px 26px -10px rgba(34,211,238,.7)}
+.icon-btn svg{width:22px;height:22px}
+
+.brand{display:flex;align-items:center;gap:12px;margin-inline-start:4px}
+.brand .logo{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  font-weight:900;font-size:1.05rem;color:#05060f;letter-spacing:.5px;
+  background:linear-gradient(135deg,var(--c1),var(--c2) 55%,var(--c3));
+  box-shadow:0 10px 30px -10px rgba(168,85,247,.9);
+}
+.brand b{display:block;font-size:1.05rem;font-weight:900;letter-spacing:.6px;direction:ltr;text-align:right}
+.brand span{display:block;font-size:.74rem;color:var(--muted);font-weight:500}
+.topbar .spacer{flex:1}
+.pill{
+  display:none;align-items:center;gap:8px;
+  padding:9px 16px;border-radius:999px;font-size:.82rem;font-weight:700;color:#a8ffd8;
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.32);
+}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 12px #22c55e;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.35;transform:scale(.8)}}
+@media(min-width:768px){.pill{display:flex}}
+
+/* ================= القائمة الجانبية ================= */
+.sidebar{
+  position:fixed;top:0;right:0;height:100dvh;width:var(--sbw);z-index:60;
+  display:flex;flex-direction:column;gap:8px;
+  padding:22px 18px 18px;
+  background:linear-gradient(180deg,rgba(10,13,28,.92),rgba(7,9,20,.86));
+  backdrop-filter:blur(30px) saturate(180%);
+  -webkit-backdrop-filter:blur(30px) saturate(180%);
+  border-left:1px solid var(--stroke);
+  box-shadow:-30px 0 70px -30px rgba(0,0,0,.9);
+  transform:translateX(105%);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1);
+}
+body.sidebar-open .sidebar{transform:translateX(0)}
+.sb-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 6px 18px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.sb-head .t{font-size:.72rem;letter-spacing:2.4px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.sb-close{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.07);border:1px solid var(--stroke);transition:.3s}
+.sb-close:hover{background:rgba(244,114,182,.25)}
+@media(min-width:993px){.sb-close{display:none}}
+
+.nav-item{
+  display:flex;align-items:center;gap:13px;
+  padding:13px 14px;border-radius:16px;
+  font-size:.95rem;font-weight:600;color:#c6d2ec;
+  border:1px solid transparent;
+  transition:.28s;position:relative;overflow:hidden;width:100%;text-align:right;
+}
+.nav-item svg{width:21px;height:21px;flex:0 0 auto;opacity:.85}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff;transform:translateX(-4px)}
+.nav-item.active{
+  background:linear-gradient(100deg,rgba(34,211,238,.22),rgba(168,85,247,.22));
+  border-color:rgba(168,85,247,.4);
+  color:#fff;
+  box-shadow:0 12px 30px -14px rgba(168,85,247,.9),inset 0 1px 0 rgba(255,255,255,.14);
+}
+.nav-item.active::before{
+  content:"";position:absolute;right:0;top:18%;height:64%;width:3.5px;border-radius:4px;
+  background:linear-gradient(180deg,var(--c1),var(--c3));box-shadow:0 0 14px var(--c1);
+}
+.nav-item .num{
+  margin-inline-start:auto;font-size:.72rem;font-weight:800;
+  background:rgba(255,255,255,.1);padding:3px 9px;border-radius:999px;color:#dfe8ff;
+}
+
+.sb-footer{margin-top:auto;padding:16px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--stroke);font-size:.8rem;color:var(--muted);line-height:1.9}
+.sb-footer b{color:#eaf0ff}
+
+.overlay{
+  position:fixed;inset:0;z-index:55;background:rgba(3,5,15,.65);
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+  opacity:0;pointer-events:none;transition:opacity .4s;
+}
+body.sidebar-open .overlay{opacity:1;pointer-events:auto}
+@media(min-width:993px){.overlay{display:none}}
+
+/* ================= المحتوى ================= */
+main{
+  max-width:1180px;margin-inline:auto;
+  padding:clamp(20px,3.6vw,46px) clamp(16px,3.6vw,40px) 60px;
+}
+.page{display:none;animation:pageIn .6s cubic-bezier(.2,.8,.2,1)}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* Hero */
+.hero{padding:clamp(28px,5vw,58px);margin-bottom:38px}
+.hero .badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:999px;font-size:.8rem;font-weight:700;
+  background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.34);color:#e3c8ff;
+  margin-bottom:22px;
+}
+.hero h1{
+  font-size:clamp(2rem,6vw,3.6rem);font-weight:900;line-height:1.25;letter-spacing:-.5px;
+  margin-bottom:18px;
+}
+.grad{
+  background:linear-gradient(100deg,#22d3ee,#a855f7 48%,#f472b6);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 26px rgba(168,85,247,.45));
+}
+.hero p.lead{
+  font-size:clamp(.95rem,2.1vw,1.1rem);line-height:2.05;color:#b6c3e0;max-width:760px;
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 28px;border-radius:16px;font-size:.94rem;font-weight:800;
+  transition:.32s;position:relative;overflow:hidden;white-space:nowrap;
+}
+.btn svg{width:19px;height:19px}
+.btn-primary{
+  color:#05060f;
+  background:linear-gradient(120deg,#22d3ee,#a855f7 55%,#f472b6);
+  box-shadow:0 16px 40px -16px rgba(168,85,247,.95),inset 0 1px 0 rgba(255,255,255,.5);
+}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 22px 55px -16px rgba(34,211,238,1)}
+.btn-ghost{
+  color:var(--txt);background:rgba(255,255,255,.06);
+  border:1px solid var(--stroke);backdrop-filter:blur(14px);
+}
+.btn-ghost:hover{background:rgba(255,255,255,.13);transform:translateY(-3px)}
+.btn-github{
+  color:#fff;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(14px);
+}
+.btn-github:hover{background:rgba(24,24,27,.9);border-color:rgba(255,255,255,.4);transform:translateY(-3px);box-shadow:0 16px 40px -16px rgba(0,0,0,.9)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:36px}
+.stat{padding:18px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--stroke);text-align:center;transition:.3s}
+.stat:hover{background:rgba(255,255,255,.09);transform:translateY(-4px)}
+.stat b{display:block;font-size:1.6rem;font-weight:900;background:linear-gradient(120deg,#22d3ee,#f472b6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:.8rem;color:var(--muted);font-weight:600}
+
+/* عناوين الأقسام */
+.sec-head{display:flex;align-items:center;gap:16px;margin:0 0 24px;scroll-margin-top:90px}
+.sec-head h2{font-size:clamp(1.3rem,3.4vw,1.9rem);font-weight:900;white-space:nowrap}
+.sec-head .line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)}
+.sec-head .sub{display:block;font-size:.82rem;color:var(--muted);font-weight:500;margin-top:4px}
+
+/* بطاقات البرامج */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.card{
+  padding:30px;display:flex;flex-direction:column;gap:16px;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s;
+}
+.card:hover{transform:translateY(-9px);border-color:rgba(168,85,247,.5);box-shadow:0 40px 80px -34px rgba(168,85,247,.85),inset 0 1px 0 rgba(255,255,255,.2)}
+.card .c-icon{
+  width:64px;height:64px;border-radius:20px;display:grid;place-items:center;
+  background:linear-gradient(140deg,rgba(34,211,238,.24),rgba(168,85,247,.24));
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 16px 34px -18px rgba(34,211,238,.9);
+}
+.card .c-icon svg{width:32px;height:32px;color:#d8faff}
+.card h3{font-size:1.35rem;font-weight:900;letter-spacing:.2px}
+.card p{font-size:.92rem;line-height:1.95;color:#a9b7d6}
+.tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+.tags li{font-size:.74rem;font-weight:700;padding:6px 13px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid var(--stroke);color:#cbd7f3}
+.card .btn{margin-top:auto;width:100%}
+
+/* بطاقة GitHub الرئيسية */
+.github-card{
+  padding:clamp(26px,4vw,42px);
+  margin-bottom:26px;
+  display:flex;gap:26px;align-items:center;flex-wrap:wrap;
+  background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(24,24,27,.28));
+}
+.github-card .gh-icon{
+  width:84px;height:84px;flex:0 0 auto;border-radius:24px;display:grid;place-items:center;
+  background:linear-gradient(140deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 22px 46px -20px rgba(0,0,0,.95);
+}
+.github-card .gh-icon svg{width:46px;height:46px;color:#fff}
+.github-card .gh-txt{flex:1;min-width:240px}
+.github-card h3{font-size:clamp(1.25rem,3.4vw,1.75rem);font-weight:900;margin-bottom:10px}
+.github-card p{font-size:.92rem;line-height:1.95;color:#aab8d8;margin-bottom:16px}
+.github-card .gh-user{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.82rem;font-weight:800;color:#cbd7f3;direction:ltr;
+  background:rgba(255,255,255,.06);border:1px solid var(--stroke);
+  padding:7px 14px;border-radius:999px;margin-bottom:16px;
+}
+.github-card .gh-user svg{width:15px;height:15px;color:var(--c1)}
+
+/* ================= معرض صور متحرك ================= */
+.gallery{padding:clamp(20px,3.4vw,34px);margin-bottom:26px}
+.gallery-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.gallery-head h3{font-size:clamp(1.1rem,2.6vw,1.35rem);font-weight:900;display:flex;align-items:center;gap:11px}
+.gallery-head h3 svg{width:23px;height:23px;color:var(--c1)}
+.gallery-head .badge-s{
+  font-size:.72rem;font-weight:800;padding:6px 14px;border-radius:999px;
+  background:rgba(168,85,247,.13);border:1px solid rgba(168,85,247,.34);color:#e3c8ff;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.gallery-head .badge-s svg{width:13px;height:13px}
+
+.slider{
+  position:relative;border-radius:20px;overflow:hidden;
+  background:rgba(0,0,0,.35);
+  aspect-ratio:16/8;
+  border:1px solid var(--stroke);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  touch-action:pan-y;
+}
+.slider-track{
+  direction:ltr;
+  display:flex;height:100%;
+  transition:transform .75s cubic-bezier(.2,.8,.2,1);
+  will-change:transform;
+}
+.slide{
+  flex:0 0 100%;width:100%;height:100%;
+  position:relative;overflow:hidden;
+  background:linear-gradient(140deg,#0b1024,#05070f);
+}
+.slide img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1);transition:transform 7s ease;
+  user-select:none;-webkit-user-drag:none;
+}
+.slide.active img{transform:scale(1.07)}
+.slide::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(4,5,13,0) 45%,rgba(4,5,13,.65));
+}
+.slide .cap{
+  position:absolute;bottom:20px;right:22px;left:22px;z-index:2;
+  font-size:.9rem;font-weight:800;color:#fff;
+  text-shadow:0 2px 14px rgba(0,0,0,.9);
+  display:flex;align-items:center;gap:10px;
+}
+.slide .cap .idx{
+  font-size:.7rem;font-weight:900;letter-spacing:.5px;
+  background:linear-gradient(120deg,rgba(34,211,238,.9),rgba(168,85,247,.9));
+  color:#05060f;padding:4px 10px;border-radius:999px;
+}
+
+.slider-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+  background:rgba(5,7,18,.7);border:1px solid var(--stroke);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  color:#fff;transition:.3s;z-index:4;
+}
+.slider-nav:hover{
+  background:linear-gradient(140deg,rgba(34,211,238,.85),rgba(168,85,247,.85));
+  color:#05060f;transform:translateY(-50%) scale(1.08);
+}
+.slider-nav.prev{right:14px}
+.slider-nav.next{left:14px}
+.slider-nav svg{width:20px;height:20px}
+@media(max-width:520px){
+  .slider-nav{width:40px;height:40px;border-radius:12px}
+  .slider-nav.prev{right:10px}
+  .slider-nav.next{left:10px}
+}
+
+.slider-dots{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:4;
+  background:rgba(5,7,18,.55);padding:8px 14px;border-radius:999px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--stroke);
+}
+.slider-dots button{
+  width:9px;height:9px;border-radius:50%;padding:0;
+  background:rgba(255,255,255,.35);transition:.3s;
+}
+.slider-dots button:hover{background:rgba(255,255,255,.7)}
+.slider-dots button.active{
+  background:linear-gradient(120deg,#22d3ee,#a855f7);
+  width:26px;border-radius:999px;
+  box-shadow:0 0 12px rgba(34,211,238,.9);
+}
+.gallery-note{
+  margin-top:14px;font-size:.75rem;color:var(--muted);line-height:1.85;
+  display:flex;align-items:center;gap:8px;
+}
+.gallery-note svg{width:15px;height:15px;flex:0 0 auto;color:var(--c1)}
+
+/* صفحة البرنامج */
+.back-btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:10px 18px;border-radius:14px;margin-bottom:22px;
+  font-size:.86rem;font-weight:700;color:#c3d0ec;
+  background:rgba(255,255,255,.06);border:1px solid var(--stroke);
+  transition:.3s;
+}
+.back-btn:hover{background:rgba(255,255,255,.13);color:#fff;transform:translateX(5px)}
+.back-btn svg{width:17px;height:17px}
+
+.app-hero{display:flex;gap:26px;align-items:flex-start;padding:clamp(24px,4vw,44px);margin-bottom:26px;flex-wrap:wrap}
+.app-hero .big-icon{
+  width:88px;height:88px;flex:0 0 auto;border-radius:26px;display:grid;place-items:center;
+  background:linear-gradient(140deg,rgba(34,211,238,.3),rgba(168,85,247,.3));
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 22px 46px -20px rgba(168,85,247,.95);
+}
+.app-hero .big-icon svg{width:44px;height:44px;color:#e6faff}
+.app-hero .txt{flex:1;min-width:250px}
+.app-hero h2{font-size:clamp(1.6rem,4.4vw,2.5rem);font-weight:900;margin-bottom:12px}
+.app-hero p{font-size:.96rem;line-height:2;color:#aab8d8;max-width:720px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.chip{font-size:.75rem;font-weight:700;padding:7px 15px;border-radius:999px;background:rgba(34,211,238,.11);border:1px solid rgba(34,211,238,.3);color:#b3f2ff}
+.chip.free{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.35);color:#a8ffd8}
+
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:26px}
+.panel{padding:28px}
+.panel h4{font-size:1.1rem;font-weight:900;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.panel h4 svg{width:20px;height:20px;color:var(--c1)}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:13px}
+.feature-list li{display:flex;gap:12px;align-items:flex-start;font-size:.9rem;line-height:1.85;color:#b3c0dd}
+.feature-list li .tick{
+  width:22px;height:22px;flex:0 0 auto;border-radius:7px;display:grid;place-items:center;margin-top:3px;
+  background:linear-gradient(140deg,rgba(34,211,238,.3),rgba(168,85,247,.3));
+  border:1px solid rgba(255,255,255,.16);
+}
+.feature-list li .tick svg{width:13px;height:13px;color:#d9fbff}
+.feature-list li b{color:#eaf0ff;font-weight:800}
+
+.cta{padding:clamp(26px,4vw,44px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+.cta h3{font-size:clamp(1.3rem,3.6vw,1.9rem);font-weight:900}
+.cta p{font-size:.92rem;color:#a9b7d6;line-height:1.95;max-width:620px}
+.cta-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;width:100%}
+@media(max-width:520px){.cta-actions .btn{width:100%}}
+
+/* الدعم */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:24px}
+.contact-card{padding:26px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;transition:.4s}
+.contact-card:hover{transform:translateY(-6px);border-color:rgba(34,211,238,.45)}
+.contact-card .ci{
+  width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(140deg,rgba(34,211,238,.25),rgba(168,85,247,.25));
+  border:1px solid rgba(255,255,255,.18);
+}
+.contact-card .ci svg{width:25px;height:25px;color:#dffaff}
+.contact-card small{font-size:.78rem;color:var(--muted);font-weight:700;letter-spacing:.6px}
+.contact-card b{font-size:1.28rem;font-weight:900;letter-spacing:1px;direction:ltr;unicode-bidi:embed}
+.copy-btn{
+  margin-top:6px;font-size:.78rem;font-weight:800;padding:8px 16px;border-radius:11px;
+  background:rgba(255,255,255,.08);border:1px solid var(--stroke);transition:.3s;color:#d7e2ff;
+}
+.copy-btn:hover{background:linear-gradient(120deg,rgba(34,211,238,.3),rgba(168,85,247,.3));color:#fff}
+
+/* الفوتر */
+footer{
+  border-top:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.06));
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:clamp(28px,4vw,46px) clamp(16px,3.6vw,40px);
+}
+.foot-inner{max-width:1180px;margin-inline:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px}
+.foot-col h5{font-size:.78rem;letter-spacing:2.4px;color:var(--muted);font-weight:800;margin-bottom:16px;text-transform:uppercase}
+.foot-col p,.foot-col a{font-size:.9rem;color:#bcc9e6;line-height:2.1;display:flex;align-items:center;gap:9px;transition:.3s}
+.foot-col a:hover{color:#fff;transform:translateX(-4px)}
+.foot-col a svg,.foot-col p svg{width:17px;height:17px;color:var(--c1);flex:0 0 auto}
+.foot-brand{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.foot-brand .logo{
+  width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:900;color:#05060f;
+  font-size:.95rem;letter-spacing:.5px;
+  background:linear-gradient(135deg,var(--c1),var(--c2) 55%,var(--c3));
+}
+.foot-brand b{font-size:1.1rem;font-weight:900;direction:ltr;text-align:right}
+.foot-brand span{display:block;font-size:.76rem;color:var(--muted)}
+.copyright{
+  max-width:1180px;margin:32px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;
+  font-size:.8rem;color:var(--muted);
+}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translate(-50%,140%);
+  padding:14px 26px;border-radius:16px;font-size:.88rem;font-weight:800;color:#fff;
+  background:linear-gradient(120deg,rgba(34,211,238,.95),rgba(168,85,247,.95));
+  box-shadow:0 20px 50px -18px rgba(168,85,247,1);
+  z-index:200;transition:transform .45s cubic-bezier(.2,.8,.2,1);
+}
+.toast.show{transform:translate(-50%,0)}
+
+@media(max-width:520px){
+  .hero-actions .btn{width:100%}
+  .brand span{display:none}
+}
+</style>
 </head>
+<body class="">
 
-<body>
+<!-- الخلفية -->
+<div class="bg">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+<div class="grid-overlay"></div>
+<div class="noise"></div>
 
-    <!-- BOOT -->
-    <div id="boot">
-        <div class="bootbox">
-            <div class="bootlogo">i TOOLS</div>
+<!-- ============ القائمة الجانبية ============ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <span class="t">القائمة</span>
+    <button class="sb-close" id="sbClose" aria-label="إغلاق">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
 
-            <div class="bootsub" id="bootSub">
-                BY MOHAMMED // SYSTEM INITIALIZATION
-            </div>
+  <button class="nav-item active" data-page="home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9.5 21v-6h5v6"/></svg>
+    الصفحة الرئيسية
+  </button>
 
-            <div class="bootline">
-                <span id="bootbar"></span>
-            </div>
+  <button class="nav-item" data-page="icare">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.7-7.5-10A4.5 4.5 0 0 1 12 7.6 4.5 4.5 0 0 1 19.5 11c0 5.3-7.5 10-7.5 10Z"/><path d="M8.6 12.2h2l1.2-2.2 1.4 3.6 1.1-1.4h1.8"/></svg>
+    برنامج iCare Tool
+    <span class="num">1</span>
+  </button>
 
-            <div class="bootpct" id="bootpct">0%</div>
+  <button class="nav-item" data-page="idownloader">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4 19.5h16"/></svg>
+    برنامج iDownloader
+    <span class="num">2</span>
+  </button>
 
-            <div class="bootlog" id="bootlog">
-                Loading interface...
-            </div>
-        </div>
+  <button class="nav-item" data-page="support">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.2" y="13" width="4" height="7" rx="2"/><rect x="17.8" y="13" width="4" height="7" rx="2"/><path d="M19.8 20v.5a2.5 2.5 0 0 1-2.5 2.5H13"/></svg>
+    الدعم والتواصل
+  </button>
+
+  <div class="sb-footer">
+    <b>محمد صلاح</b> — مطوّر برامج<br>
+    مصر 🇪🇬<br>
+    الدعم: <b style="direction:ltr;display:inline-block">01553307846</b>
+  </div>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- ============ المحتوى ============ -->
+<div class="shell">
+
+  <header class="topbar">
+    <button class="icon-btn" id="menuToggle" aria-label="فتح القائمة">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+
+    <div class="brand">
+      <div class="logo">iT</div>
+      <div>
+        <b>itools</b>
+        <span>تطوير البرامج والتطبيقات</span>
+      </div>
     </div>
 
-    <canvas id="particles"></canvas>
-    <div class="grid"></div>
+    <div class="spacer"></div>
 
-    <!-- MOBILE MENU -->
-    <div class="side-backdrop" id="sideBackdrop"></div>
+    <div class="pill"><span class="dot"></span> متصل بالخادم</div>
+  </header>
 
-    <button class="mobile-btn"
-        id="mobileBtn"
-        aria-label="Open menu">
-        ☰
-    </button>
+  <main>
 
-    <!-- LANGUAGE -->
-    <button class="lang-toggle"
-        id="langToggle"
-        aria-label="Switch language"
-        title="Switch language">
+    <!-- ================= الرئيسية ================= -->
+    <section class="page active" id="page-home">
 
-        <span id="langLabel">AR</span>
+      <div class="hero glass">
+        <div class="badge">✦ محسن بالذكاء الإصطناعي</div>
+        <h1>أهلاً بك في <span class="grad">itools</span><br>أنا محمد صلاح، مطوّر برامج من مصر</h1>
+        <p class="lead">
+          أُطوّر وأُقدّم برامج وأدوات عملية تركّز على الأداء العالي، الواجهات النظيفة، وسهولة الاستخدام.
+          أبدأ من الفكرة والتصميم وصولاً إلى الإصدار النهائي والدعم المستمر. كل برنامج هنا صُمّم ليوفّر عليك
+          الوقت والجهد بحلول ذكية وموثوقة.
+        </p>
 
-    </button>
-
-    <!-- THEME -->
-    <button class="theme-toggle"
-        id="themeToggle"
-        aria-label="Toggle theme"
-        title="Toggle theme">
-        ☾
-    </button>
-
-    <!-- SIDEBAR -->
-    <aside id="side">
-
-        <div class="side-head">
-
-            <div class="brand">
-                <span>i TOOLS</span><em>:</em>
-            </div>
-
-            <div class="tagline">
-                by mohammed
-            </div>
-
-            <button class="side-toggle"
-                id="sideToggle"
-                aria-label="Collapse sidebar">
-                ‹
-            </button>
-
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-scroll="programs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            استكشف برامجي
+          </button>
+          <a class="btn btn-github" href="https://github.com/MOHAMMED-OFFICAL" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.8 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.5 5.7 18.3.5 12 .5Z"/></svg>
+            حسابي على GitHub
+          </a>
+          <button class="btn btn-ghost" data-page="support">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>
+            تواصل معي
+          </button>
         </div>
 
-        <nav class="side-nav">
+        <div class="stats">
+          <div class="stat"><b>+2</b><span>برامج مطوّرة</span></div>
+          <div class="stat"><b>24/7</b><span>دعم وتواصل</span></div>
+          <div class="stat"><b>100%</b><span>مجاني بالكامل</span></div>
+          <div class="stat"><b>AI</b><span>محسّن بالذكاء</span></div>
+        </div>
+      </div>
 
-            <a href="#home" class="active">
-                <b class="ico">⌂</b>
-                <span>HOME</span>
+      <!-- بطاقة GitHub الرئيسية -->
+      <div class="github-card glass">
+        <div class="gh-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.8 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </div>
+        <div class="gh-txt">
+          <h3>صفحتي الرئيسية على GitHub</h3>
+          <p>
+            تابع كل برامجي ومشاريعي المفتوحة المصدر، شاهد الكود المصدري، الإصدارات الجديدة،
+            والتحديثات أولاً بأول. كل البرامج مجانية بالكامل ومتاحة للتحميل مباشرة.
+          </p>
+          <span class="gh-user">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V17a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2.5"/><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/></svg>
+            github.com/MOHAMMED-OFFICAL
+          </span>
+          <div class="cta-actions">
+            <a class="btn btn-github" href="https://github.com/MOHAMMED-OFFICAL" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.8 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.5 5.7 18.3.5 12 .5Z"/></svg>
+              زيارة صفحة GitHub الرئيسية
             </a>
+          </div>
+        </div>
+      </div>
 
-            <a href="icare.html">
-                <b class="ico">⚙</b>
-                <span>iCARE TOOL</span>
-            </a>
+      <div class="sec-head" id="programs">
+        <div>
+          <h2>برامجي</h2>
+          <span class="sub">اضغط على زر «فتح صفحة البرنامج» لمعرفة كل التفاصيل</span>
+        </div>
+        <div class="line"></div>
+      </div>
 
-        </nav>
+      <div class="cards">
 
-        <div class="side-footer">
-            <span>PORTFOLIO NODE // ONLINE</span>
+        <!-- iCare Tool -->
+        <article class="card glass">
+          <div class="c-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s-7.5-4.7-7.5-10A4.5 4.5 0 0 1 12 7.6 4.5 4.5 0 0 1 19.5 11c0 5.3-7.5 10-7.5 10Z"/>
+              <path d="M8.6 12.2h2l1.2-2.2 1.4 3.6 1.1-1.4h1.8"/>
+            </svg>
+          </div>
+          <h3>iCare Tool</h3>
+          <p>
+            برنامج متكامل لتنظيف وتحسين أداء الكمبيوتر والألعاب. يقوم بتنظيف عميق للنظام،
+            مراقبة مباشرة للأداء، تحكم قوي في معدل الإطارات FPS، مع نافذة مراقبة مصغرة
+            مميزة تبقيك على اطلاع دائم بكل التفاصيل. مجاني بالكامل وبدون تسجيل.
+          </p>
+          <ul class="tags">
+            <li>تنظيف عميق</li>
+            <li>مراقبة الأداء</li>
+            <li>تحكم FPS</li>
+            <li>مجاني بالكامل</li>
+          </ul>
+          <button class="btn btn-primary" data-page="icare">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            فتح صفحة البرنامج
+          </button>
+        </article>
+
+        <!-- iDownloader -->
+        <article class="card glass">
+          <div class="c-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v11"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4 19.5h16"/>
+            </svg>
+          </div>
+          <h3>iDownloader</h3>
+          <p>
+            مدير تحميلات احترافي وسريع. يدعم التحميل من يوتيوب وفيس بوك وتويتر وX وغيرها
+            بجودات متعددة، تحميل ملفات التورنت، حتى 32 خيط اتصال قوي، و18 ثيم مميز —
+            مع استئناف التحميل وتنظيم الملفات تلقائياً. مجاني بالكامل وبدون تسجيل.
+          </p>
+          <ul class="tags">
+            <li>18 ثيم مميز</li>
+            <li>يوتيوب وفيسبوك</li>
+            <li>ملفات تورنت</li>
+            <li>مجاني بالكامل</li>
+          </ul>
+          <button class="btn btn-primary" data-page="idownloader">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            فتح صفحة البرنامج
+          </button>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ================= iCare Tool ================= -->
+    <section class="page" id="page-icare">
+      <button class="back-btn" data-page="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        العودة للرئيسية
+      </button>
+
+      <div class="app-hero glass">
+        <div class="big-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21s-7.5-4.7-7.5-10A4.5 4.5 0 0 1 12 7.6 4.5 4.5 0 0 1 19.5 11c0 5.3-7.5 10-7.5 10Z"/>
+            <path d="M8.6 12.2h2l1.2-2.2 1.4 3.6 1.1-1.4h1.8"/>
+          </svg>
+        </div>
+        <div class="txt">
+          <h2>iCare Tool</h2>
+          <p>
+            برنامج متكامل للعناية بالكمبيوتر وتحسين أدائه أثناء العمل واللعب. يمنحك تنظيفاً
+            عميقاً للنظام، مراقبة دقيقة لأداء الجهاز والألعاب، تحكماً قوياً في معدل الإطارات
+            FPS، ونافذة مراقبة مصغرة مميزة تبقيك على اطلاع دائم بكل التفاصيل — بواجهة
+            عربية أنيقة وسرعة عالية.
+          </p>
+          <div class="chips">
+            <span class="chip">Windows</span>
+            <span class="chip">واجهة عربية</span>
+            <span class="chip">أداء وألعاب</span>
+            <span class="chip free">مجاني بالكامل</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ معرض صور iCare Tool ============ -->
+      <div class="gallery glass">
+        <div class="gallery-head">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+            صور من داخل البرنامج
+          </h3>
+          <span class="badge-s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            عرض تلقائي
+          </span>
         </div>
 
-    </aside>
+        <!-- 
+          ═══════════════════════════════════════════════
+          ضع روابط صورك هنا (المرفوعة على GitHub)
+          استبدل قيم src بمسارات صورك المباشرة
+          مثال: https://raw.githubusercontent.com/USER/REPO/main/img1.png
+          ═══════════════════════════════════════════════
+        -->
+        <div class="slider" data-slider>
+          <div class="slider-track">
 
-    <!-- MAIN -->
-    <main id="main">
-
-        <!-- HERO -->
-        <section class="hero" id="home">
-
-            <div class="container">
-
-                <div class="status reveal">
-                    <i></i>
-                    <span id="statusText">
-                        Online System // official
-                    </span>
-                </div>
-
-                <h1 class="reveal" style="transition-delay:.12s">
-                    i TOOLS
-                </h1>
-
-                <div class="by reveal"
-                    style="transition-delay:.2s"
-                    id="heroBy">
-                    by mohammed
-                </div>
-
-                <p class="lead reveal"
-                    style="transition-delay:.3s"
-                    id="heroLead">
-                    A curated collection of modern Windows tools,
-                    designed specifically for PC enthusiasts—FREE
-                </p>
-
-                <div class="hero-explanation reveal"
-                    style="transition-delay:.38s">
-
-                    <span class="explain-tag"
-                        id="aboutNode">
-                        // ABOUT THIS NODE
-                    </span>
-
-                    <p id="aboutNodeText">
-                        i TOOLS is a collection of practical PC utilities
-                        designed to give you clearer system information,
-                        faster controls, useful automation and a cleaner
-                        workflow without unnecessary complexity.
-                    </p>
-
-                </div>
-
-                <div class="actions reveal"
-                    style="transition-delay:.52s">
-
-                    <a class="btn"
-                        href="icare.html"
-                        id="openIcareBtn">
-                        OPEN iCARE TOOL ↗
-                    </a>
-
-                    <a class="btn pink"
-                        href="#showcase"
-                        id="projectsBtn">
-                        VIEW PROJECTS
-                    </a>
-
-                </div>
-
-                <div class="profile-section">
-
-                    <div class="panel profile-card reveal"
-                        style="transition-delay:.65s">
-
-                        <div class="profile-avatar">
-                            <div class="avatar-core">
-                                MO
-                            </div>
-                        </div>
-
-                        <div class="profile-copy">
-
-                            <div class="profile-label"
-                                id="developerProfile">
-                                // DEVELOPER PROFILE
-                            </div>
-
-                            <h2 id="profileTitle">
-                                I'M <span>MOHAMMED</span>
-                            </h2>
-
-                            <p id="profileText">I am Mohamed from Egypt. I develop simple tools that meet diverse user needs.
-
-I build practical desktop software focused on performance, control, and a seamless, clean user experience. My work combines system utilities, Windows environment tools, automation technologies, and modern interfaces to deliver useful products.
-
-I work independently, and my software is enhanced using artificial intelligence.</p>
-
-                            <div class="profile-tags">
-
-                                <span class="profile-tag">WINDOWS</span>
-                                <span class="profile-tag">GAMING</span>
-                                <span class="profile-tag">PERFORMANCE</span>
-                                <span class="profile-tag">SYSTEM TOOLS</span>
-                                <span class="profile-tag">AUTOMATION</span>
-                                <span class="profile-tag">FREE</span>
-                                <span class="profile-tag">MODERN UI</span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الأولى هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/22d3ee?text=iCare+Tool+-+Image+1" alt="iCare Tool - صورة 1" loading="lazy">
+              <span class="cap"><span class="idx">01</span> الواجهة الرئيسية للبرنامج</span>
             </div>
 
-        </section>
-
-        <!-- SYSTEMS -->
-        <section id="systems">
-
-            <div class="container">
-
-                <div class="section-kicker reveal"
-                    id="systemsKicker">
-                    01 // Ecosystem
-                </div>
-
-                <h2 class="section-title reveal"
-                    style="transition-delay:.1s"
-                    id="systemsTitle">
-                    SYSTEMS &amp; TECHNOLOGIES
-                </h2>
-
-                <p class="section-sub reveal"
-                    style="transition-delay:.18s"
-                    id="systemsSub">
-                    The platforms, languages and environments behind the tools.
-                </p>
-
-                <div class="divider reveal"></div>
-
-                <div class="grid-cards"
-                    id="systemsGrid">
-                </div>
-
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الثانية هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/a855f7?text=iCare+Tool+-+Image+2" alt="iCare Tool - صورة 2" loading="lazy">
+              <span class="cap"><span class="idx">02</span> تنظيف عميق للنظام</span>
             </div>
 
-        </section>
-
-        <!-- SHOWCASE -->
-        <section id="showcase">
-
-            <div class="container">
-
-                <div class="section-kicker reveal"
-                    id="showcaseKicker">
-                    02 // Selected Work
-                </div>
-
-                <h2 class="section-title reveal"
-                    style="transition-delay:.1s"
-                    id="showcaseTitle">
-                    PROJECT SHOWCASE
-                </h2>
-
-                <p class="section-sub reveal"
-                    style="transition-delay:.18s"
-                    id="showcaseSub">
-                    A visual look at selected tools, interfaces and
-                    experiments. Click any image to zoom.
-                </p>
-
-                <div class="divider reveal"></div>
-
-                <div class="panel showcase reveal"
-                    style="transition-delay:.25s"
-                    id="icareShowcase">
-
-                    <div class="showcase-track"
-                        id="showcaseTrack">
-                    </div>
-
-                    <div class="showcase-controls">
-
-                        <button class="showcase-btn"
-                            id="showcasePrev"
-                            aria-label="Previous project">
-                            ‹
-                        </button>
-
-                        <div class="showcase-dots"
-                            id="showcaseDots">
-                        </div>
-
-                        <button class="showcase-btn"
-                            id="showcaseNext"
-                            aria-label="Next project">
-                            ›
-                        </button>
-
-                    </div>
-
-                </div>
-
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الثالثة هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/f472b6?text=iCare+Tool+-+Image+3" alt="iCare Tool - صورة 3" loading="lazy">
+              <span class="cap"><span class="idx">03</span> مراقبة أداء الألعاب</span>
             </div>
 
-        </section>
-
-        <!-- ABOUT -->
-        <section id="about">
-
-            <div class="container">
-
-                <div class="section-kicker reveal"
-                    id="philosophyKicker">
-                    03 // Philosophy
-                </div>
-
-                <h2 class="section-title reveal"
-                    id="builtFast">
-                    BUILT TO FEEL FAST.
-                </h2>
-
-                <p class="section-sub reveal"
-                    id="philosophySub">
-                    The goal is simple: useful software with a focused
-                    interface, low friction, and enough depth for power users.
-                </p>
-
-                <div class="divider reveal"></div>
-
-                <div class="panel reveal">
-
-                    <div class="about-grid">
-
-                        <div class="about-item">
-                            <div class="section-kicker">
-                                CONTROL
-                            </div>
-
-                            <p>
-                                Gain better, faster, and deeper control
-                                over your device.
-                            </p>
-                        </div>
-
-                        <div class="about-item">
-                            <div class="section-kicker">
-                                PERFORMANCE
-                            </div>
-
-                            <p>
-                                Faster than light... lighter than a needle...
-                                compact size... immense capabilities.
-                            </p>
-                        </div>
-
-                        <div class="about-item">
-                            <div class="section-kicker">
-                                CLEAN
-                            </div>
-
-                            <p>
-                                My software is completely virus-free,
-                                so live freely.
-                            </p>
-                        </div>
-
-                        <div class="about-item">
-                            <div class="section-kicker">
-                                DESIGN
-                            </div>
-
-                            <p>
-                                My software designs are completely clutter-free
-                                and intuitive—so don't worry; you'll understand
-                                everything as soon as you start.
-                            </p>
-                        </div>
-
-                        <div class="about-item">
-                            <div class="section-kicker">
-                                FREE
-                            </div>
-
-                            <p>
-                                All my tools are completely free, so there's
-                                no need to pay a fortune. Want to help me out?
-                                No problem—I'd love a cup of coffee! (:
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الرابعة هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/22d3ee?text=iCare+Tool+-+Image+4" alt="iCare Tool - صورة 4" loading="lazy">
+              <span class="cap"><span class="idx">04</span> التحكم في معدل الإطارات FPS</span>
             </div>
 
-        </section>
-
-        <!-- FOOTER -->
-        <footer id="contact">
-
-            <div class="footer-grid">
-
-                <div>
-
-                    <div class="footer-title">
-                        i TOOLS : by mohammed
-                    </div>
-
-                    <p id="footerDescription">
-                        Modern PC utilities for gamers,
-                        creators and power users.
-                    </p>
-
-                </div>
-
-                <div>
-
-                    <h4 id="footerPages">
-                        PAGES
-                    </h4>
-
-                    <a href="#home"
-                        id="footerHome">
-                        Home
-                    </a>
-
-                    <a href="icare.html"
-                        id="footerIcare">
-                        iCARE Tool
-                    </a>
-
-                </div>
-
-                <div>
-
-                    <h4 id="footerContact">
-                        CONTACT
-                    </h4>
-
-                    <p>
-                        Mohammed
-                    </p>
-
-                    <a href="mailto:contact@itools.dev">
-                        contact@itools.dev
-                    </a>
-
-                </div>
-
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الخامسة هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/a855f7?text=iCare+Tool+-+Image+5" alt="iCare Tool - صورة 5" loading="lazy">
+              <span class="cap"><span class="idx">05</span> نافذة المراقبة المصغرة</span>
             </div>
 
-            <div class="footer-bottom"
-                id="footerBottom">
-                © 2026
-                <b style="color:var(--cyan)">
-                    i TOOLS : by mohammed
-                </b>
-                // ALL RIGHTS RESERVED
-            </div>
+          </div>
 
-        </footer>
-
-    </main>
-
-    <!-- LIGHTBOX -->
-    <div id="lightbox"
-        aria-modal="true"
-        role="dialog"
-        aria-label="Image viewer">
-
-        <div class="lightbox-backdrop"
-            id="lightboxBackdrop">
+          <button class="slider-nav prev" aria-label="السابق">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+          <button class="slider-nav next" aria-label="التالي">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+          <div class="slider-dots" aria-label="اختيار الصورة"></div>
         </div>
 
-        <div class="lightbox-container">
+        <p class="gallery-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>
+          يمكنك التنقل بالأسهم، بالنقاط السفلية، أو بالسحب على الجوال. يتوقف العرض التلقائي عند مرور الماوس.
+        </p>
+      </div>
 
-            <button class="lightbox-close"
-                id="lightboxClose"
-                aria-label="Close viewer">
-                ✕
-            </button>
-
-            <button class="lightbox-nav lightbox-prev"
-                id="lightboxPrev"
-                aria-label="Previous image">
-                ‹
-            </button>
-
-            <div class="lightbox-img-wrap">
-
-                <img src=""
-                    alt=""
-                    id="lightboxImg">
-
-            </div>
-
-            <button class="lightbox-nav lightbox-next"
-                id="lightboxNext"
-                aria-label="Next image">
-                ›
-            </button>
-
-            <div class="lightbox-caption"
-                id="lightboxCaption">
-            </div>
-
-            <div class="lightbox-counter"
-                id="lightboxCounter">
-            </div>
-
+      <div class="grid-2">
+        <div class="panel glass">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3Z"/></svg>
+            أهم المميزات
+          </h4>
+          <ul class="feature-list">
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>تنظيف عميق للنظام:</b> إزالة الملفات المؤقتة والمخلفات وتحرير مساحة التخزين لتحسين سرعة الجهاز.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>مراقبة أداء الكمبيوتر والألعاب:</b> متابعة مباشرة للمعالج والذاكرة وكارت الشاشة والقرص في الوقت الفعلي.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>مراقبة الألعاب:</b> عرض دقيق لمعدل الإطارات ودرجات الحرارة واستهلاك الموارد داخل اللعبة.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>تحكم FPS قوي:</b> تحديد سقف معدل الإطارات أو تثبيته لمنحك تجربة لعب سلسة وثابتة.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>تحسين أداء النظام:</b> ضبط الإعدادات وإيقاف العمليات غير الضرورية لتسريع الجهاز.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>مراقبة مصغرة مميزة:</b> نافذة صغيرة أنيقة فوق الشاشة تعرض كل البيانات دون إزعاج.</li>
+          </ul>
         </div>
+
+        <div class="panel glass">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
+            معلومات البرنامج
+          </h4>
+          <ul class="feature-list">
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> نظام التشغيل: Windows 8 / 10 / 11 وما بعده.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> المساحة المطلوبة: أقل من 200 ميجابايت.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>الترخيص: مجاني بالكامل — بدون أي عملية شراء أو تسجيل.</b></li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> التحديثات: مجانية ومستمرة.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> الدعم الفني: متاح على مدار الأسبوع.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cta glass">
+        <h3>جاهز لتجربة iCare Tool؟</h3>
+        <p>حمّل البرنامج الآن مجاناً بالكامل — بدون أي عملية شراء أو تسجيل — وابدأ بتنظيف جهازك وتحسين أدائه وألعابك باحتراف. لو احتجت أي مساعدة، فريق الدعم في خدمتك دائماً.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="https://github.com/MOHAMMED-OFFICAL/iCARE-TOOL" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4 19.5h16"/></svg>
+            تحميل البرنامج مجاناً
+          </a>
+          <a class="btn btn-github" href="https://github.com/MOHAMMED-OFFICAL/iCARE-TOOL" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.8 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.5 5.7 18.3.5 12 .5Z"/></svg>
+            صفحة المشروع على GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= iDownloader ================= -->
+    <section class="page" id="page-idownloader">
+      <button class="back-btn" data-page="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        العودة للرئيسية
+      </button>
+
+      <div class="app-hero glass">
+        <div class="big-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v11"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4 19.5h16"/>
+          </svg>
+        </div>
+        <div class="txt">
+          <h2>iDownloader</h2>
+          <p>
+            مدير تحميلات قوي وسريع يمنحك تحكماً كاملاً في عمليات التنزيل. حمّل من يوتيوب
+            وفيس بوك وتويتر وX وغيرها بجودات متعددة، نزّل ملفات التورنت، واستفد من قوة
+            32 خيط اتصال لتسريع التنزيل إلى أقصى حد — مع 18 ثيماً مميزاً لواجهة تعجبك.
+          </p>
+          <div class="chips">
+            <span class="chip">18 ثيم</span>
+            <span class="chip">يوتيوب وفيسبوك</span>
+            <span class="chip">تورنت</span>
+            <span class="chip free">مجاني بالكامل</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ معرض صور iDownloader ============ -->
+      <div class="gallery glass">
+        <div class="gallery-head">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+            صور من داخل البرنامج
+          </h3>
+          <span class="badge-s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            عرض تلقائي
+          </span>
+        </div>
+
+        <!-- 
+          ═══════════════════════════════════════════════
+          ضع روابط صورك هنا (المرفوعة على GitHub)
+          استبدل قيم src بمسارات صورك المباشرة
+          مثال: https://raw.githubusercontent.com/USER/REPO/main/img1.png
+          ═══════════════════════════════════════════════
+        -->
+        <div class="slider" data-slider>
+          <div class="slider-track">
+
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الأولى هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/22d3ee?text=iDownloader+-+Image+1" alt="iDownloader - صورة 1" loading="lazy">
+              <span class="cap"><span class="idx">01</span> الواجهة الرئيسية للبرنامج</span>
+            </div>
+
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الثانية هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/a855f7?text=iDownloader+-+Image+2" alt="iDownloader - صورة 2" loading="lazy">
+              <span class="cap"><span class="idx">02</span> تحميل من يوتيوب بجودات متعددة</span>
+            </div>
+
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الثالثة هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/f472b6?text=iDownloader+-+Image+3" alt="iDownloader - صورة 3" loading="lazy">
+              <span class="cap"><span class="idx">03</span> تحميل ملفات التورنت</span>
+            </div>
+
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الرابعة هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/22d3ee?text=iDownloader+-+Image+4" alt="iDownloader - صورة 4" loading="lazy">
+              <span class="cap"><span class="idx">04</span> 32 خيط اتصال قوي</span>
+            </div>
+
+            <div class="slide">
+              <!-- ✏️ ضع رابط الصورة الخامسة هنا -->
+              <img src="https://placehold.co/1280x720/0b1024/a855f7?text=iDownloader+-+Image+5" alt="iDownloader - صورة 5" loading="lazy">
+              <span class="cap"><span class="idx">05</span> 18 ثيم مميز للتخصيص</span>
+            </div>
+
+          </div>
+
+          <button class="slider-nav prev" aria-label="السابق">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+          <button class="slider-nav next" aria-label="التالي">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+          <div class="slider-dots" aria-label="اختيار الصورة"></div>
+        </div>
+
+        <p class="gallery-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>
+          يمكنك التنقل بالأسهم، بالنقاط السفلية، أو بالسحب على الجوال. يتوقف العرض التلقائي عند مرور الماوس.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel glass">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3Z"/></svg>
+            أهم المميزات
+          </h4>
+          <ul class="feature-list">
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>يدعم حتى 18 ثيم مميز:</b> خصّص شكل البرنامج بالكامل واختر الثيم الذي يناسب ذوقك.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>تحميل من يوتيوب وفيس بوك وتويتر وX وغيرها</b> بجودات متعددة تصل إلى 4K و8K.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>يدعم تحميل ملفات تورنت:</b> نزّل ملفات التورنت بسرعة وكفاءة عالية مع إدارة كاملة للبذور والأقران.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>يدعم حتى 32 خيط اتصال قوي:</b> تسريع التنزيل بتقنية تقسيم الملفات إلى أجزاء متوازية.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> تحميل عدة ملفات في نفس الوقت بدون بطء.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> استئناف التحميل تلقائياً بعد انقطاع الإنترنت.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> تنظيم الملفات تلقائياً حسب النوع والمجلد.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> جدولة التحميل وتحديد سرعة قصوى.</li>
+          </ul>
+        </div>
+
+        <div class="panel glass">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10h8M8 14h5"/></svg>
+            معلومات البرنامج
+          </h4>
+          <ul class="feature-list">
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> نظام التشغيل: Windows 8 / 10 / 11 وما بعده.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> <b>الترخيص: مجاني بالكامل — بدون أي عملية شراء أو تسجيل.</b></li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> الحجم: خفيف جداً ولا يستهلك الموارد.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> يدعم جميع صيغ الملفات والفيديوهات الشائعة.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> التحديثات: مجانية ومستمرة.</li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span> الدعم الفني: متاح على مدار الأسبوع.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cta glass">
+        <h3>جاهز لتجربة iDownloader؟</h3>
+        <p>ابدأ بتحميل ملفاتك وفيديوهاتك بسرعة وترتيب احترافي مع 18 ثيماً مميزاً — التحميل مجاني بالكامل وبدون تسجيل. أي استفسار؟ تواصل معي مباشرة في أي وقت.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="https://github.com/MOHAMMED-OFFICAL/iDownloader" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="m7.5 10 4.5 4.5L16.5 10"/><path d="M4 19.5h16"/></svg>
+            تحميل البرنامج مجاناً
+          </a>
+          <a class="btn btn-github" href="https://github.com/MOHAMMED-OFFICAL/iDownloader" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.8 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.5 5.7 18.3.5 12 .5Z"/></svg>
+            صفحة المشروع على GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= الدعم ================= -->
+    <section class="page" id="page-support">
+      <button class="back-btn" data-page="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        العودة للرئيسية
+      </button>
+
+      <div class="app-hero glass">
+        <div class="big-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.2" y="13" width="4" height="7" rx="2"/><rect x="17.8" y="13" width="4" height="7" rx="2"/>
+          </svg>
+        </div>
+        <div class="txt">
+          <h2>الدعم والتواصل</h2>
+          <p>
+            أنا هنا لمساعدتك في أي وقت. سواء كان لديك سؤال عن البرامج، مشكلة تقنية،
+            أو ترغب في دعم تطوير المزيد من الأدوات — تواصل معي مباشرة عبر الوسائل التالية.
+          </p>
+          <div class="chips">
+            <span class="chip">دعم فني</span>
+            <span class="chip">استفسارات</span>
+            <span class="chip">اقتراحات</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card glass">
+          <div class="ci">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
+          </div>
+          <small>رقم الهاتف — الدعم والتواصل</small>
+          <b>01553307846</b>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="copy-btn" href="tel:01553307846" style="text-decoration:none;display:inline-block">اتصال مباشر</a>
+            <button class="copy-btn" data-copy="01553307846">نسخ الرقم</button>
+          </div>
+        </div>
+
+        <div class="contact-card glass">
+          <div class="ci">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="3"/><path d="M2.5 10.5h19"/><path d="M6.5 15h4"/></svg>
+          </div>
+          <small>دعم المطور — محفظة كاش</small>
+          <b>01553307846</b>
+          <button class="copy-btn" data-copy="01553307846">نسخ رقم المحفظة</button>
+        </div>
+
+        <div class="contact-card glass">
+          <div class="ci">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.8 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.5 5.7 18.3.5 12 .5Z"/></svg>
+          </div>
+          <small>GitHub — كل المشاريع</small>
+          <b style="font-size:1rem">MOHAMMED-OFFICAL</b>
+          <a class="copy-btn" href="https://github.com/MOHAMMED-OFFICAL" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-block">زيارة الحساب</a>
+        </div>
+
+        <div class="contact-card glass">
+          <div class="ci">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.3-7-9.5A7 7 0 0 1 19 11.5C19 16.7 12 21 12 21Z"/><circle cx="12" cy="11" r="2.5"/></svg>
+          </div>
+          <small>البلد</small>
+          <b>مصر</b>
+        </div>
+      </div>
+
+      <div class="cta glass">
+        <h3>دعمك يصنع الفرق 💜</h3>
+        <p>إذا أعجبتك برامجي وأردت دعم استمرار التطوير والتحديثات، يمكنك دعم المطور عن طريق محفظة كاش على الرقم: <b style="direction:ltr;display:inline-block;color:#fff">01553307846</b></p>
+        <button class="btn btn-primary" data-copy="01553307846">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+          نسخ رقم المحفظة
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= الفوتر ================= -->
+  <footer id="contact">
+    <div class="foot-inner">
+
+      <div class="foot-col">
+        <div class="foot-brand">
+          <div class="logo">iT</div>
+          <div>
+            <b>itools</b>
+            <span>محمد صلاح — مطوّر برامج</span>
+          </div>
+        </div>
+        <p>أطوّر أدوات عملية بجودة عالية وتصميم عصري، وأقدّم دعماً مستمراً لكل مستخدمي برامجي — جميع برامجي مجانية بالكامل.</p>
+      </div>
+
+      <div class="foot-col">
+        <h5>البيانات</h5>
+        <p>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+          الاسم: محمد صلاح
+        </p>
+        <p>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg>
+          تاريخ الميلاد: <b style="direction:ltr;display:inline-block;color:#eaf0ff">3-8-2004</b>
+        </p>
+        <p>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.3-7-9.5A7 7 0 0 1 19 11.5C19 16.7 12 21 12 21Z"/><circle cx="12" cy="11" r="2.5"/></svg>
+          البلد: مصر
+        </p>
+      </div>
+
+      <div class="foot-col">
+        <h5>الدعم والتواصل</h5>
+        <a href="tel:01553307846">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
+          <span style="direction:ltr;unicode-bidi:embed">01553307846</span>
+        </a>
+        <p>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="3"/><path d="M2.5 10.5h19"/></svg>
+          محفظة كاش للدعم: <b style="direction:ltr;display:inline-block;color:#eaf0ff">01553307846</b>
+        </p>
+        <a href="https://github.com/MOHAMMED-OFFICAL" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5 3.3 9.3 7.8 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.5 5.7 18.3.5 12 .5Z"/></svg>
+          حساب GitHub الرئيسي
+        </a>
+      </div>
 
     </div>
 
-    <script>
-        (() => {
-
-            'use strict';
-
-            /* =========================================================
-               DOM
-            ========================================================= */
-
-            const $ = id => document.getElementById(id);
-
-            const html = document.documentElement;
-
-            const themeToggle = $('themeToggle');
-            const langToggle = $('langToggle');
-            const langLabel = $('langLabel');
-
-            const side = $('side');
-            const main = $('main');
-            const mobileBtn = $('mobileBtn');
-            const sideBackdrop = $('sideBackdrop');
-
-            const systemsGrid = $('systemsGrid');
-
-            const showcaseTrack = $('showcaseTrack');
-            const showcaseDots = $('showcaseDots');
-            const showcase = $('icareShowcase');
-
-            const lightbox = $('lightbox');
-            const lightboxImg = $('lightboxImg');
-            const lightboxCaption = $('lightboxCaption');
-            const lightboxCounter = $('lightboxCounter');
-
-            const lightboxClose = $('lightboxClose');
-            const lightboxPrev = $('lightboxPrev');
-            const lightboxNext = $('lightboxNext');
-            const lightboxBackdrop = $('lightboxBackdrop');
-
-            const canvas = $('particles');
-            const ctx = canvas ? canvas.getContext('2d') : null;
-
-
-            /* =========================================================
-               TRANSLATIONS
-            ========================================================= */
-
-            const T = {
-
-                en: {
-
-                    tagline: 'by mohammed',
-                    home: 'HOME',
-                    icare: 'iCARE TOOL',
-
-                    online: 'Online System // official',
-
-                    by: 'by mohammed',
-
-                    heroLead:
-                        'A curated collection of modern Windows tools, designed specifically for PC enthusiasts—FREE',
-
-                    aboutNode:
-                        '// ABOUT THIS NODE',
-
-                    aboutNodeText:
-                        'i TOOLS is a collection of practical PC utilities designed to give you clearer system information, faster controls, useful automation and a cleaner workflow without unnecessary complexity.',
-
-                    openIcare:
-                        'OPEN iCARE TOOL ↗',
-
-                    projects:
-                        'VIEW PROJECTS',
-
-                    developerProfile:
-                        '// DEVELOPER PROFILE',
-
-                    profileTitle:
-                        "I'M <span>MOHAMMED</span>",
-
-                    profileText:
-`I am Mohamed from Egypt. I develop simple tools that meet diverse user needs.
-
-I build practical desktop software focused on performance, control, and a seamless, clean user experience. My work combines system utilities, Windows environment tools, automation technologies, and modern interfaces to deliver useful products.
-
-I work independently, and my software is enhanced using artificial intelligence.`,
-
-                    windows: 'WINDOWS',
-                    gaming: 'GAMING',
-                    performance: 'PERFORMANCE',
-                    systemTools: 'SYSTEM TOOLS',
-                    automation: 'AUTOMATION',
-                    free: 'FREE',
-                    modernUI: 'MODERN UI',
-
-                    ecosystem:
-                        '01 // Ecosystem',
-
-                    systemsTitle:
-                        'SYSTEMS & TECHNOLOGIES',
-
-                    systemsSub:
-                        'The platforms, languages and environments behind the tools.',
-
-                    showcaseKicker:
-                        '02 // Selected Work',
-
-                    showcaseTitle:
-                        'PROJECT SHOWCASE',
-
-                    showcaseSub:
-                        'A visual look at selected tools, interfaces and experiments. Click any image to zoom.',
-
-                    philosophy:
-                        '03 // Philosophy',
-
-                    builtFast:
-                        'BUILT TO FEEL FAST.',
-
-                    philosophySub:
-                        'The goal is simple: useful software with a focused interface, low friction, and enough depth for power users.',
-
-                    control:
-                        'CONTROL',
-
-                    controlText:
-                        'Gain better, faster, and deeper control over your device.',
-
-                    performanceTitle:
-                        'PERFORMANCE',
-
-                    performanceText:
-                        'Faster than light... lighter than a needle... compact size... immense capabilities.',
-
-                    clean:
-                        'CLEAN',
-
-                    cleanText:
-                        'My software is completely virus-free, so live freely.',
-
-                    design:
-                        'DESIGN',
-
-                    designText:
-                        "My software designs are completely clutter-free and intuitive—so don't worry; you'll understand everything as soon as you start.",
-
-                    freeTitle:
-                        'FREE',
-
-                    freeText:
-                        "All my tools are completely free, so there's no need to pay a fortune. Want to help me out? No problem—I'd love a cup of coffee! (:",
-
-                    footerDescription:
-                        'Modern PC utilities for gamers, creators and power users.',
-
-                    pages:
-                        'PAGES',
-
-                    contact:
-                        'CONTACT',
-
-                    footerHome:
-                        'Home',
-
-                    footerIcare:
-                        'iCARE Tool',
-
-                    rights:
-                        'ALL RIGHTS RESERVED',
-
-                    image:
-                        'IMAGE',
-
-                    clickZoom:
-                        '🔍 CLICK TO ZOOM',
-
-                    bootSub:
-                        'BY MOHAMMED // SYSTEM INITIALIZATION',
-
-                    linking:
-                        'Linking interface modules...',
-
-                    visual:
-                        'Loading visual layer...',
-
-                    github:
-                        'Connecting GitHub image nodes...',
-
-                    responsive:
-                        'Calibrating responsive layout...',
-
-                    ready:
-                        'Portfolio node ready.',
-
-                    portfolioNode:
-                        'PORTFOLIO NODE // ONLINE',
-
-                    closeViewer:
-                        'Close viewer',
-
-                    previousProject:
-                        'Previous project',
-
-                    nextProject:
-                        'Next project'
-                },
-
-                ar: {
-
-                    tagline:
-                        'بواسطة محمد',
-
-                    home:
-                        'الرئيسية',
-
-                    icare:
-                        'أداة iCARE',
-
-                    online:
-                        'النظام متصل // رسمي',
-
-                    by:
-                        'بواسطة محمد',
-
-                    heroLead:
-                        'مجموعة مختارة من أدوات Windows الحديثة، مصممة خصيصًا لعشاق الكمبيوتر — مجانًا',
-
-                    aboutNode:
-                        '// عن هذا النظام',
-
-                    aboutNodeText:
-                        'i TOOLS هي مجموعة من أدوات الكمبيوتر العملية، صُممت لتمنحك معلومات أوضح عن النظام، وتحكمًا أسرع، وأتمتة مفيدة، وتجربة عمل أكثر تنظيمًا بدون تعقيد غير ضروري.',
-
-                    openIcare:
-                        'فتح أداة iCARE ↗',
-
-                    projects:
-                        'عرض المشاريع',
-
-                    developerProfile:
-                        '// ملف المطور',
-
-                    profileTitle:
-                        'أنا <span>محمد</span>',
-
-                    profileText:
-`أنا محمد من مصر. أقوم بتطوير أدوات بسيطة تلبي احتياجات المستخدمين المختلفة.
-
-أقوم ببناء برامج سطح مكتب عملية تركز على الأداء والتحكم وتجربة المستخدم السلسة والنظيفة. يجمع عملي بين أدوات النظام، وبيئة Windows، وتقنيات الأتمتة، والواجهات الحديثة لتقديم منتجات مفيدة.
-
-أعمل بشكل مستقل، ويتم تطوير برامجي وتحسينها باستخدام الذكاء الاصطناعي.`,
-
-                    windows:
-                        'WINDOWS',
-
-                    gaming:
-                        'الألعاب',
-
-                    performance:
-                        'الأداء',
-
-                    systemTools:
-                        'أدوات النظام',
-
-                    automation:
-                        'الأتمتة',
-
-                    free:
-                        'مجاني',
-
-                    modernUI:
-                        'واجهة حديثة',
-
-                    ecosystem:
-                        '01 // المنظومة',
-
-                    systemsTitle:
-                        'الأنظمة والتقنيات',
-
-                    systemsSub:
-                        'المنصات واللغات والبيئات التي تقف خلف هذه الأدوات.',
-
-                    showcaseKicker:
-                        '02 // أعمال مختارة',
-
-                    showcaseTitle:
-                        'عرض المشاريع',
-
-                    showcaseSub:
-                        'نظرة مرئية على بعض الأدوات والواجهات والتجارب. اضغط على أي صورة لتكبيرها.',
-
-                    philosophy:
-                        '03 // الفلسفة',
-
-                    builtFast:
-                        'صُممت لتشعر بالسرعة.',
-
-                    philosophySub:
-                        'الهدف بسيط: برامج مفيدة بواجهة مركزة، وسهولة في الاستخدام، وعمق كافٍ للمستخدمين المتقدمين.',
-
-                    control:
-                        'التحكم',
-
-                    controlText:
-                        'احصل على تحكم أفضل وأسرع وأعمق في جهازك.',
-
-                    performanceTitle:
-                        'الأداء',
-
-                    performanceText:
-                        'أسرع من الضوء... أخف من الإبرة... حجم صغير... وقدرات هائلة.',
-
-                    clean:
-                        'النظافة',
-
-                    cleanText:
-                        'برامجي خالية تمامًا من الفيروسات، فاستخدمها بحرية.',
-
-                    design:
-                        'التصميم',
-
-                    designText:
-                        'تصميم برامجي خالٍ تمامًا من الفوضى وسهل الاستخدام — فلا تقلق، ستفهم كل شيء بمجرد البدء.',
-
-                    freeTitle:
-                        'مجاني',
-
-                    freeText:
-                        'جميع أدواتي مجانية تمامًا، فلا حاجة لدفع مبالغ كبيرة. هل تريد مساعدتي؟ لا مشكلة — سأكون سعيدًا بكوب من القهوة! (:',
-
-                    footerDescription:
-                        'أدوات حديثة للكمبيوتر مخصصة للاعبين والمبدعين والمستخدمين المتقدمين.',
-
-                    pages:
-                        'الصفحات',
-
-                    contact:
-                        'التواصل',
-
-                    footerHome:
-                        'الرئيسية',
-
-                    footerIcare:
-                        'أداة iCARE',
-
-                    rights:
-                        'جميع الحقوق محفوظة',
-
-                    image:
-                        'صورة',
-
-                    clickZoom:
-                        '🔍 اضغط للتكبير',
-
-                    bootSub:
-                        'بواسطة محمد // تهيئة النظام',
-
-                    linking:
-                        'جاري ربط وحدات الواجهة...',
-
-                    visual:
-                        'جاري تحميل الطبقة المرئية...',
-
-                    github:
-                        'جاري الاتصال بعُقد صور GitHub...',
-
-                    responsive:
-                        'جاري ضبط التصميم المتجاوب...',
-
-                    ready:
-                        'النظام جاهز.',
-
-                    portfolioNode:
-                        'عقدة البورتفوليو // متصل',
-
-                    closeViewer:
-                        'إغلاق عارض الصور',
-
-                    previousProject:
-                        'المشروع السابق',
-
-                    nextProject:
-                        'المشروع التالي'
-                }
-
-            };
-
-
-            /* =========================================================
-               LANGUAGE STATE
-            ========================================================= */
-
-            let currentLang = (() => {
-
-                try {
-                    return localStorage.getItem('itools-language') || 'en';
-                }
-
-                catch (e) {
-                    return 'en';
-                }
-
-            })();
-
-            if (!['ar', 'en'].includes(currentLang)) {
-                currentLang = 'en';
-            }
-
-            const t = key =>
-                T[currentLang]?.[key] ??
-                T.en[key] ??
-                key;
-
-
-            /* =========================================================
-               PARTICLES
-            ========================================================= */
-
-            let particles = [];
-
-            function resizeCanvas() {
-
-                if (!canvas || !ctx) return;
-
-                const r =
-                    Math.min(window.devicePixelRatio || 1, 2);
-
-                canvas.width =
-                    innerWidth * r;
-
-                canvas.height =
-                    innerHeight * r;
-
-                ctx.setTransform(
-                    r,
-                    0,
-                    0,
-                    r,
-                    0,
-                    0
-                );
-            }
-
-            function createParticles() {
-
-                if (!canvas || !ctx) return;
-
-                const colors =
-                    html.dataset.theme === 'light'
-                        ? [
-                            '#008c99',
-                            '#a80d83',
-                            '#5a3ec8',
-                            '#07834f'
-                        ]
-                        : [
-                            '#00f6ff',
-                            '#ff28cf',
-                            '#8d66ff',
-                            '#28ff9a',
-                            '#ff9d43'
-                        ];
-
-                const count =
-                    Math.min(
-                        100,
-                        Math.max(
-                            35,
-                            Math.floor(innerWidth / 11)
-                        )
-                    );
-
-                particles =
-                    Array.from(
-                        {
-                            length: count
-                        },
-                        () => ({
-                            x: Math.random() * innerWidth,
-                            y: Math.random() * innerHeight,
-                            vx: (Math.random() - .5) * .22,
-                            vy: (Math.random() - .5) * .18,
-                            r: .5 + Math.random() * 1.7,
-                            a: .10 + Math.random() * .42,
-                            color:
-                                colors[
-                                    Math.floor(
-                                        Math.random() *
-                                        colors.length
-                                    )
-                                ]
-                        })
-                    );
-            }
-
-            function drawParticles() {
-
-                if (!canvas || !ctx) return;
-
-                ctx.clearRect(
-                    0,
-                    0,
-                    innerWidth,
-                    innerHeight
-                );
-
-                for (const p of particles) {
-
-                    p.x += p.vx;
-                    p.y += p.vy;
-
-                    if (p.x < 0) p.x = innerWidth;
-                    if (p.x > innerWidth) p.x = 0;
-
-                    if (p.y < 0) p.y = innerHeight;
-                    if (p.y > innerHeight) p.y = 0;
-
-                    ctx.beginPath();
-
-                    ctx.arc(
-                        p.x,
-                        p.y,
-                        p.r,
-                        0,
-                        Math.PI * 2
-                    );
-
-                    ctx.globalAlpha = p.a;
-
-                    ctx.shadowBlur = 12;
-                    ctx.shadowColor = p.color;
-
-                    ctx.fillStyle = p.color;
-
-                    ctx.fill();
-                }
-
-                ctx.globalAlpha = 1;
-                ctx.shadowBlur = 0;
-
-                requestAnimationFrame(drawParticles);
-            }
-
-            resizeCanvas();
-            createParticles();
-            drawParticles();
-
-            addEventListener(
-                'resize',
-                resizeCanvas
-            );
-
-            addEventListener(
-                'resize',
-                createParticles
-            );
-
-
-            /* =========================================================
-               THEME
-            ========================================================= */
-
-            function applyTheme(theme) {
-
-                const selected =
-                    theme === 'light'
-                        ? 'light'
-                        : 'dark';
-
-                html.dataset.theme =
-                    selected;
-
-                try {
-                    localStorage.setItem(
-                        'itools-theme',
-                        selected
-                    );
-                }
-
-                catch (e) {}
-
-                if (themeToggle) {
-
-                    themeToggle.textContent =
-                        selected === 'light'
-                            ? '☀'
-                            : '☾';
-
-                    themeToggle.setAttribute(
-                        'aria-label',
-                        selected === 'light'
-                            ? 'Switch to dark theme'
-                            : 'Switch to light theme'
-                    );
-
-                    themeToggle.title =
-                        selected === 'light'
-                            ? 'Switch to dark theme'
-                            : 'Switch to light theme';
-                }
-
-                createParticles();
-            }
-
-            let savedTheme = 'dark';
-
-            try {
-                savedTheme =
-                    localStorage.getItem('itools-theme') ||
-                    'dark';
-            }
-
-            catch (e) {}
-
-            applyTheme(savedTheme);
-
-            themeToggle?.addEventListener(
-                'click',
-                () => {
-
-                    applyTheme(
-                        html.dataset.theme === 'light'
-                            ? 'dark'
-                            : 'light'
-                    );
-
-                }
-            );
-
-
-            /* =========================================================
-               DATA
-            ========================================================= */
-
-            const systemData = [
-
-                {
-                    icon: '▣',
-                    title: 'Windows',
-                    titleAr: 'Windows',
-                    text:
-                        'Primary target platform with a focus on Windows 10 and 11 desktop workflows.',
-                    textAr:
-                        'المنصة الأساسية المستهدفة مع التركيز على بيئة سطح المكتب في Windows 10 و11.',
-                    color: 'cyan'
-                },
-
-                {
-                    icon: 'C#',
-                    title: 'C# / .NET',
-                    titleAr: 'C# / .NET',
-                    text:
-                        'Desktop application development, system tooling and modern UI logic.',
-                    textAr:
-                        'تطوير تطبيقات سطح المكتب وأدوات النظام ومنطق الواجهات الحديثة.',
-                    color: 'pink'
-                },
-
-                {
-                    icon: 'C++',
-                    title: 'C++ / WinAPI',
-                    titleAr: 'C++ / WinAPI',
-                    text:
-                        'Low-level Windows integration, performance work and system access.',
-                    textAr:
-                        'تكامل منخفض المستوى مع Windows والعمل على الأداء والوصول إلى النظام.',
-                    color: 'violet'
-                },
-
-                {
-                    icon: 'JS',
-                    title: 'JavaScript',
-                    titleAr: 'JavaScript',
-                    text:
-                        'Web interfaces, interactive dashboards and dynamic product experiences.',
-                    textAr:
-                        'واجهات الويب ولوحات التحكم التفاعلية وتجارب المنتجات الديناميكية.',
-                    color: 'orange'
-                },
-
-                {
-                    icon: 'UI',
-                    title: 'Modern UI',
-                    titleAr: 'واجهة حديثة',
-                    text:
-                        'HUD-inspired layouts, visual feedback, motion and responsive components.',
-                    textAr:
-                        'واجهات مستوحاة من أنظمة HUD مع مؤثرات بصرية وحركة وتصميم متجاوب.',
-                    color: 'cyan'
-                }
-
-            ];
-
-
-            /* =========================================================
-               SHOWCASE DATA
-            ========================================================= */
-
-            const showcaseData = [
-
-                {
-                    image:
-                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/1.png',
-
-                    tag:
-                        'FLAGSHIP // iCARE',
-
-                    tagAr:
-                        'رئيسية // iCARE',
-
-                    title:
-                        'iCARE TOOL',
-
-                    titleAr:
-                        'أداة iCARE',
-
-                    desc:
-                        'A Windows utility concept focused on monitoring, gaming assistance, optimization and advanced system controls.',
-
-                    descAr:
-                        'أداة لنظام Windows تركز على المراقبة ومساعدة اللاعبين وتحسين النظام والتحكم المتقدم.',
-
-                    items: [
-                        'Performance monitoring',
-                        'Gaming utilities',
-                        'System optimization',
-                        'Modern control interface'
-                    ],
-
-                    itemsAr: [
-                        'مراقبة الأداء',
-                        'أدوات الألعاب',
-                        'تحسين النظام',
-                        'واجهة تحكم حديثة'
-                    ]
-                },
-
-                {
-                    image:
-                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/2.png',
-
-                    tag:
-                        'MODULE // MONITOR',
-
-                    tagAr:
-                        'وحدة // المراقبة',
-
-                    title:
-                        'SMART MINI MONITOR',
-
-                    titleAr:
-                        'المراقب الذكي المصغر',
-
-                    desc:
-                        'A compact interface designed to keep the most important system statistics visible while gaming or working.',
-
-                    descAr:
-                        'واجهة صغيرة مصممة لإبقاء أهم إحصائيات النظام ظاهرة أثناء اللعب أو العمل.',
-
-                    items: [
-                        'CPU / GPU / RAM / FPS',
-                        'Live performance graphs',
-                        'Compact always-on-top layout',
-                        'Minimal visual footprint'
-                    ],
-
-                    itemsAr: [
-                        'CPU / GPU / RAM / FPS',
-                        'رسوم بيانية مباشرة للأداء',
-                        'واجهة صغيرة تظهر دائمًا في المقدمة',
-                        'استهلاك بصري ومساحة منخفضة'
-                    ]
-                },
-
-                {
-                    image:
-                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/4.png',
-
-                    tag:
-                        'MODULE // GAMING',
-
-                    tagAr:
-                        'وحدة // الألعاب',
-
-                    title:
-                        'GAME CONTROL SUITE',
-
-                    titleAr:
-                        'حزمة التحكم بالألعاب',
-
-                    desc:
-                        'Gaming-focused tools designed to make common performance and game-related controls easier to access.',
-
-                    descAr:
-                        'مجموعة أدوات مخصصة للألعاب تجعل الوصول إلى إعدادات الأداء والتحكمات المتعلقة بالألعاب أسهل.',
-
-                    items: [
-                        'Per-game profiles',
-                        'FPS controls',
-                        'Game utilities',
-                        'Performance helpers'
-                    ],
-
-                    itemsAr: [
-                        'ملفات تعريف لكل لعبة',
-                        'تحكم في FPS',
-                        'أدوات الألعاب',
-                        'مساعدات لتحسين الأداء'
-                    ]
-                },
-
-                {
-                    image:
-                        'https://raw.githubusercontent.com/MOHAMMED-OFFICAL/I-IMGE/refs/heads/main/3.png',
-
-                    tag:
-                        'MODULE // GAMING',
-
-                    tagAr:
-                        'وحدة // الألعاب',
-
-                    title:
-                        'GAME Monitor',
-
-                    titleAr:
-                        'مراقب الألعاب',
-
-                    desc:
-                        'Gaming-Safely monitor whatever you want while gaming, without interruptions or restrictions.',
-
-                    descAr:
-                        'راقب ما تريد أثناء اللعب بأمان، بدون مقاطعات أو قيود.',
-
-                    items: [
-                        'Per-game profiles',
-                        'FPS controls',
-                        'Game utilities',
-                        'Performance helpers'
-                    ],
-
-                    itemsAr: [
-                        'ملفات تعريف لكل لعبة',
-                        'تحكم في FPS',
-                        'أدوات الألعاب',
-                        'مساعدات لتحسين الأداء'
-                    ]
-                }
-
-            ];
-
-
-            /* =========================================================
-               SHOWCASE STATE
-            ========================================================= */
-
-            let projectIndex = 0;
-            let showcaseTimer = null;
-            let lightboxIndex = 0;
-
-
-            /* =========================================================
-               REVEAL OBSERVER
-            ========================================================= */
-
-            const revealObserver =
-                new IntersectionObserver(
-                    entries => {
-
-                        entries.forEach(entry => {
-
-                            if (entry.isIntersecting) {
-
-                                entry.target.classList.add('show');
-
-                                revealObserver.unobserve(
-                                    entry.target
-                                );
-
-                            }
-
-                        });
-
-                    },
-                    {
-                        threshold: .12,
-                        rootMargin: '0px 0px -35px'
-                    }
-                );
-
-
-            /* =========================================================
-               RENDER SYSTEMS
-            ========================================================= */
-
-            function renderSystems() {
-
-                if (!systemsGrid) return;
-
-                systemsGrid.innerHTML =
-                    systemData.map((x, i) => {
-
-                        const title =
-                            currentLang === 'ar'
-                                ? x.titleAr
-                                : x.title;
-
-                        const text =
-                            currentLang === 'ar'
-                                ? x.textAr
-                                : x.text;
-
-                        return `
-                            <article
-                                class="panel info-card reveal"
-                                style="transition-delay:${i * .08}s">
-
-                                <div
-                                    class="card-icon"
-                                    style="color:var(--${x.color})">
-                                    ${x.icon}
-                                </div>
-
-                                <h3>
-                                    ${title}
-                                </h3>
-
-                                <p>
-                                    ${text}
-                                </p>
-
-                            </article>
-                        `;
-
-                    }).join('');
-
-                systemsGrid
-                    .querySelectorAll('.reveal')
-                    .forEach(el => {
-
-                        revealObserver.observe(el);
-
-                    });
-            }
-
-
-            /* =========================================================
-               PROJECT NAVIGATION
-            ========================================================= */
-
-            function goProject(index) {
-
-                projectIndex =
-                    (
-                        index +
-                        showcaseData.length
-                    ) %
-                    showcaseData.length;
-
-                if (showcaseTrack) {
-
-                    showcaseTrack.style.transform =
-                        `translate3d(-${projectIndex * 100}%, 0, 0)`;
-                }
-
-                if (showcaseDots) {
-
-                    [...showcaseDots.children]
-                        .forEach((dot, i) => {
-
-                            dot.classList.toggle(
-                                'active',
-                                i === projectIndex
-                            );
-
-                        });
-                }
-            }
-
-            function restartShowcase() {
-
-                clearInterval(showcaseTimer);
-
-                showcaseTimer =
-                    setInterval(
-                        () => {
-
-                            goProject(
-                                projectIndex + 1
-                            );
-
-                        },
-                        6500
-                    );
-            }
-
-
-            /* =========================================================
-               LIGHTBOX
-            ========================================================= */
-
-            function updateLightbox() {
-
-                const data =
-                    showcaseData[lightboxIndex];
-
-                if (!data) return;
-
-                const title =
-                    currentLang === 'ar'
-                        ? data.titleAr
-                        : data.title;
-
-                const imageUrl =
-                    data.image;
-
-                lightboxImg.classList.add('loading');
-
-                lightboxImg.src =
-                    imageUrl;
-
-                lightboxImg.alt =
-                    title;
-
-                lightboxCaption.textContent =
-                    title;
-
-                lightboxCounter.textContent =
-                    `${lightboxIndex + 1} / ${showcaseData.length}`;
-            }
-
-
-            function openLightbox(index) {
-
-                lightboxIndex =
-                    (
-                        index +
-                        showcaseData.length
-                    ) %
-                    showcaseData.length;
-
-                updateLightbox();
-
-                lightbox.classList.add('active');
-
-                document.body.style.overflow =
-                    'hidden';
-
-                clearInterval(showcaseTimer);
-            }
-
-
-            function closeLightbox() {
-
-                lightbox.classList.remove('active');
-
-                document.body.style.overflow =
-                    '';
-
-                restartShowcase();
-            }
-
-
-            function lightboxNav(dir) {
-
-                lightboxIndex =
-                    (
-                        lightboxIndex +
-                        dir +
-                        showcaseData.length
-                    ) %
-                    showcaseData.length;
-
-                updateLightbox();
-            }
-
-
-            /* Lightbox image loaded */
-            lightboxImg?.addEventListener(
-                'load',
-                () => {
-
-                    lightboxImg.classList.remove(
-                        'loading'
-                    );
-
-                    lightboxImg.style.opacity =
-                        '1';
-                }
-            );
-
-
-            lightboxImg?.addEventListener(
-                'error',
-                () => {
-
-                    console.error(
-                        'Lightbox image failed:',
-                        lightboxImg.src
-                    );
-
-                    lightboxImg.classList.remove(
-                        'loading'
-                    );
-
-                }
-            );
-
-
-            /* =========================================================
-               RENDER SHOWCASE
-            ========================================================= */
-
-            function renderShowcase() {
-
-                if (!showcaseTrack || !showcaseDots) {
-                    return;
-                }
-
-                /* -----------------------------------------------------
-                   Rebuild slides
-                ----------------------------------------------------- */
-
-                showcaseTrack.innerHTML =
-                    showcaseData.map((x, i) => {
-
-                        const tag =
-                            currentLang === 'ar'
-                                ? x.tagAr
-                                : x.tag;
-
-                        const title =
-                            currentLang === 'ar'
-                                ? x.titleAr
-                                : x.title;
-
-                        const desc =
-                            currentLang === 'ar'
-                                ? x.descAr
-                                : x.desc;
-
-                        const items =
-                            currentLang === 'ar'
-                                ? x.itemsAr
-                                : x.items;
-
-                        return `
-                            <article
-                                class="showcase-slide">
-
-                                <div
-                                    class="showcase-image"
-                                    data-index="${i}"
-                                    role="button"
-                                    tabindex="0"
-                                    aria-label="${
-                                        currentLang === 'ar'
-                                            ? 'تكبير صورة: '
-                                            : 'Zoom image: '
-                                    }${title}">
-
-                                    <div class="image-index">
-                                        ${t('image')}
-                                        ${String(i + 1).padStart(2, '0')}
-                                    </div>
-
-                                    <img
-                                        src="${x.image}"
-                                        alt="${title}"
-                                        loading="eager"
-                                        decoding="async"
-                                        draggable="false"
-                                        referrerpolicy="no-referrer"
-                                        data-index="${i}"
-                                        class="loading">
-
-                                    <span class="zoom-hint">
-                                        ${t('clickZoom')}
-                                    </span>
-
-                                </div>
-
-                                <div class="showcase-info">
-
-                                    <span class="showcase-tag">
-                                        ${tag}
-                                    </span>
-
-                                    <h3>
-                                        ${title}
-                                    </h3>
-
-                                    <p>
-                                        ${desc}
-                                    </p>
-
-                                    <div class="showcase-list">
-
-                                        ${items.map(item => `
-                                            <div>
-                                                <span class="showcase-dot"></span>
-                                                <span>${item}</span>
-                                            </div>
-                                        `).join('')}
-
-                                    </div>
-
-                                    <div style="margin-top:22px">
-
-                                        <a
-                                            class="btn"
-                                            href="icare.html">
-
-                                            ${t('openIcare')}
-
-                                        </a>
-
-                                    </div>
-
-                                </div>
-
-                            </article>
-                        `;
-
-                    }).join('');
-
-
-                /* -----------------------------------------------------
-                   Force / monitor image loading
-                ----------------------------------------------------- */
-
-                showcaseTrack
-                    .querySelectorAll('img')
-                    .forEach((img, index) => {
-
-                        const src =
-                            showcaseData[index]?.image;
-
-                        if (!src) return;
-
-                        img.src =
-                            src;
-
-                        img.onload =
-                            () => {
-
-                                img.classList.remove(
-                                    'loading'
-                                );
-
-                                img.style.opacity =
-                                    '1';
-
-                            };
-
-                        img.onerror =
-                            () => {
-
-                                console.error(
-                                    'Showcase image failed to load:',
-                                    src
-                                );
-
-                                img.classList.remove(
-                                    'loading'
-                                );
-
-                                img.alt =
-                                    currentLang === 'ar'
-                                        ? 'تعذر تحميل الصورة'
-                                        : 'Image failed to load';
-                            };
-
-                    });
-
-
-                /* -----------------------------------------------------
-                   Dots
-                ----------------------------------------------------- */
-
-                showcaseDots.innerHTML = '';
-
-                showcaseData.forEach((_, i) => {
-
-                    const dot =
-                        document.createElement('button');
-
-                    dot.type =
-                        'button';
-
-                    dot.setAttribute(
-                        'aria-label',
-                        currentLang === 'ar'
-                            ? `عرض المشروع ${i + 1}`
-                            : `Show project ${i + 1}`
-                    );
-
-                    if (i === projectIndex) {
-
-                        dot.classList.add(
-                            'active'
-                        );
-                    }
-
-                    dot.addEventListener(
-                        'click',
-                        () => {
-
-                            goProject(i);
-
-                            restartShowcase();
-
-                        }
-                    );
-
-                    showcaseDots.appendChild(
-                        dot
-                    );
-
-                });
-
-
-                /* -----------------------------------------------------
-                   Restore current slide
-                ----------------------------------------------------- */
-
-                goProject(
-                    projectIndex
-                );
-
-
-                /* -----------------------------------------------------
-                   Image click / keyboard events
-                ----------------------------------------------------- */
-
-                showcaseTrack
-                    .querySelectorAll('.showcase-image')
-                    .forEach(el => {
-
-                        const index =
-                            parseInt(
-                                el.dataset.index,
-                                10
-                            );
-
-                        el.addEventListener(
-                            'click',
-                            () => {
-
-                                openLightbox(
-                                    index
-                                );
-
-                            }
-                        );
-
-                        el.addEventListener(
-                            'keydown',
-                            e => {
-
-                                if (
-                                    e.key === 'Enter' ||
-                                    e.key === ' '
-                                ) {
-
-                                    e.preventDefault();
-
-                                    openLightbox(
-                                        index
-                                    );
-                                }
-
-                            }
-                        );
-
-                    });
-
-
-                /* -----------------------------------------------------
-                   Make dynamic elements compatible with reveal observer
-                ----------------------------------------------------- */
-
-                showcaseTrack
-                    .querySelectorAll('.reveal')
-                    .forEach(el => {
-
-                        revealObserver.observe(
-                            el
-                        );
-
-                    });
-            }
-
-
-            /* =========================================================
-               SIDEBAR
-            ========================================================= */
-
-            $('sideToggle')?.addEventListener(
-                'click',
-                () => {
-
-                    side?.classList.toggle(
-                        'collapsed'
-                    );
-
-                    main?.classList.toggle(
-                        'expanded'
-                    );
-
-                }
-            );
-
-
-            function closeMobileSide() {
-
-                side?.classList.remove(
-                    'open'
-                );
-
-                sideBackdrop?.classList.remove(
-                    'active'
-                );
-
-                if (mobileBtn) {
-
-                    mobileBtn.textContent =
-                        '☰';
-
-                    mobileBtn.setAttribute(
-                        'aria-label',
-                        'Open menu'
-                    );
-                }
-            }
-
-
-            mobileBtn?.addEventListener(
-                'click',
-                () => {
-
-                    const isOpen =
-                        side?.classList.toggle(
-                            'open'
-                        );
-
-                    sideBackdrop?.classList.toggle(
-                        'active',
-                        isOpen
-                    );
-
-                    mobileBtn.textContent =
-                        isOpen
-                            ? '✕'
-                            : '☰';
-
-                    mobileBtn.setAttribute(
-                        'aria-label',
-                        isOpen
-                            ? 'Close menu'
-                            : 'Open menu'
-                    );
-
-                }
-            );
-
-
-            sideBackdrop?.addEventListener(
-                'click',
-                closeMobileSide
-            );
-
-
-            document
-                .querySelectorAll('.side-nav a')
-                .forEach(link => {
-
-                    link.addEventListener(
-                        'click',
-                        () => {
-
-                            if (innerWidth <= 900) {
-                                closeMobileSide();
-                            }
-
-                        }
-                    );
-
-                });
-
-
-            /* =========================================================
-               HOME ACTIVE
-            ========================================================= */
-
-            const homeLink =
-                document.querySelector(
-                    '.side-nav a[href="#home"]'
-                );
-
-            const home =
-                $('home');
-
-            if (home && homeLink) {
-
-                new IntersectionObserver(
-                    entries => {
-
-                        entries.forEach(entry => {
-
-                            homeLink.classList.toggle(
-                                'active',
-                                entry.isIntersecting
-                            );
-
-                        });
-
-                    },
-                    {
-                        threshold: .25
-                    }
-                ).observe(home);
-            }
-
-
-            /* =========================================================
-               SHOWCASE BUTTONS
-            ========================================================= */
-
-            $('showcasePrev')?.addEventListener(
-                'click',
-                () => {
-
-                    goProject(
-                        projectIndex - 1
-                    );
-
-                    restartShowcase();
-
-                }
-            );
-
-
-            $('showcaseNext')?.addEventListener(
-                'click',
-                () => {
-
-                    goProject(
-                        projectIndex + 1
-                    );
-
-                    restartShowcase();
-
-                }
-            );
-
-
-            showcase?.addEventListener(
-                'mouseenter',
-                () => {
-
-                    clearInterval(
-                        showcaseTimer
-                    );
-
-                }
-            );
-
-
-            showcase?.addEventListener(
-                'mouseleave',
-                restartShowcase
-            );
-
-
-            /* =========================================================
-               LIGHTBOX EVENTS
-            ========================================================= */
-
-            lightboxClose?.addEventListener(
-                'click',
-                closeLightbox
-            );
-
-            lightboxBackdrop?.addEventListener(
-                'click',
-                closeLightbox
-            );
-
-            lightboxPrev?.addEventListener(
-                'click',
-                () => {
-
-                    lightboxNav(
-                        -1
-                    );
-
-                }
-            );
-
-            lightboxNext?.addEventListener(
-                'click',
-                () => {
-
-                    lightboxNav(
-                        1
-                    );
-
-                }
-            );
-
-
-            document.addEventListener(
-                'keydown',
-                e => {
-
-                    if (
-                        !lightbox.classList.contains(
-                            'active'
-                        )
-                    ) {
-                        return;
-                    }
-
-                    if (e.key === 'Escape') {
-                        closeLightbox();
-                    }
-
-                    if (e.key === 'ArrowLeft') {
-
-                        lightboxNav(
-                            currentLang === 'ar'
-                                ? 1
-                                : -1
-                        );
-
-                    }
-
-                    if (e.key === 'ArrowRight') {
-
-                        lightboxNav(
-                            currentLang === 'ar'
-                                ? -1
-                                : 1
-                        );
-
-                    }
-
-                }
-            );
-
-
-            /* =========================================================
-               APPLY LANGUAGE
-            ========================================================= */
-
-            function applyLanguage(lang) {
-
-                currentLang =
-                    lang === 'ar'
-                        ? 'ar'
-                        : 'en';
-
-                const isArabic =
-                    currentLang === 'ar';
-
-                /*
-                 * Only the document gets RTL.
-                 * Showcase stays LTR through CSS.
-                 */
-
-                html.lang =
-                    currentLang;
-
-                html.dir =
-                    isArabic
-                        ? 'rtl'
-                        : 'ltr';
-
-
-                try {
-
-                    localStorage.setItem(
-                        'itools-language',
-                        currentLang
-                    );
-
-                }
-
-                catch (e) {}
-
-
-                /* Language button */
-
-                if (langLabel) {
-
-                    langLabel.textContent =
-                        isArabic
-                            ? 'EN'
-                            : 'AR';
-                }
-
-
-                if (langToggle) {
-
-                    langToggle.setAttribute(
-                        'aria-label',
-                        isArabic
-                            ? 'Switch to English'
-                            : 'Switch to Arabic'
-                    );
-
-                    langToggle.title =
-                        isArabic
-                            ? 'Switch to English'
-                            : 'Switch to Arabic';
-                }
-
-
-                /* Sidebar */
-
-                document
-                    .querySelector('.tagline')
-                    .textContent =
-                    t('tagline');
-
-                document
-                    .querySelector(
-                        '.side-nav a[href="#home"] span'
-                    )
-                    .textContent =
-                    t('home');
-
-                document
-                    .querySelector(
-                        '.side-nav a[href="icare.html"] span'
-                    )
-                    .textContent =
-                    t('icare');
-
-                document
-                    .querySelector(
-                        '.side-footer span'
-                    )
-                    .textContent =
-                    t('portfolioNode');
-
-
-                /* Hero */
-
-                $('statusText').textContent =
-                    t('online');
-
-                $('heroBy').textContent =
-                    t('by');
-
-                $('heroLead').textContent =
-                    t('heroLead');
-
-                $('aboutNode').textContent =
-                    t('aboutNode');
-
-                $('aboutNodeText').textContent =
-                    t('aboutNodeText');
-
-                $('openIcareBtn').textContent =
-                    t('openIcare');
-
-                $('projectsBtn').textContent =
-                    t('projects');
-
-
-                /* Profile */
-
-                $('developerProfile').textContent =
-                    t('developerProfile');
-
-                $('profileTitle').innerHTML =
-                    t('profileTitle');
-
-                $('profileText').textContent =
-                    t('profileText');
-
-
-                const tagKeys = [
-                    'windows',
-                    'gaming',
-                    'performance',
-                    'systemTools',
-                    'automation',
-                    'free',
-                    'modernUI'
-                ];
-
-
-                document
-                    .querySelectorAll('.profile-tag')
-                    .forEach((tag, i) => {
-
-                        if (tagKeys[i]) {
-
-                            tag.textContent =
-                                t(tagKeys[i]);
-
-                        }
-
-                    });
-
-
-                /* Systems */
-
-                $('systemsKicker').textContent =
-                    t('ecosystem');
-
-                $('systemsTitle').textContent =
-                    t('systemsTitle');
-
-                $('systemsSub').textContent =
-                    t('systemsSub');
-
-
-                /* Showcase */
-
-                $('showcaseKicker').textContent =
-                    t('showcaseKicker');
-
-                $('showcaseTitle').textContent =
-                    t('showcaseTitle');
-
-                $('showcaseSub').textContent =
-                    t('showcaseSub');
-
-
-                /* About */
-
-                $('philosophyKicker').textContent =
-                    t('philosophy');
-
-                $('builtFast').textContent =
-                    t('builtFast');
-
-                $('philosophySub').textContent =
-                    t('philosophySub');
-
-
-                const aboutData = [
-
-                    [
-                        'control',
-                        'controlText'
-                    ],
-
-                    [
-                        'performanceTitle',
-                        'performanceText'
-                    ],
-
-                    [
-                        'clean',
-                        'cleanText'
-                    ],
-
-                    [
-                        'design',
-                        'designText'
-                    ],
-
-                    [
-                        'freeTitle',
-                        'freeText'
-                    ]
-
-                ];
-
-
-                document
-                    .querySelectorAll('.about-item')
-                    .forEach((item, i) => {
-
-                        if (!aboutData[i]) {
-                            return;
-                        }
-
-                        const [
-                            titleKey,
-                            textKey
-                        ] =
-                            aboutData[i];
-
-                        item
-                            .querySelector(
-                                '.section-kicker'
-                            )
-                            .textContent =
-                            t(titleKey);
-
-                        item
-                            .querySelector('p')
-                            .textContent =
-                            t(textKey);
-
-                    });
-
-
-                /* Footer */
-
-                $('footerDescription').textContent =
-                    t('footerDescription');
-
-                $('footerPages').textContent =
-                    t('pages');
-
-                $('footerContact').textContent =
-                    t('contact');
-
-                $('footerHome').textContent =
-                    t('footerHome');
-
-                $('footerIcare').textContent =
-                    t('footerIcare');
-
-                $('footerBottom').innerHTML =
-                    `© 2026
-                    <b style="color:var(--cyan)">
-                        i TOOLS : by mohammed
-                    </b>
-                    // ${t('rights')}`;
-
-
-                /* Lightbox */
-
-                lightbox.setAttribute(
-                    'aria-label',
-                    isArabic
-                        ? 'عارض الصور'
-                        : 'Image viewer'
-                );
-
-                lightboxClose.setAttribute(
-                    'aria-label',
-                    t('closeViewer')
-                );
-
-                lightboxPrev.setAttribute(
-                    'aria-label',
-                    t('previousProject')
-                );
-
-                lightboxNext.setAttribute(
-                    'aria-label',
-                    t('nextProject')
-                );
-
-
-                /* Boot */
-
-                $('bootSub').textContent =
-                    t('bootSub');
-
-
-                /*
-                 * Important:
-                 * Render dynamic image content again after the
-                 * language changes. Image URLs NEVER change.
-                 */
-
-                renderSystems();
-
-                renderShowcase();
-
-                updateLightbox();
-
-            }
-
-
-            /* =========================================================
-               LANGUAGE BUTTON
-            ========================================================= */
-
-            langToggle?.addEventListener(
-                'click',
-                () => {
-
-                    applyLanguage(
-                        currentLang === 'ar'
-                            ? 'en'
-                            : 'ar'
-                    );
-
-                }
-            );
-
-
-            /* =========================================================
-               BOOT
-            ========================================================= */
-
-            (function startBoot() {
-
-                const boot =
-                    $('boot');
-
-                const bar =
-                    $('bootbar');
-
-                const pct =
-                    $('bootpct');
-
-                const log =
-                    $('bootlog');
-
-                if (!boot) {
-                    return;
-                }
-
-                let progress = 0;
-                let msgIndex = 0;
-
-
-                function getMessages() {
-
-                    return [
-                        t('linking'),
-                        t('visual'),
-                        t('github'),
-                        t('responsive'),
-                        t('ready')
-                    ];
-
-                }
-
-
-                function step() {
-
-                    progress +=
-                        Math.random() * 8 + 4;
-
-                    if (progress > 100) {
-                        progress = 100;
-                    }
-
-                    if (bar) {
-                        bar.style.width =
-                            progress + '%';
-                    }
-
-                    if (pct) {
-
-                        pct.textContent =
-                            Math.floor(progress) +
-                            '%';
-                    }
-
-
-                    const messages =
-                        getMessages();
-
-
-                    if (
-                        log &&
-                        Math.floor(progress) % 18 < 4 &&
-                        msgIndex < messages.length
-                    ) {
-
-                        log.textContent =
-                            messages[msgIndex++];
-
-                    }
-
-
-                    if (progress < 100) {
-
-                        setTimeout(
-                            step,
-                            70 +
-                            Math.random() * 90
-                        );
-
-                    }
-
-                    else {
-
-                        setTimeout(
-                            () => {
-
-                                boot.classList.add(
-                                    'hide'
-                                );
-
-                            },
-                            500
-                        );
-
-                    }
-
-                }
-
-
-                step();
-
-            })();
-
-
-            /* =========================================================
-               INIT
-            ========================================================= */
-
-            applyLanguage(
-                currentLang
-            );
-
-            restartShowcase();
-
-            document
-                .querySelectorAll('.reveal')
-                .forEach(el => {
-
-                    revealObserver.observe(
-                        el
-                    );
-
-                });
-
-
-        })();
-    </script>
-
+    <div class="copyright">
+      <span>© <span id="year"></span> itools — محمد صلاح. جميع الحقوق محفوظة.</span>
+      <span>صُمّم بعناية ✦ تصميم مميز لأجلك</span>
+    </div>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast">تم النسخ بنجاح ✓</div>
+
+<script>
+(function(){
+  const body = document.body;
+  const menuToggle = document.getElementById('menuToggle');
+  const sbClose = document.getElementById('sbClose');
+  const overlay = document.getElementById('overlay');
+
+  /* ---------- فتح/إغلاق القائمة الجانبية ---------- */
+  function setSidebar(open){
+    body.classList.toggle('sidebar-open', open);
+    menuToggle.setAttribute('aria-label', open ? 'إغلاق القائمة' : 'فتح القائمة');
+  }
+  menuToggle.addEventListener('click', () => setSidebar(!body.classList.contains('sidebar-open')));
+  sbClose.addEventListener('click', () => setSidebar(false));
+  overlay.addEventListener('click', () => setSidebar(false));
+
+  if (window.innerWidth > 992) setSidebar(true);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') setSidebar(false);
+  });
+
+  /* ---------- التنقل بين الصفحات ---------- */
+  const pages = document.querySelectorAll('.page');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  function goTo(pageId){
+    pages.forEach(p => p.classList.toggle('active', p.id === 'page-' + pageId));
+    navItems.forEach(n => n.classList.toggle('active', n.dataset.page === pageId));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (window.innerWidth <= 992) setSidebar(false);
+  }
+
+  document.addEventListener('click', e => {
+    const trigger = e.target.closest('[data-page]');
+    if (trigger){
+      e.preventDefault();
+      goTo(trigger.dataset.page);
+    }
+  });
+
+  /* ---------- التمرير داخل الصفحة ---------- */
+  document.addEventListener('click', e => {
+    const s = e.target.closest('[data-scroll]');
+    if (!s) return;
+    e.preventDefault();
+    const target = document.getElementById(s.dataset.scroll);
+    if (target){
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  });
+
+  /* ---------- نسخ الأرقام ---------- */
+  const toast = document.getElementById('toast');
+  let toastTimer;
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    const value = btn.dataset.copy;
+    const done = () => showToast('تم النسخ: ' + value);
+
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(value).then(done).catch(() => fallbackCopy(value, done));
+    } else {
+      fallbackCopy(value, done);
+    }
+  });
+
+  function fallbackCopy(text, cb){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); cb(); } catch(err){}
+    document.body.removeChild(ta);
+  }
+
+  /* ================= معرض الصور المتحرك ================= */
+  document.querySelectorAll('[data-slider]').forEach(slider => {
+    const track = slider.querySelector('.slider-track');
+    const slides = slider.querySelectorAll('.slide');
+    const dotsWrap = slider.querySelector('.slider-dots');
+    const prevBtn = slider.querySelector('.slider-nav.prev');
+    const nextBtn = slider.querySelector('.slider-nav.next');
+    if (!track || !slides.length || !dotsWrap) return;
+
+    let idx = 0;
+    let timer = null;
+    const DELAY = 5000;
+
+    // بناء النقاط
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'الصورة رقم ' + (i + 1));
+      b.addEventListener('click', () => go(i));
+      dotsWrap.appendChild(b);
+    });
+    const dots = dotsWrap.querySelectorAll('button');
+
+    function go(i){
+      idx = (i + slides.length) % slides.length;
+      track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+      slides.forEach((s, k) => s.classList.toggle('active', k === idx));
+      dots.forEach((d, k) => d.classList.toggle('active', k === idx));
+      restart();
+    }
+
+    function start(){
+      clearInterval(timer);
+      timer = setInterval(() => go(idx + 1), DELAY);
+    }
+    function restart(){ start(); }
+
+    function pause(){ clearInterval(timer); }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => go(idx - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => go(idx + 1));
+
+    // إيقاف عند مرور الماوس
+    slider.addEventListener('mouseenter', pause);
+    slider.addEventListener('mouseleave', start);
+
+    // دعم اللمس (Swipe)
+    let startX = 0, startY = 0, touching = false;
+    slider.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      touching = true;
+      pause();
+    }, { passive: true });
+
+    slider.addEventListener('touchend', e => {
+      if (!touching) return;
+      touching = false;
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)){
+        // في RTL: السحب لليمين = التالي، لليسار = السابق
+        go(dx > 0 ? idx + 1 : idx - 1);
+      } else {
+        start();
+      }
+    });
+
+    // دعم لوحة المفاتيح عند التركيز
+    slider.setAttribute('tabindex', '0');
+    slider.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx + 1); }
+      if (e.key === 'ArrowRight'){ e.preventDefault(); go(idx - 1); }
+    });
+
+    // تشغيل أولي
+    go(0);
+  });
+
+  /* ---------- السنة ---------- */
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------- إغلاق تلقائي عند تكبير الشاشة ---------- */
+  let lastWidth = window.innerWidth;
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth;
+    if (lastWidth <= 992 && w > 992) setSidebar(true);
+    if (lastWidth > 992 && w <= 992) setSidebar(false);
+    lastWidth = w;
+  });
+})();
+</script>
 </body>
 </html>
